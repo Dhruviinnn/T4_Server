@@ -7,6 +7,10 @@ using System.Security.Claims;
 
 namespace TimeFourthe.Controllers
 {
+    public class EmailRequest
+    {
+        public string Email { get; set; }
+    }
     [Route("api")]
     [ApiController]
     public class UsersController : ControllerBase
@@ -56,10 +60,11 @@ namespace TimeFourthe.Controllers
             return Ok(teacherlist);
         }
 
-        [HttpGet("data")]
-        public IActionResult GetModel()
+        [HttpPost("user/get")]
+        public async Task<IActionResult> GetUser([FromBody] EmailRequest body)
         {
-            return Ok(new { id = "Name" });
+            var userExist = await _userService.GetUserAsync(body.Email);
+            return Ok(new { user = userExist });
         }
     }
 }

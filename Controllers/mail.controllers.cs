@@ -21,11 +21,10 @@ namespace TimeFourthe.Controllers
             Otp.Mail();
             return Ok(new { id = 'f' });
         }
-        [HttpPost("send-absent")]
+        [HttpPost("send-auth")]
         public async Task<IActionResult> Authx()
         {
-            List<string> s = ["ORG298733e", "Web University"];
-            Auth.Mail(s);
+            Auth.Mail(["Habibi", "123456789"]);
             return Ok(new { id = 'f' });
         }
     }

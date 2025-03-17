@@ -1,15 +1,16 @@
 
 namespace TimeFourthe.Mails
 {
-    public class Auth
+  public class Auth
+  {
+    public static void Mail(List<string> org)
     {
-        public static void MailOtp(List<string> org)
-        {
-            string orgName = org[1];
-            string orgId=org[0];
-            string title = "Authentication of Organization";
-            string[] recipients = ["timeforthe@gmail.com"];
-            string html = @$"<!DOCTYPE html>
+      Console.WriteLine($"Authentication of {org[1]} has been sent !");
+      string orgName = org[1];
+      string orgId = org[0];
+      string title = "Authentication of Organization";
+      string[] recipients = ["timefourthe@gmail.com"];
+      string html = @$"<!DOCTYPE html>
 <html lang='en'>
 <head>
   <meta charset='UTF-8'>
@@ -234,10 +235,10 @@ namespace TimeFourthe.Mails
         </p>
 
         <div class='button-container'>
-          <a href='http://localhost:5140/api/get/auth?id={orgId}&answer=true' class='action-button yes'>
+          <a href='http://localhost:3000/api/get/auth?id={orgId}&answer=true' class='action-button yes'>
             Approve
           </a>
-          <a href='http://localhost:5140/api/get/auth?id={orgId}&answer=false' class='action-button no'>
+          <a href='http://localhost:3000/api/get/auth?id={orgId}&answer=false' class='action-button no'>
             Deny
           </a>
         </div>
@@ -251,7 +252,7 @@ namespace TimeFourthe.Mails
 </body>
 </html>";
 
-            MailSender.SendMail(recipients, html, title);
-        }
+      MailSender.SendMail(recipients, html, title);
     }
+  }
 }

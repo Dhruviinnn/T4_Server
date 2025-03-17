@@ -40,14 +40,12 @@ namespace TimeFourthe.Controllers
         }
 
         // for signup
-        [HttpPost("user/signup")]
+        [HttpPost("user/create")]
         public async Task<IActionResult> CreateUser([FromBody] User user)
         {
+            var userExist = await _userService.GetUserAsync(user.Email);
             await _userService.CreateUserAsync(user);
-            // cookie generate
-            // return Ok(new { orgId = user.OrgId, userId = user.UserId, name = user.Name, role = user.Role });
-
-            return Ok(new { message = "User created successfully", id = user.Id });
+            return Ok(new { error = false, redirectUrl = "/timetable", message = "User created successfully" });
         }
 
         // get teachers by OrgId

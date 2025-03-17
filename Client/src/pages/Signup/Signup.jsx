@@ -6,6 +6,7 @@ import OriginalSignUp from './OriginalSignUp';
 import Images from '../Login/Images'
 import { Link } from 'react-router-dom'
 import { Helmet } from "react-helmet-async";
+import ToastProvider from '../../components/Toaster'
 
 const Signup = () => {
     const [step, setStep] = useState('role');
@@ -23,6 +24,7 @@ const Signup = () => {
                 <link rel="icon" type="image/png" href="/home-icon.png" />
             </Helmet>
             <div className="min-h-screen bg-black flex">
+                <ToastProvider />
                 <Images />
 
                 <div className="w-full lg:w-1/2 flex flex-col justify-center px-8 lg:px-12 xl:px-24">

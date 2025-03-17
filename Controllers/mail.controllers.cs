@@ -18,14 +18,14 @@ namespace TimeFourthe.Controllers
         [HttpPost("send-otp")]
         public async Task<IActionResult> OtpMail()
         {
-            Otp.MailOtp();
+            Otp.Mail();
             return Ok(new { id = 'f' });
         }
         [HttpPost("send-absent")]
         public async Task<IActionResult> Authx()
         {
-            List<string> s=["ORG298733e","Web University"];
-            Auth.MailOtp(s);
+            List<string> s = ["ORG298733e", "Web University"];
+            Auth.Mail(s);
             return Ok(new { id = 'f' });
         }
     }

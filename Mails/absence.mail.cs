@@ -2,17 +2,17 @@ using Org.BouncyCastle.Crypto.Modes;
 
 namespace TimeFourthe.Mails
 {
-    public class Absence
+  public class Absence
+  {
+    public static void Mail()
     {
-        public static void MailOtp()
-        {
-            string teacher = "Ketul mj";
-            string subject = "DSA";
-            string date = DateTime.Now.ToString("d/M/yyyy");
-            string orgName = "Web University";
-            string title = "Urgent : No Class Today – Teacher Absent";
-            string[] recipients = ["cclab01234@gmail.com"];
-            string html = @$"<!DOCTYPE html>
+      string teacher = "Ketul mj";
+      string subject = "DSA";
+      string date = DateTime.Now.ToString("d/M/yyyy");
+      string orgName = "Web University";
+      string title = "Urgent : No Class Today – Teacher Absent";
+      string[] recipients = ["cclab01234@gmail.com"];
+      string html = @$"<!DOCTYPE html>
 <html lang='en'>
 <head>
   <meta charset='UTF-8'>
@@ -273,7 +273,7 @@ namespace TimeFourthe.Mails
 </body>
 </html>";
 
-            MailSender.SendMail(recipients, html, title);
-        }
+      MailSender.SendMail(recipients, html, title);
     }
+  }
 }

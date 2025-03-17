@@ -1,5 +1,7 @@
 import { useState, useRef } from 'react'
 import { ArrowRight, Lock, Unlock } from 'lucide-react'
+import { toast } from 'sonner'
+import { useNavigate } from 'react-router-dom';
 
 const OriginalSignUp = ({ setStep, selectedType }) => {
     const [email, setEmail] = useState("");
@@ -8,6 +10,7 @@ const OriginalSignUp = ({ setStep, selectedType }) => {
     const [passwordType, setPasswordType] = useState("password")
     const [password, setPassword] = useState("");
     const passwordRef = useRef();
+    const navigate = useNavigate()
 
     const showPassword = (e) => {
         e.preventDefault();
@@ -32,7 +35,17 @@ const OriginalSignUp = ({ setStep, selectedType }) => {
             body: JSON.stringify(data)
         })
             .then(res => res.json())
-            .then(data => console.log(data))
+            .then(({ error, message, redirectUrl }) => {
+                if (error) {
+                    toast.error(message)
+                }
+                else {
+                    toast.success(message)
+                    setTimeout(() => {
+                        navigate(redirectUrl)
+                    }, 500);
+                }
+            })
     };
     return (
         <>

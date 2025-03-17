@@ -3,7 +3,7 @@ namespace TimeFourthe.Mails
 {
     public class ApprovalSuccess
     {
-        public static void MailOtp(string orgName,string email)
+        public static void Mail(string orgName, string email)
         {
             string title = "Authentication of Organization";
             string[] recipients = [email];
@@ -76,19 +76,13 @@ namespace TimeFourthe.Mails
 
     <div class='email-container'>
         <h2>Approval Successfully Granted</h2>
-        <p>Dear [User's Name],</p>
+        <p>Dear {orgName},</p>
 
         <p>We are excited to inform you that your request has been successfully approved. Here are the details of your request:</p>
         
-        <ul>
-            <li><strong>Requestor Name:</strong> [User's Name]</li>
-            <li><strong>Request Details:</strong> [Request Details]</li>
-            <li><strong>Approval Date:</strong> [Approval Date]</li>
-        </ul>
-        
         <p>Now that your request has been approved, you can proceed with the next steps. Please click the button below to log in to your account and take further action:</p>
 
-        <p><a href='https://yourloginpage.com' class='button'>Go to Login Page</a></p>
+        <p><a href='http://localhost:3000/login' class='button'>Go to Login Page</a></p>
 
         <p>If you need any further assistance or have questions, feel free to reach out to us.</p>
 

@@ -1,14 +1,18 @@
-namespace TimeFourthe.Mails {
-    public class Otp {
-        private static string GenerateOtp(){
+namespace TimeFourthe.Mails
+{
+    public class Otp
+    {
+        private static string GenerateOtp()
+        {
             Random random = new Random();
             return random.Next(100000, 999999).ToString(); // Generate 6-digit OTP
         }
-        public async static void MailOtp() {
-            string otpCode=GenerateOtp();
+        public async static void Mail()
+        {
+            string otpCode = GenerateOtp();
             string title = "Your One-Time Password (OTP) 🔐";
-            string senderName="Web University";
-            string[] recipients =["cclab01234@gmail.com"];
+            string senderName = "Web University";
+            string[] recipients = ["cclab01234@gmail.com"];
             string html = @$"<!DOCTYPE html>
                     <html>
                     <head>
@@ -34,8 +38,8 @@ namespace TimeFourthe.Mails {
                         </div>
                     </body>
                     </html>";
-        
-        await MailSender.SendMail(recipients, html, title,senderName);
+
+            await MailSender.SendMail(recipients, html, title, senderName);
         }
     }
 }

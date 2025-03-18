@@ -9,13 +9,13 @@ const FirstPhase = ({ step, setStep, classname, setClassname, division, setDivis
     const specialDurationArray = [1, 2, 3];
     const breakDurationsArray = [30, 45, 60];
     const handleNextStep = () => {
-        if (!classname || !division || !startTime) {
-            toast.error('Please fill in all required fields', {
-                position: 'bottom-right',
-                className: 'bg-red-500'
-            });
-            return;
-        }
+        // if (!classname || !division || !startTime) {
+        //     toast.error('Please fill in all required fields', {
+        //         position: 'bottom-right',
+        //         className: 'bg-red-500'
+        //     });
+        //     return;
+        // }
         setStep(2);
     };
     return (

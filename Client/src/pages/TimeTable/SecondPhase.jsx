@@ -1,14 +1,24 @@
-import React from 'react'
-import { motion } from 'framer-motion'
+import React from 'react';
+import { motion } from 'framer-motion';
 import { PlusCircle, BookOpen, X, Users, ArrowLeft } from "lucide-react";
 import { toast } from 'sonner';
 
-const SecondPhase = ({ newSubject, setNewSubject, selectedTeachers, setSelectedTeachers, subjects, setSubjects, setSelectingSecondTeacher, setIsTeacherPanelOpen, organizationTeachers, handleSubmit }) => {
-
-    const getSelectedTeacherName = (index) => {
-        const teacherId = selectedTeachers[index];
-        if (!teacherId) return index === 0 ? "Select Teacher*" : "Second Teacher";
-        return organizationTeachers.teachers.find(t => t.teacher_id === teacherId)?.teacher_name;
+const SecondPhase = ({
+  newSubject,
+  setNewSubject,
+  selectedTeacher,
+  setSelectedTeacher,
+  subjects,
+  setSubjects,
+  setIsTeacherPanelOpen,
+  organizationTeachers,
+  handleSubmit,
+  setStep
+}) => {
+    const getSelectedTeacherName = () => {
+        if (!selectedTeacher) return "Select Teacher*";
+        const teacher = organizationTeachers.find(t => t.id === selectedTeacher);
+        return teacher ? teacher.name : "Select Teacher*";
     };
 
     const addSubject = (e) => {
@@ -20,27 +30,25 @@ const SecondPhase = ({ newSubject, setNewSubject, selectedTeachers, setSelectedT
             });
             return;
         }
-        if (!selectedTeachers[0]) {
-            toast.error('First teacher is required', {
+        if (!selectedTeacher) {
+            toast.error('Teacher is required', {
                 position: 'bottom-right',
                 className: 'bg-red-500'
             });
             return;
         }
 
-        const teacherNames = selectedTeachers.map(teacherId => {
-            const teacher = organizationTeachers.teachers.find(t => t.teacher_id === teacherId);
-            return teacher ? teacher.teacher_name : '';
-        });
+        const teacherName = organizationTeachers.find(t => t.id === selectedTeacher)?.name || '';
 
-        setSubjects([...subjects, { name: newSubject, teachers: teacherNames }]);
+        setSubjects([...subjects, { name: newSubject, teacher: teacherName }]);
         setNewSubject("");
-        setSelectedTeachers(["", ""]);
+        setSelectedTeacher("");
     };
 
     const handleRemoveSubject = (index) => {
         setSubjects(prev => prev.filter((_, i) => i !== index));
     };
+
     return (
         <motion.div
             className="w-full absolute top-0 left-0"
@@ -70,28 +78,13 @@ const SecondPhase = ({ newSubject, setNewSubject, selectedTeachers, setSelectedT
                         placeholder="Enter subject name"
                     />
                 </div>
-                <div className="flex gap-2">
-                    <button
-                        onClick={() => {
-                            setSelectingSecondTeacher(false);
-                            setIsTeacherPanelOpen(true);
-                        }}
-                        className="bg-zinc-800 text-white px-4 py-2.5 rounded-lg border border-white/10 hover:bg-zinc-700 transition-colors flex items-center gap-2 whitespace-nowrap"
-                    >
-                        <Users className="h-5 w-5" />
-                        {getSelectedTeacherName(0)}
-                    </button>
-                    <button
-                        onClick={() => {
-                            setSelectingSecondTeacher(true);
-                            setIsTeacherPanelOpen(true);
-                        }}
-                        className="bg-zinc-800 text-white px-4 py-2.5 rounded-lg border border-white/10 hover:bg-zinc-700 transition-colors flex items-center gap-2 whitespace-nowrap"
-                    >
-                        <Users className="h-5 w-5" />
-                        {getSelectedTeacherName(1)}
-                    </button>
-                </div>
+                <button
+                    onClick={() => setIsTeacherPanelOpen(true)}
+                    className="bg-zinc-800 text-white px-4 py-2.5 rounded-lg border border-white/10 hover:bg-zinc-700 transition-colors flex items-center gap-2 whitespace-nowrap"
+                >
+                    <Users className="h-5 w-5" />
+                    {getSelectedTeacherName()}
+                </button>
                 <button
                     onClick={addSubject}
                     className="bg-white text-black px-4 py-2.5 rounded-lg hover:bg-zinc-100 transition-colors flex items-center gap-2"
@@ -108,7 +101,6 @@ const SecondPhase = ({ newSubject, setNewSubject, selectedTeachers, setSelectedT
                             <tr className="border-b border-white/10">
                                 <th className="text-white/70 text-sm font-medium text-left py-3 px-4">Subject</th>
                                 <th className="text-white/70 text-sm font-medium text-left py-3 px-4">Teacher*</th>
-                                <th className="text-white/70 text-sm font-medium text-left py-3 px-4">Second Teacher</th>
                                 <th className="text-white/70 text-sm font-medium text-right py-3 px-4">Action</th>
                             </tr>
                         </thead>
@@ -116,8 +108,7 @@ const SecondPhase = ({ newSubject, setNewSubject, selectedTeachers, setSelectedT
                             {subjects.map((subject, index) => (
                                 <tr key={index} className="border-b border-white/10 last:border-none">
                                     <td className="text-white py-3 px-4">{subject.name}</td>
-                                    <td className="text-white py-3 px-4">{subject.teachers[0]}</td>
-                                    <td className="text-white py-3 px-4">{subject.teachers[1] || '-'}</td>
+                                    <td className="text-white py-3 px-4">{subject.teacher}</td>
                                     <td className="text-white py-3 px-4 text-right">
                                         <button
                                             onClick={() => handleRemoveSubject(index)}
@@ -141,7 +132,7 @@ const SecondPhase = ({ newSubject, setNewSubject, selectedTeachers, setSelectedT
                 Submit
             </button>
         </motion.div>
-    )
-}
+    );
+};
 
-export default SecondPhase
+export default SecondPhase;

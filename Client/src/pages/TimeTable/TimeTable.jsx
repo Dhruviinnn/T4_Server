@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { Toaster, toast } from 'sonner';
 import { AnimatePresence } from "framer-motion";
 import Navbar from "../../components/Navbar";
@@ -7,15 +7,9 @@ import SecondPhase from "./SecondPhase";
 import TeacherPanel from "./TeacherPanel";
 import { Helmet } from "react-helmet-async";
 
-const organizationTeachers = {
-	teachers: [
-		{ teacher_id: "T001", teacher_name: "John Smith" },
-		{ teacher_id: "T002", teacher_name: "Emma Johnson" },
-		{ teacher_id: "T003", teacher_name: "Mason Moore" },
-	]
-};
 const TimeTableForm = () => {
 	const [step, setStep] = useState(1);
+	const [organizationTeachers, setOrganizationTeachers] = useState({});
 	const [periodDuration, setPeriodDuration] = useState(30);
 	const [specialHours, setSpecialHours] = useState(1);
 	const [hoursPerDay, setHoursPerDay] = useState(6);
@@ -25,11 +19,21 @@ const TimeTableForm = () => {
 	const [subjects, setSubjects] = useState([]);
 	const [startTime, setStartTime] = useState("")
 	const [newSubject, setNewSubject] = useState("");
-	const [selectedTeachers, setSelectedTeachers] = useState(["", ""]);
+	const [selectedTeacher, setSelectedTeacher] = useState("");
 	const [isTeacherPanelOpen, setIsTeacherPanelOpen] = useState(false);
 	const [selectingSecondTeacher, setSelectingSecondTeacher] = useState(false);
 
-
+	useEffect(() => {
+		const OrgId="2"
+		fetch(`http://localhost:3000/api/get/teachers?OrgId=${OrgId}`)
+            .then(res => res.json())
+            .then(data => {
+				console.log(data);
+				
+				data && setOrganizationTeachers(data);
+            })
+	}, [])
+	
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		if (subjects.length === 0) {
@@ -91,7 +95,7 @@ const TimeTableForm = () => {
 							{step === 2 && (
 								<SecondPhase
 									newSubject={newSubject} setNewSubject={setNewSubject}
-									selectedTeachers={selectedTeachers} setSelectedTeachers={setSelectedTeachers}
+									selectedTeacher={selectedTeacher} setSelectedTeacher={setSelectedTeacher}
 									subjects={subjects} setSubjects={setSubjects}
 									setSelectingSecondTeacher={setSelectingSecondTeacher}
 									setIsTeacherPanelOpen={setIsTeacherPanelOpen}
@@ -110,8 +114,8 @@ const TimeTableForm = () => {
 							selectingSecondTeacher={selectingSecondTeacher}
 							organizationTeachers={organizationTeachers}
 							setIsTeacherPanelOpen={setIsTeacherPanelOpen}
-							selectedTeachers={selectedTeachers}
-							setSelectedTeachers={setSelectedTeachers}
+							selectedTeacher={selectedTeacher}
+							setSelectedTeacher={setSelectedTeacher}
 							setSelectingSecondTeacher={setSelectingSecondTeacher}
 						/>
 					)}

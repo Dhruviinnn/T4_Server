@@ -15,5 +15,6 @@ namespace TimeFourthe.Entities
         public string? Role { get; set; }
         public string? OrgId { get; set; } = null;
         public string? Class { get; set; } = null;
+        public List<int>? OrgType { get; set; } = null;
     }
 }

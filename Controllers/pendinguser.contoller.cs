@@ -5,6 +5,7 @@ using IdGenerator;
 using TimeFourthe.Mails;
 using System.Text.Json;
 using System.Text;
+using AuthString;
 using MongoDB.Bson;
 
 namespace TimeFourthe.Controllers
@@ -25,7 +26,24 @@ namespace TimeFourthe.Controllers
             if (user.Role != "organization")
             {
                 Console.WriteLine("Sign up for Teacher/Student");
-                await _userService.CreateUserAsync(user);
+                try
+                {
+                    await _userService.CreateUserAsync(user);
+                    Response.Cookies.Append("auth", new Authentication().Encode(
+                        new
+                        {
+                            id = user.UserId,
+                            name = user.Name,
+                            email = user.Email,
+                            role = user.Role
+                        }
+                    ));
+                }
+                catch (System.Exception)
+                {
+
+                    throw;
+                }
                 return Ok(new { message = "User created successfully", id = user.Id });
             }
             else

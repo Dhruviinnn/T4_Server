@@ -4,6 +4,9 @@ using TimeFourthe.Services;
 using IdGenerator;
 using Microsoft.AspNetCore.Http.HttpResults;
 using System.Security.Claims;
+using System.Text;
+using AuthString;
+using System.Text.Json;
 
 namespace TimeFourthe.Controllers
 {
@@ -31,8 +34,10 @@ namespace TimeFourthe.Controllers
             {
                 if (userExist.Password == user.Password)
                 {
-
-                    // Response.Cookies.Append("auth", userExist.UserId);
+                    // cookie generation
+                    object userdata = new { id = userExist.UserId, name = userExist.Name, email = userExist.Email, role = userExist.Role };
+                    Console.WriteLine(new Authentication().Encode(userdata));
+                    Response.Cookies.Append("auth", new Authentication().Encode(userdata));
                     return Ok(new { error = false, redirectUrl = "/timetable", message = "Succesfully Login" });
                 }
                 else
@@ -41,15 +46,6 @@ namespace TimeFourthe.Controllers
                 }
             }
             return Ok(new { error = true, redirectUrl = "/login", message = "User not exists", data = userExist });
-        }
-
-        // for signup
-        [HttpPost("user/create")]
-        public async Task<IActionResult> CreateUser([FromBody] User user)
-        {
-            var userExist = await _userService.GetUserAsync(user.Email);
-            await _userService.CreateUserAsync(user);
-            return Ok(new { error = false, redirectUrl = "/timetable", message = "User created successfully" });
         }
 
         // get teachers by OrgId
@@ -65,6 +61,14 @@ namespace TimeFourthe.Controllers
         {
             var userExist = await _userService.GetUserAsync(body.Email);
             return Ok(new { user = userExist });
+        }
+
+        [HttpPost("decode")]
+        public IActionResult UI()
+        {
+            string token = "eyJpZCI6IlRDSDIwNjUzMzI0MDI4OSIsIm5hbWUiOiJIYWJpYmlfMTIiLCJlbWFpbCI6ImhhYmkxMTEyYmlAZ21haWwuY29tIiwicm9sZSI6InRlYWNoZXIifQ==";
+            var main = new Authentication().Decode(token);
+            return Ok(new { user = main });
         }
     }
 }

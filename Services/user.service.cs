@@ -5,6 +5,8 @@ using Microsoft.Extensions.Options;
 using IdGenerator;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http.HttpResults;
+using AuthString;
+using Microsoft.AspNetCore.Http;
 
 namespace TimeFourthe.Services
 {
@@ -28,7 +30,14 @@ namespace TimeFourthe.Services
         public async Task CreateUserAsync(User user)
         {
             user.UserId = new IdGeneratorClass().IdGenerator(user.Role);
-            await _usersCollection.InsertOneAsync(user);
+            try
+            {
+                await _usersCollection.InsertOneAsync(user);
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
         }
 
         public async Task<List<User>> GetTechersByOrgIdAsync(string orgId) =>

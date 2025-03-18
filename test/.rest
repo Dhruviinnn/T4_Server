@@ -1,2 +1,14 @@
 ###
-POST http://localhost:3000/api/send-auth
+POST http://localhost:3000/api/user/signup
+Content-Type: application/json
+
+{
+    "email":"habi1112bi@gmail.com",
+    "password":"12",
+    "role":"teacher",
+    "name":"Habibi_12",
+    "ordId":"12"
+}
+
+###
+POST http://localhost:3000/api/decode

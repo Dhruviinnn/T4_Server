@@ -17,6 +17,7 @@ const OriginalSignUp = ({ setStep, selectedType }) => {
         passwordRef.current.type = passwordRef.current.type === "password" ? "text" : "password"
         setPasswordType(passwordRef.current.type)
     };
+
     const handleDetailsSubmit = (e) => {
         e.preventDefault();
         const data = {
@@ -26,7 +27,7 @@ const OriginalSignUp = ({ setStep, selectedType }) => {
             role: selectedType,
             orgId
         };
-
+        // for org create orgId for new organization
         fetch('http://localhost:3000/api/user/signup', {
             method: 'POST',
             headers: {
@@ -35,18 +36,25 @@ const OriginalSignUp = ({ setStep, selectedType }) => {
             body: JSON.stringify(data)
         })
             .then(res => res.json())
-            .then(({ error, message, redirectUrl }) => {
+            .then(({ error, message }) => {
                 if (error) {
-                    toast.error(message)
+                    toast.error(message), {
+                        duration: 4000,
+                        style: { backgroundColor: "Red", color: "White", fontSize: "1rem" },
+                    }
                 }
                 else {
-                    toast.success(message)
-                    setTimeout(() => {
-                        navigate(redirectUrl)
-                    }, 500);
+                    if (role == 'Organization') navigate('/waiting-approval')
+                    else {
+                        toast.loading('message')
+                        setTimeout(() => {
+                            navigate('/timetable')
+                        }, 500);
+                    }
                 }
             })
     };
+
     return (
         <>
             <div className="flex items-center space-x-4 mb-8">

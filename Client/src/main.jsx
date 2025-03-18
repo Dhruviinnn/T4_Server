@@ -1,7 +1,7 @@
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { TimeTableForm, Login, Dashboard, Signup } from './pages/index'
+import { TimeTableForm, Login, Dashboard, Signup, WaitingApproval } from './pages/index'
 import { HelmetProvider } from "react-helmet-async";
 
 createRoot(document.getElementById('root')).render(
@@ -12,6 +12,7 @@ createRoot(document.getElementById('root')).render(
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/waiting-approval" element={<WaitingApproval />} />
             </Routes>
         </BrowserRouter>
     </HelmetProvider>

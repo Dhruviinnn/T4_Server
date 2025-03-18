@@ -20,7 +20,8 @@ namespace TimeFourthe.Services
             var database = client.GetDatabase(mongoDbSettings.Value.DatabaseName);
             _usersCollection = database.GetCollection<User>(mongoDbSettings.Value.CollectionName[0]);
         }
-
+        // public async Task<List<U>> GetUsersAsync() =>
+        // await _usersCollection.Find(user => true).ToListAsync();
         public async Task<List<User>> GetUsersAsync() =>
             await _usersCollection.Find(user => true).ToListAsync();
 

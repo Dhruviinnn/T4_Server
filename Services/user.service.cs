@@ -39,5 +39,7 @@ namespace TimeFourthe.Services
 
         public async Task<List<User>> GetTechersByOrgIdAsync(string orgId) =>
             await _usersCollection.Find(user => user.OrgId == orgId && user.Role == "teacher").ToListAsync();
+        public async Task<User> GetOrganizationByOrgId(string orgId) =>
+            await _usersCollection.Find(user => user.OrgId == orgId).FirstOrDefaultAsync();
     }
 }

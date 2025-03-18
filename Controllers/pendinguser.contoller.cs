@@ -22,7 +22,9 @@ namespace TimeFourthe.Controllers
         {
             if (user.Role != "organization")
             {
-                var userExist = await _userService.GetUserAsync(user.Email);
+                User orgExist = await _userService.GetOrganizationByOrgId(user.OrgId);
+                if (orgExist == null) return Ok(new { error = true, message = "This Organization is not exists" });
+                User userExist = await _userService.GetUserAsync(user.Email);
                 if (userExist != null) return Ok(new { error = true, message = "User already exists" });
                 Console.WriteLine("Sign up for Teacher/Student");
                 try

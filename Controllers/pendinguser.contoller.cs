@@ -20,11 +20,10 @@ namespace TimeFourthe.Controllers
         [HttpPost("user/signup")]
         public async Task<IActionResult> CreatePendingUser([FromBody] User user)
         {
-            var userExist = await _userService.GetUserAsync(user.Email);
-            if (userExist != null) return Ok(new { error = true, message = "User already exists" });
-
             if (user.Role != "organization")
             {
+                var userExist = await _userService.GetUserAsync(user.Email);
+                if (userExist != null) return Ok(new { error = true, message = "User already exists" });
                 Console.WriteLine("Sign up for Teacher/Student");
                 try
                 {
@@ -48,6 +47,8 @@ namespace TimeFourthe.Controllers
             }
             else
             {
+                var pendingUserExist = await _pendingUserService.GetPendingUserAsync(user.Email);
+                if (pendingUserExist != null) return Ok(new { error = true, message = "Your request has not been approved yet " });
                 Console.WriteLine("Sign up for Organization");
                 List<string> org = await _pendingUserService.CreatePendingUserAsync(user);
                 Auth.Mail(org);

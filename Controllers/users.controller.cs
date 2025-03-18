@@ -48,15 +48,15 @@ namespace TimeFourthe.Controllers
             return Ok(new { error = true, redirectUrl = "/login", message = "User not exists", data = userExist });
         }
 
-        // get teachers by OrgId
-        [HttpGet("teachers")]
+        [HttpGet("get/teachers")]
         public async Task<IActionResult> GetTeachers()
         {
-            var teacherlist = await _userService.GetTechersByOrgIdAsync(Request.Query["OrgId"].ToString());
-            return Ok(teacherlist);
+            List<User> teacherlist = await _userService.GetTechersByOrgIdAsync(Request.Query["OrgId"].ToString());
+            var filteredTeacherlist = teacherlist.Select(teacher => new { id = teacher.Id, name = teacher.Name });
+            return Ok(filteredTeacherlist);
         }
 
-        [HttpPost("user/get")]
+        [HttpGet("user/get")]
         public async Task<IActionResult> GetUser([FromBody] EmailRequest body)
         {
             var userExist = await _userService.GetUserAsync(body.Email);

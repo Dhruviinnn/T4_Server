@@ -11,6 +11,7 @@ createRoot(document.getElementById('root')).render(
                 <Route path="/timetable" element={<TimeTableForm />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
+                <Route path="/signup/:url" element={<Signup />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/waiting-approval" element={<WaitingApproval />} />
             </Routes>

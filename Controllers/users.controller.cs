@@ -56,19 +56,19 @@ namespace TimeFourthe.Controllers
             return Ok(filteredTeacherlist);
         }
 
-        [HttpGet("user/get")]
+        [HttpPost("user/get")]
         public async Task<IActionResult> GetUser([FromBody] EmailRequest body)
         {
             var userExist = await _userService.GetUserAsync(body.Email);
             return Ok(new { user = userExist });
         }
 
-        [HttpPost("decode")]
-        public IActionResult UI()
+        [HttpGet("get/students/email")]
+        public async Task<IActionResult> GetStudents()
         {
-            string token = "eyJpZCI6IlRDSDIwNjUzMzI0MDI4OSIsIm5hbWUiOiJIYWJpYmlfMTIiLCJlbWFpbCI6ImhhYmkxMTEyYmlAZ21haWwuY29tIiwicm9sZSI6InRlYWNoZXIifQ==";
-            var main = new Authentication().Decode(token);
-            return Ok(new { user = main });
+            List<User> studentlist = await _userService.GetStudentsByOrgIdAsync(Request.Query["OrgId"].ToString());
+            var filteredStudentsEmaillist = studentlist.Select(student => student.Email);
+            return Ok(filteredStudentsEmaillist);
         }
     }
 }

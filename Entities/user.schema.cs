@@ -1,8 +1,10 @@
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace TimeFourthe.Entities {
-    public class User {
+namespace TimeFourthe.Entities
+{
+    public class User
+    {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string? Id { get; set; }
@@ -11,6 +13,7 @@ namespace TimeFourthe.Entities {
         public required string Email { get; set; }
         public required string Password { get; set; }
         public string? Role { get; set; }
-        public string? OrgId { get; set; }=null;
+        public string? OrgId { get; set; } = null;
+        public string? Class { get; set; } = null;
     }
 }

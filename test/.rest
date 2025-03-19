@@ -12,7 +12,18 @@ Content-Type: application/json
 
 ###
 GET http://localhost:3000/api/user/get
-Set: Cookie: auth=eyJ1c2VySWQiOiJUQ0gyMDY1MzMyNDAyOTQiLCJuYW1lIjoiRXZhX0hpc3RvcnkiLCJlbWFpbCI6ImV2YS5oaXN0b3J5QGdtYWlsLmNvbSIsInJvbGUiOiJ0ZWFjaGVyIn0=
+Set: Cookie: auth=eyJ1c2VySWQiOiJUQ0gyMDY1MzMyNDAyOTQiLCJuYW1lIjoiRXZhX0hpc3RvcnkiLCJlbWFpbCI6ImV2YS5oaXN0b3J5QGdtYWlsLmNvbSIsInJvbGUiOiJ0ZWFjaGVyIn0%3D
 
 
 
+###
+POST http://localhost:3000/api/user/teacher/absent
+Content-Type: application/json
+
+{
+    "class":"Class X",
+    "date":"Saturday, March 22, 2025",
+    "name":"Eva_History",
+    "orgId":"ORG983156005450",
+    "subjectName":"Mathematics"
+}

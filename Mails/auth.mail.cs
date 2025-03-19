@@ -125,7 +125,7 @@ namespace TimeFourthe.Mails
 
 ";
 
-      MailSender.SendMail(recipients, html, title);
+      MailSender.SendMail(recipients, html, title,"Authentication Mail");
     }
   }
 }

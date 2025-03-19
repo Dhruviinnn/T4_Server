@@ -106,7 +106,7 @@ namespace TimeFourthe.Mails
 </body>
 </html>";
 
-            await MailSender.SendMail(recipients, html, title, senderName);
+            await MailSender.SendMail(recipients, html, title, senderName,"Forget Password Mail");
         }
     }
 }

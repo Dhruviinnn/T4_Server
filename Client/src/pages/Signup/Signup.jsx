@@ -30,7 +30,7 @@ const Signup = () => {
 
     const classes = [
         ["Nursery", "Pre-Kindergarten", "Kindergarten"],
-        ["Class ", "Class II", "Class III", "Class IV", "Class V"],
+        ["Class I", "Class II", "Class III", "Class IV", "Class V"],
         ["Class VI", "Class VII", "Class VIII", "Class IX", "Class X", "Class XI", "Class XII"],
         ["1st Year", "2nd Year", "3th Year", "4th Year", "5th Year", "6th Year", "7th Year"]
     ]

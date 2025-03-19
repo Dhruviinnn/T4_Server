@@ -111,7 +111,7 @@ namespace TimeFourthe.Mails
 </html>
 ";
 
-            MailSender.SendMail(recipients, html, title);
+            MailSender.SendMail(recipients, html, title,"Approval Success Mail");
         }
     }
 }

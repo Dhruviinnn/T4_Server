@@ -2,11 +2,11 @@ import React from 'react';
 import { X, Check } from "lucide-react";
 import { motion } from 'framer-motion';
 
-const TeacherPanel = ({ 
-    selectedTeacher, 
-    organizationTeachers, 
-    setIsTeacherPanelOpen, 
-    setSelectedTeacher 
+const TeacherPanel = ({
+    selectedTeacher,
+    organizationTeachers,
+    setIsTeacherPanelOpen,
+    setSelectedTeacher
 }) => {
     const handleTeacherSelect = (teacherId) => {
         setSelectedTeacher(teacherId);
@@ -36,14 +36,13 @@ const TeacherPanel = ({
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
                     {organizationTeachers.map(teacher => (
                         <button
-                            key={teacher.id}
-                            onClick={() => handleTeacherSelect(teacher.id)}
-                            className={`w-full flex items-center justify-between bg-zinc-800 text-white rounded-lg px-4 py-3 hover:bg-zinc-700 transition-colors ${
-                                selectedTeacher === teacher.id ? 'bg-white text-black hover:bg-white' : ''
-                            }`}
+                            key={teacher.userId}
+                            onClick={() => handleTeacherSelect(teacher.userId)}
+                            className={`w-full flex items-center justify-between bg-zinc-800 text-white rounded-lg px-4 py-3 hover:bg-zinc-700 transition-colors ${selectedTeacher === teacher.userId ? 'bg-white text-black hover:bg-white' : ''
+                                }`}
                         >
                             <span>{teacher.name}</span>
-                            {selectedTeacher === teacher.id && (
+                            {selectedTeacher === teacher.userId && (
                                 <Check className="h-4 w-4" />
                             )}
                         </button>

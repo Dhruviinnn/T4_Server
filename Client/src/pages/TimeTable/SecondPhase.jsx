@@ -4,20 +4,20 @@ import { PlusCircle, BookOpen, X, Users, ArrowLeft } from "lucide-react";
 import { toast } from 'sonner';
 
 const SecondPhase = ({
-  newSubject,
-  setNewSubject,
-  selectedTeacher,
-  setSelectedTeacher,
-  subjects,
-  setSubjects,
-  setIsTeacherPanelOpen,
-  organizationTeachers,
-  handleSubmit,
-  setStep
+    newSubject,
+    setNewSubject,
+    selectedTeacher,
+    setSelectedTeacher,
+    subjects,
+    setSubjects,
+    setIsTeacherPanelOpen,
+    organizationTeachers,
+    handleSubmit,
+    setStep
 }) => {
     const getSelectedTeacherName = () => {
         if (!selectedTeacher) return "Select Teacher*";
-        const teacher = organizationTeachers.find(t => t.id === selectedTeacher);
+        const teacher = organizationTeachers.find(t => t.userId === selectedTeacher);
         return teacher ? teacher.name : "Select Teacher*";
     };
 
@@ -38,7 +38,7 @@ const SecondPhase = ({
             return;
         }
 
-        const teacherName = organizationTeachers.find(t => t.id === selectedTeacher)?.name || '';
+        const teacherName = organizationTeachers.find(t => t.userId === selectedTeacher)?.name || '';
 
         setSubjects([...subjects, { name: newSubject, teacher: teacherName }]);
         setNewSubject("");

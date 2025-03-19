@@ -7,6 +7,7 @@ using System.Text.Json;
 using System.Text;
 using AuthString;
 using MongoDB.Bson;
+using Microsoft.AspNetCore.Http;
 
 namespace TimeFourthe.Controllers
 {
@@ -39,7 +40,9 @@ namespace TimeFourthe.Controllers
                             role = user.Role,
                             orgId=user.OrgId
                         }
-                    ));
+                    ),new CookieOptions{
+                        Expires=DateTime.UtcNow.AddDays(7)
+                    });
                 }
                 catch (System.Exception)
                 {
@@ -90,7 +93,7 @@ namespace TimeFourthe.Controllers
             var deletedUser = await _pendingUserService.DeletePendingUserAsync(orgId);
             if (approve == "true")
             {
-               await _userService.CreateUserAsync(deletedUser);
+                await _userService.CreateUserAsync(deletedUser);
                 ApprovalSuccess.Mail(deletedUser.Name, deletedUser.Email);
                 return Ok(new { message = "Your application is approved by autority" });
             }

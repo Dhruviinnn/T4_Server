@@ -21,24 +21,31 @@ const TimeTableForm = () => {
 	const [classname, setClassname] = useState("");
 	const [division, setDivision] = useState("");
 	const [subjects, setSubjects] = useState([]);
+	const [grades, setGrades] = useState([]);
 	const [startTime, setStartTime] = useState("")
 	const [newSubject, setNewSubject] = useState("");
 	const [selectedTeacher, setSelectedTeacher] = useState("");
 	const [isTeacherPanelOpen, setIsTeacherPanelOpen] = useState(false);
 	const [selectingSecondTeacher, setSelectingSecondTeacher] = useState(false);
 
+
 	useEffect(() => {
 		userFetcher(user, setUser)
-
-		const x = JSON.parse(decode('W3sidXNlcklkIjoiNjdkOTZmOGUyMjM0NTg0ZDg3NzgzMDhiIiwibmFtZSI6IkhhYmliaV8xMiJ9LHsidXNlcklkIjoiNjdkOTZmOGUyMjM0NTg0ZDg3NzgzMDhjIiwibmFtZSI6IkFsaWNlX1dvbmRlciJ9LHsidXNlcklkIjoiNjdkOTZmOGUyMjM0NTg0ZDg3NzgzMDhkIiwibmFtZSI6IkJvYl9NYXRoIn0seyJ1c2VySWQiOiI2N2Q5NmY4ZTIyMzQ1ODRkODc3ODMwOGUiLCJuYW1lIjoiQ2hhcmxpZV9TY2kifSx7InVzZXJJZCI6IjY3ZDk2ZjhlMjIzNDU4NGQ4Nzc4MzA4ZiIsIm5hbWUiOiJEYXZpZF9FbmcifSx7InVzZXJJZCI6IjY3ZDk2ZjhlMjIzNDU4NGQ4Nzc4MzA5MCIsIm5hbWUiOiJFdmFfSGlzdG9yeSJ9LHsidXNlcklkIjoiNjdkOTZmOGUyMjM0NTg0ZDg3NzgzMDkxIiwibmFtZSI6IkZyYW5rX1BoeXNpY3MifSx7InVzZXJJZCI6IjY3ZDk2ZjhlMjIzNDU4NGQ4Nzc4MzA5MiIsIm5hbWUiOiJHcmFjZV9CaW9sb2d5In0seyJ1c2VySWQiOiI2N2Q5NmY4ZTIyMzQ1ODRkODc3ODMwOTMiLCJuYW1lIjoiSGVucnlfQ2hlbSJ9LHsidXNlcklkIjoiNjdkOTZmOGUyMjM0NTg0ZDg3NzgzMDk0IiwibmFtZSI6Ikl2eV9HZW8ifSx7InVzZXJJZCI6IjY3ZDk2ZjhlMjIzNDU4NGQ4Nzc4MzA5NSIsIm5hbWUiOiJKYWNrX1BzeWNoIn0seyJ1c2VySWQiOiI2N2Q5NmY4ZTIyMzQ1ODRkODc3ODMwOTYiLCJuYW1lIjoiS2FyZW5fQXJ0cyJ9LHsidXNlcklkIjoiNjdkOTZmOGUyMjM0NTg0ZDg3NzgzMDk3IiwibmFtZSI6Ikxlb19QRSJ9LHsidXNlcklkIjoiNjdkOTZmOGUyMjM0NTg0ZDg3NzgzMDk4IiwibmFtZSI6Ik1pYV9NdXNpYyJ9LHsidXNlcklkIjoiNjdkOTZmOGUyMjM0NTg0ZDg3NzgzMDk5IiwibmFtZSI6Ik5vYWhfQ29tcFNjaSJ9XQ'))
-
-		console.log('teacherList : ', x);
-
 	}, [])
 
 	useEffect(() => {
-		// Teachers fetching
 		if (user.userId) {
+			// classes fetching
+			fetch(`http://localhost:3000/api/get/org/classes?OrgId=${user.OrgId}`)
+			.then(res => res.json())
+			.then(data => {
+				if (data) {
+					console.log(data.orgClasses);
+					setGrades(data.orgClasses);
+					setClassname(data.orgClasses[0])
+				}
+			})
+			// Teachers fetching
 			const teachers = localStorage.getItem('teachers');
 			if (!teachers) {
 				const OrgId = user.userId;
@@ -50,7 +57,7 @@ const TimeTableForm = () => {
 							setOrganizationTeachers(data);
 							localStorage.setItem('teachers', encode(JSON.stringify(data)))
 						}
-					})
+					});
 			}
 			else {
 				setOrganizationTeachers(JSON.parse(decode(teachers)))
@@ -105,6 +112,7 @@ const TimeTableForm = () => {
 						{/* Step 1: Basic Form */}
 						<FirstPhase
 							step={step} setStep={setStep}
+							grades={grades} setGrades={setGrades}
 							classname={classname} setClassname={setClassname}
 							division={division} setDivision={setDivision}
 							startTime={startTime} setStartTime={setStartTime}

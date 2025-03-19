@@ -4,14 +4,10 @@ namespace TimeFourthe.Mails
 {
   public class Absence
   {
-    public static void Mail()
+    public static void Mail(string[] recipients,string teacher,string subject,string orgName)
     {
-      string teacher = "Ketul mj";
-      string subject = "DSA";
       string date = DateTime.Now.ToString("d/M/yyyy");
-      string orgName = "Web University";
       string title = "Urgent : No Class Today – Teacher Absent";
-      string[] recipients = ["vasavadhruvin123@gmail.com"];
       string html = @$"<!DOCTYPE html>
 <html lang='en'>
 <head>
@@ -68,9 +64,9 @@ namespace TimeFourthe.Mails
                 font-weight:500;
                 color:#dfdbeb;
                 display:inline-block;'>
-                This is to inform you that <span style='color:#A78BFA; font-weight:600;'>Ketul MJ</span>, your 
-                <span style='color:#A78BFA; font-weight:600;'>DSA</span> teacher, will be unavailable on 
-                <span style='color:#A78BFA; font-weight:600;'>17 Feb - Monday</span>.
+                This is to inform you that <span style='color:#A78BFA; font-weight:600;'>{teacher}</span>, your 
+                <span style='color:#A78BFA; font-weight:600;'>{subject}</span> teacher, will be unavailable on 
+                <span style='color:#A78BFA; font-weight:600;'>{date}</span>.
               </p>
 
         
@@ -81,7 +77,7 @@ namespace TimeFourthe.Mails
 
               <div style='padding-top:20px; border-top:1px solid #374151; margin-top:20px; text-align:center;'>
                 <p style='color:#A78BFA; font-weight:500; margin-bottom:5px;'>Best Regards</p>
-                <p style='color:#fff;'>Web University</p>
+                <p style='color:#fff;'>{orgName}</p>
               </div>
 
               <!-- Logo -->
@@ -101,7 +97,7 @@ namespace TimeFourthe.Mails
 </html>
 ";
 
-      MailSender.SendMail(recipients, html, title);
+      MailSender.SendMail(recipients, html, title,orgName,"Absence Mail");
     }
   }
 }

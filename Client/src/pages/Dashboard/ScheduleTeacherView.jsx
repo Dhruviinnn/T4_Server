@@ -6,6 +6,7 @@ const ScheduleTeacherView = ({
   mockTeacherSchedule,
   days,
   absentClasses,
+  setAbsentClasses,
   setConfirmDialog,
 }) => {
   // Get current date information
@@ -19,7 +20,7 @@ const ScheduleTeacherView = ({
   const selectedDate = useMemo(() => {
     const date = new Date();
     const dayIndex = days.indexOf(selectedDay);
-    date.setDate(date.getDate() - (date.getDay() - dayIndex));
+    date.setDate(date.getDate() - (date.getDay() - dayIndex-1));
     return date.toLocaleDateString('en-US', {
       weekday: 'long',
       year: 'numeric',
@@ -35,7 +36,7 @@ const ScheduleTeacherView = ({
     return selectedDayIndex < currentDayIndex;
   }, [selectedDay, currentDate.currentDay, days]);
 
-  const handleAbsentClick = (scheduleKey, isAlreadyAbsent) => {
+  const handleAbsentClick = (scheduleKey, isAlreadyAbsent,subject,className) => {
     if (isDayInPast) {
       return; // Don't allow marking absent for past days
     }
@@ -43,9 +44,10 @@ const ScheduleTeacherView = ({
       isOpen: true,
       scheduleKey,
       isUnmarking: isAlreadyAbsent,
+      subject,
+      className,
+      date:selectedDate
     });
-    console.log(scheduleKey, isAlreadyAbsent);
-    
   };
 
   return (
@@ -68,7 +70,7 @@ const ScheduleTeacherView = ({
       <div className="p-4 space-y-4">
         {mockTeacherSchedule[selectedDay]?.map((schedule, index) => {
           const scheduleKey = `${selectedDay}-${index}`;
-          const isAbsent = absentClasses.has(scheduleKey);
+          const isAbsent = absentClasses.includes(scheduleKey);
 
           return (
             <div
@@ -95,11 +97,11 @@ const ScheduleTeacherView = ({
                   </div>
                   <div className="flex items-center gap-4">
                     <button
-                      onClick={() => handleAbsentClick(scheduleKey, isAbsent)}
-                      disabled={isDayInPast}
+                      onClick={() => handleAbsentClick(scheduleKey, isAbsent,schedule.subject,schedule.class)}
+                      disabled={isDayInPast || isAbsent}
                       className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${
                         isAbsent
-                          ? 'bg-red-500/20 text-red-300 hover:bg-red-500/30'
+                          ? 'bg-red-500/20 text-red-300 hover:bg-red-500/30 cursor-not-allowed'
                           : isDayInPast
                           ? 'bg-zinc-700/20 text-white/50 cursor-not-allowed'
                           : 'bg-zinc-700/50 text-white hover:bg-zinc-700'

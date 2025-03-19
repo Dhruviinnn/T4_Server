@@ -2,7 +2,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { School, Users, Building2, Share2 } from 'lucide-react';
 import { Helmet } from "react-helmet-async";
 import { toast } from 'sonner';
-import { encode } from 'js-base64';
+import { encode,decode } from 'js-base64';
 import { useNavigate } from 'react-router-dom';
 
 import Navbar from '../../components/Navbar';
@@ -36,32 +36,32 @@ const mockTimetables = [
 
 const mockTeacherSchedule= {
   Monday: [
-    { time: "9:00 AM", subject: "Mathematics", class: "X-A", duration: "45 mins" },
+    { time: "9:00 AM", subject: "Mathematics", class: "Class X", duration: "45 mins" },
     { time: "10:00 AM", subject: "Mathematics", class: "XI-B", duration: "45 mins" },
     { time: "11:00 AM", subject: "Mathematics", class: "IX-C", duration: "45 mins" }
   ],
   Tuesday: [
-    { time: "9:00 AM", subject: "Mathematics", class: "XII-A", duration: "45 mins" },
+    { time: "9:00 AM", subject: "Mathematics", class: "Class X", duration: "45 mins" },
     { time: "10:00 AM", subject: "Mathematics", class: "X-B", duration: "45 mins" },
     { time: "2:00 PM", subject: "Mathematics", class: "XI-A", duration: "45 mins" }
   ],
   Wednesday: [
-    { time: "10:00 AM", subject: "Mathematics", class: "IX-A", duration: "45 mins" },
+    { time: "10:00 AM", subject: "Mathematics", class: "Class X", duration: "45 mins" },
     { time: "11:00 AM", subject: "Mathematics", class: "X-A", duration: "45 mins" },
     { time: "1:00 PM", subject: "Mathematics", class: "XII-B", duration: "45 mins" }
   ],
   Thursday: [
-    { time: "9:00 AM", subject: "Mathematics", class: "XI-B", duration: "45 mins" },
+    { time: "9:00 AM", subject: "Mathematics", class: "Class X", duration: "45 mins" },
     { time: "11:00 AM", subject: "Mathematics", class: "X-C", duration: "45 mins" },
     { time: "2:00 PM", subject: "Mathematics", class: "IX-B", duration: "45 mins" }
   ],
   Friday: [
-    { time: "9:00 AM", subject: "Mathematics", class: "X-A", duration: "45 mins" },
+    { time: "9:00 AM", subject: "Mathematics", class: "Class X", duration: "45 mins" },
     { time: "10:00 AM", subject: "Mathematics", class: "XII-A", duration: "45 mins" },
     { time: "1:00 PM", subject: "Mathematics", class: "XI-C", duration: "45 mins" }
   ],
   Saturday: [
-    { time: "9:00 AM", subject: "Mathematics", class: "IX-A", duration: "45 mins" },
+    { time: "9:00 AM", subject: "Mathematics", class: "Class X", duration: "45 mins" },
     { time: "11:00 AM", subject: "Mathematics", class: "X-B", duration: "45 mins" },
     { time: "12:00 PM", subject: "Mathematics", class: "XII-C", duration: "45 mins" }
   ]
@@ -151,35 +151,54 @@ const WeekNavigator = ({
 const Dashboard = () => {
   const navigate = useNavigate();
   const [user, setUser] = useUser();
-// const [user, setUser] = useState({ 
-//     name:"ha",
-//     email:"sdsd",
-//     role:'teacher',
-//     userId:"TCH873342"
-// })
   const [selectedDay, setSelectedDay] = useState(() => {
     const today = new Date();
     return days[today.getDay() === 0 ? 6 : today.getDay() - 1];
   });
   const [selectedTimetable, setSelectedTimetable] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [absentClasses, setAbsentClasses] = useState(new Set());
+  const [absentClasses, setAbsentClasses] = useState([]);
   const [confirmDialog, setConfirmDialog] = useState({
     isOpen: false,
     scheduleKey: null,
     isUnmarking: false,
+    subject:null,
+    className:null,
+    date:null
   });
 
   useEffect(() => {
     userFetcher(user, setUser);
+    const isAbsentClassesExist=localStorage.getItem('absentClasses')
+    if(isAbsentClassesExist){
+      const storedAbsentClasses = JSON.parse(decode(isAbsentClassesExist))
+      if(storedAbsentClasses)setAbsentClasses(storedAbsentClasses)
+    }
   }, []);
 
   const handleCloseModal = () => setIsModalOpen(false);
   const handleConfirmAbsent = (e) => {
     // Implement absent confirmation logic here
-    console.log(confirmDialog);
-    
+    // console.log({
+    //     orgId:user.orgId,
+    //     subjectName:confirmDialog.subject,
+    //     class:confirmDialog.className,
+    //     name:user.name,
+    //     date:confirmDialog.date
+    // });
+    setConfirmDialog({
+      isOpen: false,
+      scheduleKey: null,
+      isUnmarking: false,
+      subject:null,
+      className:null,
+      date:confirmDialog.date
+    })  
+    setAbsentClasses((prev)=>[...prev,confirmDialog.scheduleKey])
   };
+useEffect(() => {
+  localStorage.setItem('absentClasses',encode(JSON.stringify(absentClasses)))
+}, [absentClasses]) 
 
   const UserInfo = () => (
     <>
@@ -230,6 +249,7 @@ const Dashboard = () => {
                   mockTeacherSchedule={mockTeacherSchedule}
                   days={days}
                   absentClasses={absentClasses}
+                  setAbsentClasses={setAbsentClasses}
                   setConfirmDialog={setConfirmDialog}
                 />
               </div>

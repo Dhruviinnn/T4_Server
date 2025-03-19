@@ -36,7 +36,8 @@ namespace TimeFourthe.Controllers
                             userId = user.UserId,
                             name = user.Name,
                             email = user.Email,
-                            role = user.Role
+                            role = user.Role,
+                            orgId=user.OrgId
                         }
                     ));
                 }
@@ -53,7 +54,8 @@ namespace TimeFourthe.Controllers
                         name = user.Name,
                         userId = user.UserId,
                         role = user.Role,
-                        email = user.Email
+                        email = user.Email,
+                        orgId=user.OrgId
                     }
                 });
             }
@@ -72,7 +74,7 @@ namespace TimeFourthe.Controllers
                         name = user.Name,
                         userId = user.UserId,
                         role = user.Role,
-                        email = user.Email
+                        email = user.Email,
                     }
                 });
             }

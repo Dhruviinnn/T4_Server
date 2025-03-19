@@ -8,12 +8,17 @@ using System.Text;
 using AuthString;
 using System.Text.Json;
 using Microsoft.AspNetCore.Http;
+using TimeFourthe.Mails;
 
 namespace TimeFourthe.Controllers
 {
-    public class EmailRequest
+    public class AbsentDataRequest
     {
-        public string Email { get; set; }
+        public string Class { get; set; }
+        public string Date { get; set; }
+        public string Name { get; set; }
+        public string SubjectName { get; set; }
+        public string OrgId { get; set; }
     }
     [Route("api")]
     [ApiController]
@@ -35,7 +40,7 @@ namespace TimeFourthe.Controllers
             {
                 if (userExist.Password == user.Password)
                 {
-                    object userdata = new { userId = userExist.UserId, name = userExist.Name, email = userExist.Email, role = userExist.Role };
+                    object userdata = new { userId = userExist.UserId, name = userExist.Name, email = userExist.Email, role = userExist.Role,orgId=userExist.OrgId };
                     Response.Cookies.Append("auth", new Authentication().Encode(userdata));
                     return Ok(new
                     {
@@ -47,7 +52,8 @@ namespace TimeFourthe.Controllers
                             name = userExist.Name,
                             userId = userExist.UserId,
                             role = userExist.Role,
-                            email = userExist.Email
+                            email = userExist.Email,
+                            orgId=userExist.OrgId,
                         }
                     });
                 }
@@ -75,11 +81,13 @@ namespace TimeFourthe.Controllers
             return Ok(new { error = true, message = "Authorization failed" });
         }
 
-        [HttpGet("get/students/email")]
-        public async Task<IActionResult> GetStudents()
+        [HttpPost("user/teacher/absent")]
+        public async Task<IActionResult> GetStudents([FromBody] AbsentDataRequest absentData)
         {
-            List<User> studentlist = await _userService.GetStudentsByOrgIdAsync(Request.Query["OrgId"].ToString());
+            
+            List<User> studentlist = await _userService.GetStudentsByOrgIdAndClassAsync(absentData);
             var filteredStudentsEmaillist = studentlist.Select(student => student.Email);
+            Absence.Mail(filteredStudentsEmaillist.ToArray(),absentData.Name,absentData.SubjectName,"Web Web Web");
             return Ok(new { filteredStudentsEmaillist });
         }
     }

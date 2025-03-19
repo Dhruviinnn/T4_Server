@@ -17,13 +17,4 @@ Set: Cookie: auth=eyJ1c2VySWQiOiJUQ0gyMDY1MzMyNDAyOTQiLCJuYW1lIjoiRXZhX0hpc3Rvcn
 
 
 ###
-POST http://localhost:3000/api/user/teacher/absent
-Content-Type: application/json
-
-{
-    "class":"Class X",
-    "date":"Saturday, March 22, 2025",
-    "name":"Eva_History",
-    "orgId":"ORG983156005450",
-    "subjectName":"Mathematics"
-}
+GET http://localhost:3000/api/get/org/classes

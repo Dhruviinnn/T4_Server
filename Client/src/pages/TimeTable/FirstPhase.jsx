@@ -1,13 +1,15 @@
-import React from 'react'
-import { Clock, PlusCircle } from 'lucide-react'
+import { useRef, useState } from 'react'
+import { Clock, PlusCircle, ChevronDown } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { toast } from 'sonner';
 
-const FirstPhase = ({ step, setStep, classname, setClassname, division, setDivision, startTime, setStartTime, hoursPerDay, setHoursPerDay, periodDuration, setPeriodDuration, specialHours, setSpecialHours, breakDuration, setBreakDuration }) => {
+const FirstPhase = ({ step, setStep, classname, setClassname, division, setDivision, startTime, setStartTime, hoursPerDay, setHoursPerDay, periodDuration, setPeriodDuration, specialHours, setSpecialHours, breakDuration, setBreakDuration, grades, setGrades }) => {
+    const [isClassSelectOpen, setIsClassSelectOpen] = useState(false)
     const hoursArray = [4, 5, 6, 7, 8, 9];
     const durationArray = [30, 45, 60, 90];
     const specialDurationArray = [1, 2, 3];
     const breakDurationsArray = [30, 45, 60];
+    const selectRef = useRef()
     const handleNextStep = () => {
         // if (!classname || !division || !startTime) {
         //     toast.error('Please fill in all required fields', {
@@ -19,7 +21,6 @@ const FirstPhase = ({ step, setStep, classname, setClassname, division, setDivis
         setStep(2);
     };
     return (
-
         <motion.div
             className="w-full"
             initial={{ x: 0 }}
@@ -33,14 +34,33 @@ const FirstPhase = ({ step, setStep, classname, setClassname, division, setDivis
                         <label htmlFor="classname" className="block text-md font-medium text-white/70 mb-2 group-focus-within:text-white transition-colors duration-200">
                             Class Name
                         </label>
-                        <input
-                            type="text"
-                            id="classname"
-                            value={classname}
-                            onChange={(e) => setClassname(e.target.value)}
-                            className="w-full px-4 py-2 bg-zinc-800 border border-white/10 rounded-lg text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent transition-all duration-200"
-                            required
-                        />
+                        <div className="relative mt-2" ref={selectRef}>
+                            <div
+                                onClick={() => setIsClassSelectOpen(!isClassSelectOpen)}
+                                className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white cursor-pointer flex items-center justify-between hover:bg-white/10 hover:border-white/20 transition-all"
+                            >{classname}
+                                <ChevronDown className={`h-4 w-4 transition-transform ${isClassSelectOpen ? 'rotate-180' : ''}`} />
+                            </div>
+    
+                            <div className={`absolute z-50 w-full max-h-72 overflow-scroll mt-2 bg-[#0d0d0d] rounded-xl border border-white/10 shadow-xl transition-all duration-300 origin-top ${isClassSelectOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'}`}>
+                                {grades.map((className) => (
+                                    <div
+                                        key={className}
+                                        onClick={() => {
+                                            setClassname(className)
+                                            setIsClassSelectOpen(!isClassSelectOpen)
+                                        }}
+                                        className={`px-4 py-2 flex items-center space-x-2 cursor-pointer transition-colors
+                                        ${grades.includes(className)
+                                            ? 'bg-white/10 text-white'
+                                            : 'text-gray-400 hover:bg-white/5 hover:text-white'
+                                        }`}
+                                    >
+                                        <span className="text-sm">{className}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
                     </div>
                     <div className="group flex-1">
                         <label htmlFor="division" className="block text-md font-medium text-white/70 mb-2 group-focus-within:text-white transition-colors duration-200">
@@ -75,7 +95,7 @@ const FirstPhase = ({ step, setStep, classname, setClassname, division, setDivis
                             <Clock className="absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-white/50" />
                         </div>
                     </div>
-
+    
                     <div className="flex-1">
                         <label className="block text-md font-medium text-white/70 mb-2">Hours Per Day</label>
                         <div className="relative p-1.5 bg-zinc-800 rounded-full flex shadow-inner w-full">
@@ -120,7 +140,7 @@ const FirstPhase = ({ step, setStep, classname, setClassname, division, setDivis
                         ))}
                     </div>
                 </div>
-
+    
                 {/* Special Subject/Lab Hours */}
                 <div>
                     <label className="block text-md font-medium text-white/70 mb-2">Special Subject / Lab Hours</label>
@@ -143,7 +163,7 @@ const FirstPhase = ({ step, setStep, classname, setClassname, division, setDivis
                         ))}
                     </div>
                 </div>
-
+    
                 {/* Break Duration */}
                 <div>
                     <label className="block text-md font-medium text-white/70 mb-2">Break Duration</label>
@@ -166,7 +186,7 @@ const FirstPhase = ({ step, setStep, classname, setClassname, division, setDivis
                         ))}
                     </div>
                 </div>
-
+    
                 <button
                     type="button"
                     onClick={handleNextStep}
@@ -177,7 +197,7 @@ const FirstPhase = ({ step, setStep, classname, setClassname, division, setDivis
                 </button>
             </form>
         </motion.div>
-    )
+      );
 }
 
 export default FirstPhase

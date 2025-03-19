@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from 'react';
 import { LogIn, ArrowRight, Lock, Unlock, ChevronDown } from 'lucide-react';
 import { motion } from 'framer-motion';
 import Images from '../Login/Images'
-import { toast } from 'sonner';
 import { Link } from 'react-router-dom'
 import { Helmet } from "react-helmet-async";
 import ToastProvider from '../../components/Toaster'
@@ -28,12 +27,7 @@ const Signup = () => {
     const selectRef = useRef();
     const navigate = useNavigate()
 
-    const classes = [
-        ["Nursery", "Pre-Kindergarten", "Kindergarten"],
-        ["Class I", "Class II", "Class III", "Class IV", "Class V"],
-        ["Class VI", "Class VII", "Class VIII", "Class IX", "Class X", "Class XI", "Class XII"],
-        ["1st Year", "2nd Year", "3th Year", "4th Year", "5th Year", "6th Year", "7th Year"]
-    ]
+    
     const classesType = ["Kindergarten", "Junior High", "Higher Secondary", "College"]
 
     useEffect(() => {
@@ -44,10 +38,12 @@ const Signup = () => {
             setOrgId(orgId)
 
             if (role == 'student') {
-                const orgType = [0, 3]; // fetch from cookie
-                const totalClasses = orgType.map(x => classes[x]).flat()
-                setGrades(totalClasses)
-                setCurrentClass(totalClasses[0])
+                fetch(`http://localhost:3000/api/get/org/classes?orgId=${orgId}`)
+                .then(res=>res.json())
+                .then(({orgClasses})=>{
+                    setGrades(orgClasses)
+                    setCurrentClass(orgClasses[0])
+                })
             }
         }
         else {

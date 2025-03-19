@@ -25,7 +25,12 @@ namespace TimeFourthe.Controllers
     public class UsersController : ControllerBase
     {
         private readonly UserService _userService;
-
+        private readonly List<List<string>> classes = [
+            ["Nursery", "Pre-Kindergarten", "Kindergarten"],
+            ["Class I", "Class II", "Class III", "Class IV", "Class V"],
+            ["Class VI", "Class VII", "Class VIII", "Class IX", "Class X", "Class XI", "Class XII"],
+            ["1st Year", "2nd Year", "3th Year", "4th Year", "5th Year", "6th Year", "7th Year"]
+           ];
         public UsersController(UserService userService)
         {
             _userService = userService;
@@ -40,8 +45,11 @@ namespace TimeFourthe.Controllers
             {
                 if (userExist.Password == user.Password)
                 {
-                    object userdata = new { userId = userExist.UserId, name = userExist.Name, email = userExist.Email, role = userExist.Role,orgId=userExist.OrgId };
-                    Response.Cookies.Append("auth", new Authentication().Encode(userdata));
+                    object userdata = new { userId = userExist.UserId, name = userExist.Name, email = userExist.Email, role = userExist.Role, orgId = userExist.OrgId };
+                    Response.Cookies.Append("auth", new Authentication().Encode(userdata), new CookieOptions
+                    {
+                        Expires = DateTime.UtcNow.AddDays(7)
+                    });
                     return Ok(new
                     {
                         error = false,
@@ -53,7 +61,7 @@ namespace TimeFourthe.Controllers
                             userId = userExist.UserId,
                             role = userExist.Role,
                             email = userExist.Email,
-                            orgId=userExist.OrgId,
+                            orgId = userExist.OrgId,
                         }
                     });
                 }
@@ -84,11 +92,28 @@ namespace TimeFourthe.Controllers
         [HttpPost("user/teacher/absent")]
         public async Task<IActionResult> GetStudents([FromBody] AbsentDataRequest absentData)
         {
-            
             List<User> studentlist = await _userService.GetStudentsByOrgIdAndClassAsync(absentData);
             var filteredStudentsEmaillist = studentlist.Select(student => student.Email);
-            Absence.Mail(filteredStudentsEmaillist.ToArray(),absentData.Name,absentData.SubjectName,"Web Web Web");
+            Absence.Mail(filteredStudentsEmaillist.ToArray(), absentData.Name, absentData.SubjectName, "Web Web Web");
             return Ok(new { filteredStudentsEmaillist });
+        }
+
+        [HttpGet("get/org/classes")]
+        public OkObjectResult GetClasses()
+        {
+
+            string OrgId=Request.Query["OrgId"].ToString();
+            List<int> orgType = [0, 1, 2, 3]; // fetch from db using orgId
+            List<string> orgClasses = [];
+            foreach (var item in orgType)
+            {
+                orgClasses = orgClasses.Concat(classes[item]).ToList();
+            }
+            return Ok(new { orgClasses });
+            // List<User> studentlist = await _userService.GetStudentsByOrgIdAndClassAsync(absentData);
+            // var filteredStudentsEmaillist = studentlist.Select(student => student.Email);
+            // Absence.Mail(filteredStudentsEmaillist.ToArray(), absentData.Name, absentData.SubjectName, "Web Web Web");
+            // return Ok(new { filteredStudentsEmaillist });
         }
     }
 }

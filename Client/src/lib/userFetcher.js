@@ -8,6 +8,5 @@ export const userFetcher = (user, setUser) => {
         )
             .then(res => res.json())
             .then(({ user }) => setUser(user))
-    }
-    console.log(user);
+    };
 }

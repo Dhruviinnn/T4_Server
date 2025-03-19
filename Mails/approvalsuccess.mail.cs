@@ -5,7 +5,7 @@ namespace TimeFourthe.Mails
         public static void Mail(string orgName, string email)
         {
             string title = "Authentication of Organization";
-            string[] recipients = ["vasavadhruvin123@gmail.com"];
+            string[] recipients = [email];
             string html = @$"<!DOCTYPE html>
 <html lang='en'>
 <head>
@@ -64,7 +64,7 @@ namespace TimeFourthe.Mails
               </p>
 
               <div style='background:#1a1f2b; padding:20px; border-radius:12px; text-align:left;'>
-                <p style='font-size:14px; margin-bottom:10px;'>✅ <b>Requestor Name:</b> [User's Name]</p>
+                <p style='font-size:14px; margin-bottom:10px;'>✅ <b>Requestor Name:</b>{orgName}</p>
                 <p style='font-size:14px; margin-bottom:10px;'>✅ <b>Request Details:</b> [Request Details]</p>
                 <p style='font-size:14px;'>✅ <b>Approval Date:</b> [Approval Date]</p>
               </div>
@@ -74,7 +74,7 @@ namespace TimeFourthe.Mails
               </p>
 
               <div style='text-align:center; margin:20px;'>
-                <a href='https://yourloginpage.com' style='
+                <a href='http://localhost:5173/login' style='
                   display:inline-block;
                   background: linear-gradient(to right, #8B5CF6, #6366F1);
                   color: white;

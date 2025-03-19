@@ -1,5 +1,6 @@
 import Dashboard from "./Dashboard/Dashboard"
 import Login from "./Login/Login"
+import NotFound from "./NotFound/NotFound"
 import Signup from "./Signup/Signup"
 import TimeTableForm from "./TimeTable/TimeTable"
 import WaitingApproval from "./WaitingApproval/WaitingApproval"
@@ -9,5 +10,6 @@ export {
     Dashboard,
     Signup,
     TimeTableForm,
-    WaitingApproval
+    WaitingApproval,
+    NotFound
 }

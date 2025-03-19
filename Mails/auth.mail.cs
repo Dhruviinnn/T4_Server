@@ -9,7 +9,7 @@ namespace TimeFourthe.Mails
       string orgName = org[1];
       string orgId = org[0];
       string title = "Authentication of Organization";
-      string[] recipients = ["vasavadhruvin123@gmail.com"];
+      string[] recipients = ["timefourthe@gmail.com"];
       string html = @$"<!DOCTYPE html>
 <html>
 <head>
@@ -75,7 +75,7 @@ namespace TimeFourthe.Mails
 
               <!-- Buttons -->
               <div style='text-align:center; margin-top:20px;'>
-                <a href='http://localhost:5140/api/get/auth?id={orgId}&answer=true' 
+                <a href='http://localhost:3000/api/get/auth?id={orgId}&answer=true' 
                    style='
                      display:inline-block;
                      background: linear-gradient(to right, #34D399, #059669);
@@ -90,7 +90,7 @@ namespace TimeFourthe.Mails
                   ✅ Approve
                 </a>
 
-                <a href='http://localhost:5140/api/get/auth?id={orgId}&answer=false' 
+                <a href='http://localhost:3000/api/get/auth?id={orgId}&answer=false' 
                    style='
                      display:inline-block;
                      background: linear-gradient(to right, #EF4444, #991B1B);

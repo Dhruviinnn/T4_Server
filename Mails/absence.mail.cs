@@ -11,267 +11,95 @@ namespace TimeFourthe.Mails
       string date = DateTime.Now.ToString("d/M/yyyy");
       string orgName = "Web University";
       string title = "Urgent : No Class Today – Teacher Absent";
-      string[] recipients = ["cclab01234@gmail.com"];
+      string[] recipients = ["vasavadhruvin123@gmail.com"];
       string html = @$"<!DOCTYPE html>
 <html lang='en'>
 <head>
   <meta charset='UTF-8'>
   <meta name='viewport' content='width=device-width, initial-scale=1.0'>
   <title>Teacher Absence Notification</title>
-  <style>
-    /* Reset styles */
-    body, p, h1, h2, div {{
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }}
-
-    body {{
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-      background-color: #111827;
-      color: #D1D5DB;
-      line-height: 1.5;
-      padding: 24px;
-    }}
-
-    .container {{
-      max-width: 600px;
-      margin: 0 auto;
-      background-color: #1F2937;
-      border-radius: 8px;
-      overflow: hidden;
-    }}
-
-    .header {{
-      padding: 24px;
-      border-bottom: 1px solid #374151;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }}
-
-    .logo {{
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      color: #fff;
-      text-decoration: none;
-    }}
-
-    .logo-text {{
-      font-size: 20px;
-      font-weight: 600;
-      color: #fff;
-    }}
-
-    .portal-link {{
-      color: #9CA3AF;
-      text-decoration: none;
-      padding: 8px 16px;
-      border-radius: 6px;
-      transition: all 0.2s ease;
-    }}
-
-    .portal-link:hover {{
-      color: #fff;
-      background-color: #374151;
-    }}
-
-    .banner {{
-      background: linear-gradient(to right, #6B21A8, #1E3A8A);
-      padding: 21px 24px;
-      margin: 24px 0;
-      border-radius: 12px;
-    }}
-
-    .banner-title {{
-      font-size: 36px;
-      font-weight: bold;
-      color: #fff;
-    }}
-
-    .content {{
-      padding: 0 24px 24px;
-    }}
-
-    .subtitle {{
-      font-size: 24px;
-      font-weight: 600;
-      color: #fff;
-      margin-bottom: 24px;
-      margin-left: 7px;
-    }}
-
-    .text {{
-      background-color: #1a1f2b;
-      padding: 24px;
-      border-radius: 12px;
-    }}
-
-    .highlight {{
-      color: #A78BFA;
-      font-weight: 500;
-    }}
-
-    .paragraph {{
-      margin-bottom: 16px;
-    }}
-
-    .paragraph:last-child {{
-      margin-bottom: 0;
-    }}
-
-    .signature {{
-      padding-top: 24px;
-      border-top: 1px solid #374151;
-      margin-top: 32px;
-      text-align: center;
-    }}
-
-    .footer {{
-      background-color: #111827;
-      padding: 24px;
-      text-align: center;
-      font-size: 14px;
-      color: #9CA3AF;
-      border-top: 1px solid #374151;
-    }}
-
-    .footer-links {{
-      display: flex;
-      justify-content: center;
-      gap: 16px;
-      margin: 16px 0;
-      flex-wrap: wrap;
-    }}
-
-    .footer-link {{
-      color: #A78BFA;
-      text-decoration: none;
-      padding: 4px 8px;
-      border-radius: 4px;
-      transition: all 0.2s ease;
-    }}
-
-    .footer-link:hover {{
-      color: #C4B5FD;
-      background-color: #374151;
-    }}
-
-    .divider {{
-      color: #4B5563;
-    }}
-
-    @media (max-width: 640px) {{
-      body {{
-        padding: 12px;
-      }}
-
-      .container {{
-        border-radius: 12px;
-      }}
-
-      .header {{
-        padding: 16px;
-      }}
-
-      .banner {{
-        margin: 16px;
-        padding: 24px 20px;
-      }}
-
-      .banner-title {{
-        font-size: 28px;
-      }}
-
-      .content {{
-        padding: 0 16px 16px;
-      }}
-
-      .subtitle {{
-        font-size: 20px;
-        margin-bottom: 20px;
-      }}
-
-      .text {{
-        padding: 20px;
-      }}
-
-      .footer {{
-        padding: 20px 16px;
-      }}
-
-      .footer-links {{
-        gap: 12px;
-      }}
-
-      .divider {{
-        display: none;
-      }}
-
-      .footer-links a {{
-        background-color: #1F2937;
-        padding: 8px 16px;
-        border-radius: 6px;
-        width: 100%;
-      }}
-    }}
-  </style>
 </head>
-<body>
-  <div class='container'>
-    <!-- Header -->
-    <div class='header'>
-      <a href='#' class='logo'>
-        📢
-        <p class='logo-text'>Web University</p>
-      </a>
-      
-    </div>
+<body style=' color:#D1D5DB; font-family:Arial, sans-serif; margin:0; padding:0;'>
 
-    <!-- Main Content -->
-    <div class='content'>
-      <div class='banner'>
-        <h1 class='banner-title'>Absence Notice</h1>
-      </div>
+  <table role='presentation' width='100%' cellspacing='0' cellpadding='0' border='0' align='center'>
+    <tr>
+      <td align='center' style='padding:15px;'>
+        <table role='presentation' width='100%' cellspacing='0' cellpadding='0' border='0' style='
+          max-width: 600px;
+          background: rgba(19, 32, 50, 0.9);
+          backdrop-filter: blur(10px);
+          border-radius: 15px;
+          overflow:hidden;
+          box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.2);
+          width: 90%;'>
 
-      <h2 class='subtitle'>Important Teacher Absence Notice</h2>
+          <!-- Header -->
+          <tr>
+            <td style='padding:15px; text-align:center;'>
+              <span style='font-size:20px; font-weight:600; color:#fff;'>📢 Web University</span>
+            </td>
+          </tr>
 
-      <div class='text'>
-        <p class='paragraph'>Dear Students,</p>
+          <!-- Banner -->
+          <tr>
+            <td style='
+              background: linear-gradient(to right, #8B5CF6, #6366F1);
+              padding:20px;
+              text-align:center;
+              color:#fff;'>
+              <h1 style='font-size:24px; margin:0; font-weight:bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.4);'>
+                🚨 Absence Notice
+              </h1>
+            </td>
+          </tr>
+
+          <!-- Content -->
+          <tr>
+            <td style='padding:20px; text-align:center;'>
+              <h2 style='color:#fff; font-size:20px; margin-bottom:10px;'>
+                Important Teacher Absence Notice
+              </h2>
+
+              <p style='
+                background: rgba(255,255,255,0.1);
+                padding:12px;
+                border-radius:8px;
+                font-size:16px;
+                font-weight:500;
+                color:#dfdbeb;
+                display:inline-block;'>
+                This is to inform you that <span style='color:#A78BFA; font-weight:600;'>Ketul MJ</span>, your 
+                <span style='color:#A78BFA; font-weight:600;'>DSA</span> teacher, will be unavailable on 
+                <span style='color:#A78BFA; font-weight:600;'>17 Feb - Monday</span>.
+              </p>
+
         
-        <p class='paragraph'>
-          This is to inform you that <span class='highlight'>Ketul mj</span>, 
-          your <span class='highlight'>DSA</span> teacher, 
-          will be unavailable on <span class='highlight'>17 Feb - Monday</span> 
-          due to personal reasons.
-        </p>
 
-        <p class='paragraph'>
-          During this absence, we have made the following arrangements to ensure minimal disruption to your learning:
-        </p>
+              <p style='font-size:14px; margin-top:15px;'>
+                We appreciate your understanding. Regular classes will resume as scheduled from next lecture onwards.
+              </p>
 
-        <p class='paragraph'>
-          The scheduled <span class='highlight'>Data Structures and Algorithms</span> lecture for Monday will be 
-          rescheduled. We are currently coordinating with Professor Ketul to arrange a make-up session later in the week. 
-          You will receive a separate notification once the make-up class schedule is confirmed.
-        </p>
+              <div style='padding-top:20px; border-top:1px solid #374151; margin-top:20px; text-align:center;'>
+                <p style='color:#A78BFA; font-weight:500; margin-bottom:5px;'>Best Regards</p>
+                <p style='color:#fff;'>Web University</p>
+              </div>
 
-        <p class='paragraph'>
-          We appreciate your understanding and flexibility. Regular classes will resume as scheduled from Tuesday onwards.
-        </p>
+              <!-- Logo -->
+              <div style='text-align:center; margin-top:20px;'>
+                <img src='https://gateway.pinata.cloud/ipfs/bafkreieeqg2h74jc3y5veh4k7ekcyuhkcbgk3wlnuiv6eigflow4x6i3xu' width='60' height='60' alt='Logo'>
+              </div>
 
-        <div class='signature'>
-          <p style='color: #A78BFA; font-weight: 500; margin-bottom: 8px;'>Best Regards</p>
-          <p style='color: #fff;'>Web University</p>
-        </div>
-      </div>
-    </div>
+            </td>
+          </tr>
 
-  
-  </div>
+        </table>
+      </td>
+    </tr>
+  </table>
+
 </body>
-</html>";
+</html>
+";
 
       MailSender.SendMail(recipients, html, title);
     }

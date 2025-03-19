@@ -1,4 +1,3 @@
-
 namespace TimeFourthe.Mails
 {
     public class ApprovalSuccess
@@ -6,96 +5,108 @@ namespace TimeFourthe.Mails
         public static void Mail(string orgName, string email)
         {
             string title = "Authentication of Organization";
-            string[] recipients = [email];
+            string[] recipients = ["vasavadhruvin123@gmail.com"];
             string html = @$"<!DOCTYPE html>
 <html lang='en'>
 <head>
-    <meta charset='UTF-8'>
-    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-    <title>Approval Successful</title>
-    <style>
-        body {{
-            font-family: Arial, sans-serif;
-            background-color: #121212;
-            margin: 0;
-            padding: 20px;
-            color: #E0E0E0;
-        }}
-        .email-container {{
-            background-color: #1F1F1F;
-            border-radius: 8px;
-            padding: 30px;
-            max-width: 600px;
-            margin: 0 auto;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        }}
-        h2 {{
-            color: #FFFFFF;
-            text-align: center;
-        }}
-        p {{
-            font-size: 16px;
-            line-height: 1.5;
-            color: #D1D1D1;
-        }}
-        ul {{
-            color: #B0B0B0;
-            padding-left: 20px;
-        }}
-        li {{
-            margin-bottom: 8px;
-        }}
-        .button {{
-            display: inline-block;
-            background-color: #4CAF50;
-            color: white;
-            padding: 12px 24px;
-            font-size: 16px;
-            text-decoration: none;
-            border-radius: 4px;
-            text-align: center;
-            margin-top: 20px;
-            transition: background-color 0.3s ease;
-        }}
-        .button:hover {{
-            background-color: #45a049;
-        }}
-        .footer {{
-            text-align: center;
-            font-size: 12px;
-            color: #888;
-            margin-top: 20px;
-        }}
-        .footer a {{
-            color: #4CAF50;
-            text-decoration: none;
-        }}
-    </style>
+  <meta charset='UTF-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+  <title>Request Approval</title>
 </head>
-<body>
+<body style=' color:#D1D5DB; font-family:Arial, sans-serif; margin:0; padding:0;'>
+  <table role='presentation' width='100%' cellspacing='0' cellpadding='0' border='0' align='center'>
+    <tr>
+      <td align='center' style='padding:15px;'>
+        <table role='presentation' width='100%' cellspacing='0' cellpadding='0' border='0' style='
+          max-width: 600px;
+          background: rgba(19, 32, 50, 0.9);;
+          backdrop-filter: blur(10px);
+          border-radius: 15px;
+          overflow:hidden;
+          box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.2);
+          width: 90%;'>
 
-    <div class='email-container'>
-        <h2>Approval Successfully Granted</h2>
-        <p>Dear {orgName},</p>
+          <!-- Header -->
+          <tr>
+            <td style='padding:15px; text-align:center;'>
+              <span style='font-size:20px; font-weight:600; color:#fff;'>✅ Web University</span>
+            </td>
+          </tr>
 
-        <p>We are excited to inform you that your request has been successfully approved. Here are the details of your request:</p>
-        
-        <p>Now that your request has been approved, you can proceed with the next steps. Please click the button below to log in to your account and take further action:</p>
+          <tr>
+            <td style='
+              background: linear-gradient(to right, #8B5CF6, #6366F1);
+              padding:20px;
+              text-align:center;
+              color:#fff;'>
+              <h1 style='font-size:24px; margin:0; font-weight:bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.4);'>
+                🎉 Approval Successful
+              </h1>
+            </td>
+          </tr>
 
-        <p><a href='http://localhost:3000/login' class='button'>Go to Login Page</a></p>
+         
+          <tr>
+            <td style='padding:20px; text-align:center;'>
+              <h2 style='color:#fff; font-size:20px; margin-bottom:10px;'>
+                Request Approval Confirmation
+              </h2>
 
-        <p>If you need any further assistance or have questions, feel free to reach out to us.</p>
+              <p style='
+                background: rgba(255,255,255,0.1);
+                padding:12px;
+                border-radius:8px;
+                font-size:16px;
+                font-weight:500;
+                color:#dfdbeb;
+                display:inline-block;'>
+                Dear <span style='color:#A78BFA; font-weight:600;'>[User's Name]</span>, your request has been successfully approved.
+              </p>
 
-        <p>Thank you for your patience, and we look forward to your continued engagement with us!</p>
+              <div style='background:#1a1f2b; padding:20px; border-radius:12px; text-align:left;'>
+                <p style='font-size:14px; margin-bottom:10px;'>✅ <b>Requestor Name:</b> [User's Name]</p>
+                <p style='font-size:14px; margin-bottom:10px;'>✅ <b>Request Details:</b> [Request Details]</p>
+                <p style='font-size:14px;'>✅ <b>Approval Date:</b> [Approval Date]</p>
+              </div>
 
-        <p>Best regards,</p>
-        <p>[Your Organization Name]</p>
+              <p style='font-size:14px; margin-top:12px;'>
+                Now that your request is approved, you can proceed with the next steps. Click the button below to access your account:
+              </p>
 
-        <div class='footer'>
-            <p>© [Current Year] [Your Organization]. All rights reserved. <br><a href='https://yourwebsite.com'>Visit Our Website</a></p>
-        </div>
-    </div>
+              <div style='text-align:center; margin:20px;'>
+                <a href='https://yourloginpage.com' style='
+                  display:inline-block;
+                  background: linear-gradient(to right, #8B5CF6, #6366F1);
+                  color: white;
+                  text-decoration: none;
+                  padding:12px 24px;
+                  border-radius:6px;
+                  font-weight:600;
+                  transition: opacity 0.3s;'>
+                  Go to Login Page
+                </a>
+              </div>
 
+              <p style='font-size:14px; margin-top:15px;'>
+                If you need assistance, our support team is happy to help.
+              </p>
+
+              <div style='padding-top:20px; border-top:1px solid #374151; margin-top:20px; text-align:center;'>
+                <p style='color:#A78BFA; font-weight:500; margin-bottom:5px;'>Best Regards</p>
+                <p style='color:#fff;'>Web University</p>
+              </div>
+
+              <!-- Logo -->
+              <div style='text-align:center; margin-top:20px;'>
+                <img src='https://gateway.pinata.cloud/ipfs/bafkreieeqg2h74jc3y5veh4k7ekcyuhkcbgk3wlnuiv6eigflow4x6i3xu' width='60' height='60' alt='Logo'>
+              </div>
+
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
 </body>
 </html>
 ";

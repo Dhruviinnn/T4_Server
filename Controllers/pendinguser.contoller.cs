@@ -20,11 +20,12 @@ namespace TimeFourthe.Controllers
         [HttpPost("user/signup")]
         public async Task<IActionResult> CreatePendingUser([FromBody] User user)
         {
-            var userExist = await _userService.GetUserAsync(user.Email);
-            if (userExist != null) return Ok(new { error = true, message = "User already exists" });
-
             if (user.Role != "organization")
             {
+                User orgExist = await _userService.GetOrganizationByOrgId(user.OrgId);
+                if (orgExist == null) return Ok(new { error = true, message = "This Organization is not exists" });
+                User userExist = await _userService.GetUserAsync(user.Email);
+                if (userExist != null) return Ok(new { error = true, message = "User already exists" });
                 Console.WriteLine("Sign up for Teacher/Student");
                 try
                 {
@@ -32,7 +33,7 @@ namespace TimeFourthe.Controllers
                     Response.Cookies.Append("auth", new Authentication().Encode(
                         new
                         {
-                            id = user.UserId,
+                            userId = user.UserId,
                             name = user.Name,
                             email = user.Email,
                             role = user.Role
@@ -44,14 +45,36 @@ namespace TimeFourthe.Controllers
 
                     throw;
                 }
-                return Ok(new { message = "User created successfully", id = user.Id });
+                return Ok(new
+                {
+                    message = "User created successfully",
+                    userData = new
+                    {
+                        name = user.Name,
+                        userId = user.UserId,
+                        role = user.Role,
+                        email = user.Email
+                    }
+                });
             }
             else
             {
+                var pendingUserExist = await _pendingUserService.GetPendingUserAsync(user.Email);
+                if (pendingUserExist != null) return Ok(new { error = true, message = "Your request has not been approved yet " });
                 Console.WriteLine("Sign up for Organization");
                 List<string> org = await _pendingUserService.CreatePendingUserAsync(user);
                 Auth.Mail(org);
-                return Ok(new { id = user.Name });
+                return Ok(new
+                {
+                    id = user.Name,
+                    userData = new
+                    {
+                        name = user.Name,
+                        userId = user.UserId,
+                        role = user.Role,
+                        email = user.Email
+                    }
+                });
             }
         }
 

@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { School, Users, Building2 } from 'lucide-react';
+import { School, Users, Building2, Share2 } from 'lucide-react';
 import Navbar from '../../components/Navbar';
 import OrganizationView from './OrganizationView';
 import ConfirmationDialog from './ConfirmationDialog';
@@ -7,6 +7,12 @@ import ScheduleStudentView from './ScheduleStudentView';
 import ScheduleTeacherView from './ScheduleTeacherView';
 import WeeklyTimetableModal from './WeeklyTimetableModel';
 import { Helmet } from "react-helmet-async";
+import { toast } from 'sonner'
+import ToastProvider from '../../components/Toaster'
+import { encode, decode } from 'js-base64'
+import { useNavigate } from 'react-router-dom'
+import { useUser } from '../../contexts/user.context';
+import { userFetcher } from '../../lib/userFetcher';
 
 const mockTimetables = [
     {
@@ -91,12 +97,26 @@ const mockWeekSchedule = {
     ]
 };
 
-
+const ShareButton = ({ title, forX, user }) => (
+    <button onClick={() => {
+        const data = { orgId: user.userId, role: forX }
+        const encodedURL = `http://localhost:5173/signup/${encode(JSON.stringify(data))}`
+        navigator.clipboard.writeText(encodedURL)
+        toast.success(`Link Copied 🎉`, {
+            duration: 5000,
+            style: { backgroundColor: "#16a34a", color: "white", fontSize: "1rem" },
+        });
+    }} className='flex items-center space-x-2 text-indigo-400 hover:text-indigo-300 px-3 py-2 rounded-lg hover:bg-indigo-400/10 transition-colors cursor-pointer' >
+        <Share2 className="w-4 h-4" />
+        <span>{title}</span>
+    </button >
+)
 
 const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
 const Dashboard = () => {
-    const [user, setUser] = useState({})
+    const navigate = useNavigate()
+    const [user, setUser] = useUser()
     const [selectedDay, setSelectedDay] = useState(() => {
         const today = new Date();
         return days[today.getDay() === 0 ? 6 : today.getDay() - 1];
@@ -110,19 +130,9 @@ const Dashboard = () => {
         isUnmarking: false
     });
     const handleCloseModal = () => { setIsModalOpen(false) }
+
     useEffect(() => {
-        const email = 'cclab01234@gmail.com' // fetch this email from cookie
-        fetch('http://localhost:3000/api/user/get',
-            {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ email })
-            }
-        )
-            .then(res => res.json())
-            .then(({ user }) => setUser({ name: user.name, userId: user.userId, role: user.role }))
+        userFetcher(user, setUser)
     }, []);
 
     const handleConfirmAbsent = () => { }
@@ -133,20 +143,27 @@ const Dashboard = () => {
                 <link rel="icon" type="image/png" href="/home-icon.png" />
             </Helmet>
 
-            <div className="animate-on-mount glass-effect rounded-xl p-6 transition-all duration-300 hover:bg-white/15">
-                <div className="flex items-center gap-4">
-                    <div className="p-4 glass-effect rounded-lg hover-scale">
-                        {user.role === "organization" ? (
-                            <Building2 className="h-6 w-6 text-white transition-all duration-300 hover:text-zinc-200" />
-                        ) : user.role === "teacher" ? (
-                            <Users className="h-6 w-6 text-white transition-all duration-300 hover:text-zinc-200" />
-                        ) : (
-                            <School className="h-6 w-6 text-white transition-all duration-300 hover:text-zinc-200" />
-                        )}
+            <div className="animate-on-mount glass-effect rounded-xl p-6 transition-all duration-300 ">
+                <ToastProvider />
+                <div className="flex justify-between items-center gap-4">
+                    <div className='flex items-center gap-x-1'>
+                        <div className="p-4 glass-effect rounded-lg hover-scale">
+                            {user.role === "organization" ? (
+                                <Building2 className="h-6 w-6 text-white transition-all duration-300 hover:text-zinc-200" />
+                            ) : user.role === "teacher" ? (
+                                <Users className="h-6 w-6 text-white transition-all duration-300 hover:text-zinc-200" />
+                            ) : (
+                                <School className="h-6 w-6 text-white transition-all duration-300 hover:text-zinc-200" />
+                            )}
+                        </div>
+                        <div className="slide-in">
+                            <h2 className="text-white text-xl font-semibold tracking-tight">{user.name}</h2>
+                            <p className="text-white/70 text-sm font-medium">ID: {user.userId}</p>
+                        </div>
                     </div>
-                    <div className="slide-in">
-                        <h2 className="text-white text-xl font-semibold tracking-tight">{user.name}</h2>
-                        <p className="text-white/70 text-sm font-medium">ID: {user.userId}</p>
+                    <div className='flex gap-x-2'>
+                        <ShareButton url={'s'} title={'Share for Students'} forX={'student'} user={user} />
+                        <ShareButton url={'s'} title={'Share for Teachers'} forX={'teacher'} user={user} />
                     </div>
                 </div>
             </div>
@@ -188,10 +205,10 @@ const Dashboard = () => {
                             <WeekNavigator />
                             <div className="animate-on-mount">
                                 <ScheduleTeacherView
-                                    selectedDate={selectedDate}
+                                    // selectedDate={selectedDate}
                                     selectedDay={selectedDay}
                                     mockTeacherSchedule={mockTeacherSchedule}
-                                    currentDate={currentDate}
+                                    // currentDate={currentDate}
                                     days={days}
                                     absentClasses={absentClasses}
                                     setConfirmDialog={setConfirmDialog}

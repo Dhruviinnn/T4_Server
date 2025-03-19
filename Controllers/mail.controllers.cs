@@ -15,12 +15,6 @@ namespace TimeFourthe.Controllers
             _timetableService = timetableService;
         }
 
-        [HttpPost("send-otp")]
-        public async Task<IActionResult> OtpMail()
-        {
-            Otp.Mail();
-            return Ok(new { id = 'f' });
-        }
         [HttpPost("send-auth")]
         public async Task<IActionResult> Authx()
         {

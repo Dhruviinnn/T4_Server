@@ -1,11 +1,18 @@
 ###
+GET http://localhost:3000/api/get/students/email?OrgId=ORG983156005450
+
+###
 POST http://localhost:3000/api/user/login
 Content-Type: application/json
 
 {
-    "email":"habi1112bi@gmail.com",
+    "email":"theharshiile@gmail.com",
     "password":"12"
 }
 
 ###
-POST http://localhost:3000/api/decode
+POST http://localhost:3000/api/user/get
+Cookie: auth=eyJpZCI6IlRDSDIwNjUzMzI0MDI4OSIsIm5hbWUiOiJIYWJpYmlfMTIiLCJlbWFpbCI6InRoZWhhcnNoaWlsZUBnbWFpbC5jb20iLCJyb2xlIjoidGVhY2hlciJ9
+
+
+

@@ -1,0 +1,122 @@
+[
+  {
+    "UserId": "TCH206533240289",
+    "Name": "Habibi_12",
+    "Email": "habibi12bi@gmail.com",
+    "Password": "12",
+    "Role": "teacher",
+    "OrgId": "ORG983156005450"
+  },
+  {
+    "UserId": "TCH206533240290",
+    "Name": "Alice_Wonder",
+    "Email": "alice.wonder@gmail.com",
+    "Password": "pass123",
+    "Role": "teacher",
+    "OrgId": "ORG983156005450"
+  },
+  {
+    "UserId": "TCH206533240291",
+    "Name": "Bob_Math",
+    "Email": "bob.math@gmail.com",
+    "Password": "securepass",
+    "Role": "teacher",
+    "OrgId": "ORG983156005450"
+  },
+  {
+    "UserId": "TCH206533240292",
+    "Name": "Charlie_Sci",
+    "Email": "charlie.sci@gmail.com",
+    "Password": "science@123",
+    "Role": "teacher",
+    "OrgId": "ORG983156005450"
+  },
+  {
+    "UserId": "TCH206533240293",
+    "Name": "David_Eng",
+    "Email": "david.eng@gmail.com",
+    "Password": "englishpass",
+    "Role": "teacher",
+    "OrgId": "ORG983156005450"
+  },
+  {
+    "UserId": "TCH206533240294",
+    "Name": "Eva_History",
+    "Email": "eva.history@gmail.com",
+    "Password": "history2025",
+    "Role": "teacher",
+    "OrgId": "ORG983156005450"
+  },
+  {
+    "UserId": "TCH206533240295",
+    "Name": "Frank_Physics",
+    "Email": "frank.physics@gmail.com",
+    "Password": "phy$ics123",
+    "Role": "teacher",
+    "OrgId": "ORG983156005450"
+  },
+  {
+    "UserId": "TCH206533240296",
+    "Name": "Grace_Biology",
+    "Email": "grace.biology@gmail.com",
+    "Password": "bio#321",
+    "Role": "teacher",
+    "OrgId": "ORG983156005450"
+  },
+  {
+    "UserId": "TCH206533240297",
+    "Name": "Henry_Chem",
+    "Email": "henry.chem@gmail.com",
+    "Password": "chemi@2025",
+    "Role": "teacher",
+    "OrgId": "ORG983156005450"
+  },
+  {
+    "UserId": "TCH206533240298",
+    "Name": "Ivy_Geo",
+    "Email": "ivy.geo@gmail.com",
+    "Password": "geo$567",
+    "Role": "teacher",
+    "OrgId": "ORG983156005450"
+  },
+  {
+    "UserId": "TCH206533240299",
+    "Name": "Jack_Psych",
+    "Email": "jack.psych@gmail.com",
+    "Password": "mind@study",
+    "Role": "teacher",
+    "OrgId": "ORG983156005450"
+  },
+  {
+    "UserId": "TCH206533240300",
+    "Name": "Karen_Arts",
+    "Email": "karen.arts@gmail.com",
+    "Password": "artlover",
+    "Role": "teacher",
+    "OrgId": "ORG983156005450"
+  },
+  {
+    "UserId": "TCH206533240301",
+    "Name": "Leo_PE",
+    "Email": "leo.pe@gmail.com",
+    "Password": "fitnesslife",
+    "Role": "teacher",
+    "OrgId": "ORG983156005450"
+  },
+  {
+    "UserId": "TCH206533240302",
+    "Name": "Mia_Music",
+    "Email": "mia.music@gmail.com",
+    "Password": "melody123",
+    "Role": "teacher",
+    "OrgId": "ORG983156005450"
+  },
+  {
+    "UserId": "TCH206533240303",
+    "Name": "Noah_CompSci",
+    "Email": "noah.cs@gmail.com",
+    "Password": "coding@123",
+    "Role": "teacher",
+    "OrgId": "ORG983156005450"
+  }
+]

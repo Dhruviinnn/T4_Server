@@ -3,7 +3,7 @@ import { Calendar, AlertTriangle, Clock, GraduationCap, UserX } from 'lucide-rea
 
 
 
-const ScheduleTeacherView = ({ selectedDay, mockTeacherSchedule, selectedDate, currentDate, days, absentClasses, setConfirmDialog }) => {
+const ScheduleTeacherView = ({ selectedDay, mockTeacherSchedule, days, absentClasses, setConfirmDialog }) => {
     // Get current date information
 
 

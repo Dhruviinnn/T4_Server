@@ -6,13 +6,13 @@ POST http://localhost:3000/api/user/login
 Content-Type: application/json
 
 {
-    "email":"theharshiile@gmail.com",
-    "password":"12"
+    "email":"eva.history@gmail.com",
+    "password":"history2025"
 }
 
 ###
-POST http://localhost:3000/api/user/get
-Cookie: auth=eyJpZCI6IlRDSDIwNjUzMzI0MDI4OSIsIm5hbWUiOiJIYWJpYmlfMTIiLCJlbWFpbCI6InRoZWhhcnNoaWlsZUBnbWFpbC5jb20iLCJyb2xlIjoidGVhY2hlciJ9
+GET http://localhost:3000/api/user/get
+Set: Cookie: auth=eyJ1c2VySWQiOiJUQ0gyMDY1MzMyNDAyOTQiLCJuYW1lIjoiRXZhX0hpc3RvcnkiLCJlbWFpbCI6ImV2YS5oaXN0b3J5QGdtYWlsLmNvbSIsInJvbGUiOiJ0ZWFjaGVyIn0=
 
 
 

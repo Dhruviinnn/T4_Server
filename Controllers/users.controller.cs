@@ -63,12 +63,12 @@ namespace TimeFourthe.Controllers
         public async Task<IActionResult> GetTeachers()
         {
             List<User> teacherlist = await _userService.GetTechersByOrgIdAsync(Request.Query["OrgId"].ToString());
-            var filteredTeacherlist = teacherlist.Select(teacher => new { id = teacher.Id, name = teacher.Name });
+            var filteredTeacherlist = teacherlist.Select(teacher => new { userId = teacher.Id, name = teacher.Name });
             return Ok(filteredTeacherlist);
         }
 
         [HttpGet("user/get")]
-        public async Task<IActionResult> GetUser([FromBody] EmailRequest body)
+        public OkObjectResult GetUser()
         {
             var auth = Request.Cookies["auth"];
             if (auth != null) return Ok(new { user = new Authentication().Decode(auth) });

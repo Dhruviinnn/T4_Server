@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { LogIn, ArrowRight, Lock, Unlock, ChevronDown } from 'lucide-react';
 import { motion } from 'framer-motion';
 import Images from '../Login/Images'
+import { toast } from 'sonner';
 import { Link } from 'react-router-dom'
 import { Helmet } from "react-helmet-async";
 import ToastProvider from '../../components/Toaster'
@@ -89,7 +90,7 @@ const Signup = () => {
                 }
                 else {
                     setUser(userData)
-                    if (role == 'Organization') navigate('/waiting-approval')
+                    if (role == 'organization') navigate('/waiting-approval')
                     else {
                         toast.loading('message')
                         setTimeout(() => {

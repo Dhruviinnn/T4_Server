@@ -20,12 +20,12 @@ namespace TimeFourthe.Controllers
         [HttpPost("user/signup")]
         public async Task<IActionResult> CreatePendingUser([FromBody] User user)
         {
+                User userExist = await _userService.GetUserAsync(user.Email);
+                if (userExist != null) return Ok(new { error = true, message = "User already exists" });
             if (user.Role != "organization")
             {
                 User orgExist = await _userService.GetOrganizationByOrgId(user.OrgId);
                 if (orgExist == null) return Ok(new { error = true, message = "This Organization is not exists" });
-                User userExist = await _userService.GetUserAsync(user.Email);
-                if (userExist != null) return Ok(new { error = true, message = "User already exists" });
                 Console.WriteLine("Sign up for Teacher/Student");
                 try
                 {
@@ -88,12 +88,9 @@ namespace TimeFourthe.Controllers
             var deletedUser = await _pendingUserService.DeletePendingUserAsync(orgId);
             if (approve == "true")
             {
-                HttpClient client = new HttpClient();
-                string json = JsonSerializer.Serialize(deletedUser);
-                StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await client.PostAsync("http://localhost:3000/api/user/create", content);
+               await _userService.CreateUserAsync(deletedUser);
                 ApprovalSuccess.Mail(deletedUser.Name, deletedUser.Email);
-                return Ok(new { message = "Your application is approved by autority", response });
+                return Ok(new { message = "Your application is approved by autority" });
             }
             else
             {

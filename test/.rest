@@ -10,5 +10,9 @@ Content-Type: application/json
     "password":"12"
 }
 
+###
+POST http://localhost:3000/api/user/get
+Cookie: auth=eyJpZCI6IlRDSDIwNjUzMzI0MDI4OSIsIm5hbWUiOiJIYWJpYmlfMTIiLCJlbWFpbCI6InRoZWhhcnNoaWlsZUBnbWFpbC5jb20iLCJyb2xlIjoidGVhY2hlciJ9
+
 
 

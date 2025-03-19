@@ -10,6 +10,9 @@ import { Helmet } from "react-helmet-async";
 import { toast } from 'sonner'
 import ToastProvider from '../../components/Toaster'
 import { encode, decode } from 'js-base64'
+import { useNavigate } from 'react-router-dom'
+import { useUser } from '../../contexts/user.context';
+import { userFetcher } from '../../lib/userFetcher';
 
 const mockTimetables = [
     {
@@ -94,11 +97,9 @@ const mockWeekSchedule = {
     ]
 };
 
-const ShareButton = ({ url, title, forX }) => (
-    < button onClick={() => {
-        const orgId = 'ORG983156005450' // fetch from cookie
-
-        const data = { orgId, role: forX }
+const ShareButton = ({ title, forX, user }) => (
+    <button onClick={() => {
+        const data = { orgId: user.userId, role: forX }
         const encodedURL = `http://localhost:5173/signup/${encode(JSON.stringify(data))}`
         navigator.clipboard.writeText(encodedURL)
         toast.success(`Link Copied 🎉`, {
@@ -114,7 +115,8 @@ const ShareButton = ({ url, title, forX }) => (
 const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
 const Dashboard = () => {
-    const [user, setUser] = useState({})
+    const navigate = useNavigate()
+    const [user, setUser] = useUser()
     const [selectedDay, setSelectedDay] = useState(() => {
         const today = new Date();
         return days[today.getDay() === 0 ? 6 : today.getDay() - 1];
@@ -128,19 +130,9 @@ const Dashboard = () => {
         isUnmarking: false
     });
     const handleCloseModal = () => { setIsModalOpen(false) }
+
     useEffect(() => {
-        const email = 'webuniversity@gmail.com' // fetch this email from cookie
-        fetch('http://localhost:3000/api/user/get',
-            {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ email })
-            }
-        )
-            .then(res => res.json())
-            .then(({ user }) => setUser({ name: user.name, userId: user.userId, role: user.role }))
+        userFetcher(user, setUser)
     }, []);
 
     const handleConfirmAbsent = () => { }
@@ -170,8 +162,8 @@ const Dashboard = () => {
                         </div>
                     </div>
                     <div className='flex gap-x-2'>
-                        <ShareButton url={'s'} title={'Share for Students'} forX={'student'} />
-                        <ShareButton url={'s'} title={'Share for Teachers'} forX={'teacher'} />
+                        <ShareButton url={'s'} title={'Share for Students'} forX={'student'} user={user} />
+                        <ShareButton url={'s'} title={'Share for Teachers'} forX={'teacher'} user={user} />
                     </div>
                 </div>
             </div>
@@ -213,10 +205,10 @@ const Dashboard = () => {
                             <WeekNavigator />
                             <div className="animate-on-mount">
                                 <ScheduleTeacherView
-                                    selectedDate={selectedDate}
+                                    // selectedDate={selectedDate}
                                     selectedDay={selectedDay}
                                     mockTeacherSchedule={mockTeacherSchedule}
-                                    currentDate={currentDate}
+                                    // currentDate={currentDate}
                                     days={days}
                                     absentClasses={absentClasses}
                                     setConfirmDialog={setConfirmDialog}

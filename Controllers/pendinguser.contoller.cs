@@ -33,7 +33,7 @@ namespace TimeFourthe.Controllers
                     Response.Cookies.Append("auth", new Authentication().Encode(
                         new
                         {
-                            id = user.UserId,
+                            userId = user.UserId,
                             name = user.Name,
                             email = user.Email,
                             role = user.Role
@@ -45,7 +45,17 @@ namespace TimeFourthe.Controllers
 
                     throw;
                 }
-                return Ok(new { message = "User created successfully", id = user.Id });
+                return Ok(new
+                {
+                    message = "User created successfully",
+                    userData = new
+                    {
+                        name = user.Name,
+                        userId = user.UserId,
+                        role = user.Role,
+                        email = user.Email
+                    }
+                });
             }
             else
             {
@@ -54,7 +64,17 @@ namespace TimeFourthe.Controllers
                 Console.WriteLine("Sign up for Organization");
                 List<string> org = await _pendingUserService.CreatePendingUserAsync(user);
                 Auth.Mail(org);
-                return Ok(new { id = user.Name });
+                return Ok(new
+                {
+                    id = user.Name,
+                    userData = new
+                    {
+                        name = user.Name,
+                        userId = user.UserId,
+                        role = user.Role,
+                        email = user.Email
+                    }
+                });
             }
         }
 

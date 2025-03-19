@@ -7,9 +7,11 @@ import { Helmet } from "react-helmet-async";
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner'
 import ToastProvider from '../../components/Toaster'
+import { useUser } from '../../contexts/user.context';
 
 const Login = () => {
     const [email, setEmail] = useState("");
+    const [, setUser] = useUser()
     const [passwordType, setPasswordType] = useState("password")
     const [password, setPassword] = useState("");
     const passwordRef = useRef();
@@ -34,14 +36,16 @@ const Login = () => {
             headers: {
                 'Content-Type': 'application/json'
             },
+            credentials: "include",
             body: JSON.stringify(data)
         })
             .then(res => res.json())
-            .then(({ error, message, redirectUrl }) => {
+            .then(({ error, message, redirectUrl, userData }) => {
                 if (error) {
                     toast.error(message)
                 }
                 else {
+                    setUser(userData)
                     toast.success(message)
                     setTimeout(() => {
                         navigate(redirectUrl)

@@ -7,9 +7,11 @@ import { Helmet } from "react-helmet-async";
 import ToastProvider from '../../components/Toaster'
 import { useParams, useNavigate } from 'react-router-dom';
 import { decode } from 'js-base64'
+import { useUser } from '../../contexts/user.context';
 
 const Signup = () => {
     const { url } = useParams()
+    const [, setUser] = useUser();
     const [role, setRole] = useState(null);
     const [email, setEmail] = useState("");
     const [name, setName] = useState("")
@@ -70,31 +72,32 @@ const Signup = () => {
         if (data.role == 'student') data.class = currentClass;
         console.log(data);
 
-        // fetch('http://localhost:3000/api/user/signup', {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     },
-        //     body: JSON.stringify(data)
-        // })
-        //     .then(res => res.json())
-        //     .then(({ error, message }) => {
-        //         if (error) {
-        //             toast.error(message), {
-        //                 duration: 4000,
-        //                 style: { backgroundColor: "Red", color: "White", fontSize: "1rem" },
-        //             }
-        //         }
-        //         else {
-        //             if (role == 'Organization') navigate('/waiting-approval')
-        //             else {
-        //                 toast.loading('message')
-        //                 setTimeout(() => {
-        //                     navigate('/timetable')
-        //                 }, 500);
-        //             }
-        //         }
-        //     })
+        fetch('http://localhost:3000/api/user/signup', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(res => res.json())
+            .then(({ error, message, userData }) => {
+                if (error) {
+                    toast.error(message), {
+                        duration: 4000,
+                        style: { backgroundColor: "Red", color: "White", fontSize: "1rem" },
+                    }
+                }
+                else {
+                    setUser(userData)
+                    if (role == 'Organization') navigate('/waiting-approval')
+                    else {
+                        toast.loading('message')
+                        setTimeout(() => {
+                            navigate('/timetable')
+                        }, 500);
+                    }
+                }
+            })
 
     };
     const capitilization = () => {

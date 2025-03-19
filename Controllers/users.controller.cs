@@ -7,6 +7,7 @@ using System.Security.Claims;
 using System.Text;
 using AuthString;
 using System.Text.Json;
+using Microsoft.AspNetCore.Http;
 
 namespace TimeFourthe.Controllers
 {
@@ -34,11 +35,21 @@ namespace TimeFourthe.Controllers
             {
                 if (userExist.Password == user.Password)
                 {
-                    // cookie generation
-                    object userdata = new { id = userExist.UserId, name = userExist.Name, email = userExist.Email, role = userExist.Role };
-                    Console.WriteLine(new Authentication().Encode(userdata));
+                    object userdata = new { userId = userExist.UserId, name = userExist.Name, email = userExist.Email, role = userExist.Role };
                     Response.Cookies.Append("auth", new Authentication().Encode(userdata));
-                    return Ok(new { error = false, redirectUrl = "/timetable", message = "Succesfully Login" });
+                    return Ok(new
+                    {
+                        error = false,
+                        redirectUrl = "/timetable",
+                        message = "Succesfully Login",
+                        userData = new
+                        {
+                            name = userExist.Name,
+                            userId = userExist.UserId,
+                            role = userExist.Role,
+                            email = userExist.Email
+                        }
+                    });
                 }
                 else
                 {
@@ -52,15 +63,16 @@ namespace TimeFourthe.Controllers
         public async Task<IActionResult> GetTeachers()
         {
             List<User> teacherlist = await _userService.GetTechersByOrgIdAsync(Request.Query["OrgId"].ToString());
-            var filteredTeacherlist = teacherlist.Select(teacher => new { id = teacher.Id, name = teacher.Name });
+            var filteredTeacherlist = teacherlist.Select(teacher => new { userId = teacher.Id, name = teacher.Name });
             return Ok(filteredTeacherlist);
         }
 
-        [HttpPost("user/get")]
-        public async Task<IActionResult> GetUser([FromBody] EmailRequest body)
+        [HttpGet("user/get")]
+        public OkObjectResult GetUser()
         {
-            var userExist = await _userService.GetUserAsync(body.Email);
-            return Ok(new { user = userExist });
+            var auth = Request.Cookies["auth"];
+            if (auth != null) return Ok(new { user = new Authentication().Decode(auth) });
+            return Ok(new { error = true, message = "Authorization failed" });
         }
 
         [HttpGet("get/students/email")]
@@ -68,7 +80,7 @@ namespace TimeFourthe.Controllers
         {
             List<User> studentlist = await _userService.GetStudentsByOrgIdAsync(Request.Query["OrgId"].ToString());
             var filteredStudentsEmaillist = studentlist.Select(student => student.Email);
-            return Ok(filteredStudentsEmaillist);
+            return Ok(new { filteredStudentsEmaillist });
         }
     }
 }

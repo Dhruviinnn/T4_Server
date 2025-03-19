@@ -1,4 +1,4 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Toaster, toast } from 'sonner';
 import { AnimatePresence } from "framer-motion";
 import Navbar from "../../components/Navbar";
@@ -6,8 +6,11 @@ import FirstPhase from "./FirstPhase";
 import SecondPhase from "./SecondPhase";
 import TeacherPanel from "./TeacherPanel";
 import { Helmet } from "react-helmet-async";
+import { userFetcher } from '../../lib/userFetcher';
+import { useUser } from "../../contexts/user.context";
 
 const TimeTableForm = () => {
+	const [user, setUser] = useUser()
 	const [step, setStep] = useState(1);
 	const [organizationTeachers, setOrganizationTeachers] = useState({});
 	const [periodDuration, setPeriodDuration] = useState(30);
@@ -24,16 +27,22 @@ const TimeTableForm = () => {
 	const [selectingSecondTeacher, setSelectingSecondTeacher] = useState(false);
 
 	useEffect(() => {
-		const OrgId="2"
-		fetch(`http://localhost:3000/api/get/teachers?OrgId=${OrgId}`)
-            .then(res => res.json())
-            .then(data => {
-				console.log(data);
-				
-				data && setOrganizationTeachers(data);
-            })
+		userFetcher(user, setUser)
 	}, [])
-	
+
+	useEffect(() => {
+		if (user.userId) {
+			const OrgId = user.userId;
+			console.log(OrgId);
+			fetch(`http://localhost:3000/api/get/teachers?OrgId=${OrgId}`)
+				.then(res => res.json())
+				.then(data => {
+					console.log(data);
+					data && setOrganizationTeachers(data);
+				})
+		}
+	}, [user])
+
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		if (subjects.length === 0) {

@@ -1,8 +1,9 @@
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { TimeTableForm, Login, Dashboard, Signup, WaitingApproval } from './pages/index'
+import { TimeTableForm, Login, Dashboard, Signup, WaitingApproval, NotFound } from './pages/index'
 import { HelmetProvider } from "react-helmet-async";
+
 
 createRoot(document.getElementById('root')).render(
     <HelmetProvider>
@@ -13,6 +14,7 @@ createRoot(document.getElementById('root')).render(
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/waiting-approval" element={<WaitingApproval />} />
+                <Route path="/:nothing" element={<NotFound/> } />
             </Routes>
         </BrowserRouter>
     </HelmetProvider>

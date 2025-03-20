@@ -74,7 +74,7 @@ namespace TimeFourthe.Controllers
                                 teacherSchedule[day] = new HashSet<string>();
                             }
                             teacherSchedule[day].Add(teacher.TeacherId);
-                        }
+                        
                         try
                         {
                             tt[i].Add(new Period { StartTime = currentStartTime, Subject = subject });
@@ -85,6 +85,7 @@ namespace TimeFourthe.Controllers
                             // throw;
                         }
                         currentStartTime += TimeTable.PeriodDuration;
+                        }
                     }
                 }
             }

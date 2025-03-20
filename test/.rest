@@ -1,5 +1,5 @@
 ###
-GET http://localhost:3000/api/get/students/email?OrgId=ORG983156005450
+GET http://localhost:3000/api/get/timetable?OrgId=ORG983156005450
 
 ###
 POST http://localhost:3000/api/user/login
@@ -17,4 +17,4 @@ Set: Cookie: auth=eyJ1c2VySWQiOiJUQ0gyMDY1MzMyNDAyOTQiLCJuYW1lIjoiRXZhX0hpc3Rvcn
 
 
 ###
-GET http://localhost:3000/api/get/org/classes
+POST http://localhost:3000/api/send-auth

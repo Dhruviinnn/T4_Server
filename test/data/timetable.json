@@ -1,0 +1,197 @@
+{
+  "OrgId": "ORG983156005450",
+  "Class": "Class X",
+  "Division": "A",
+  "Year": 2024,
+  "StartTime": 540,
+  "HoursPerDay": 6,
+  "PeriodDuration": 45,
+  "BreakDuration": 10,
+  "LabDuration": 90,
+  "Timetable": {
+      "Monday": [
+          {
+              "StartTime": 600,
+              "IsLab": false,
+              "Subject": {
+                  "Name": "Physics",
+                  "Teacher": {
+                      "Name": "Frank_Physics",
+                      "TeacherId": "TCH206533240295"
+                  }
+              }
+          },
+          {
+              "StartTime": 660,
+              "IsLab": false,
+              "Subject": {
+                  "Name": "Chemistry",
+                  "Teacher": {
+                      "Name": "Henry_Chem",
+                      "TeacherId": "TCH206533240297"
+                  }
+              }
+          },
+          {
+              "StartTime": 720,
+              "IsLab": false,
+              "Subject": {
+                  "Name": "History",
+                  "Teacher": {
+                      "Name": "Eva_History",
+                      "TeacherId": "TCH206533240294"
+                  }
+              }
+          },
+          {
+              "StartTime": 780,
+              "IsLab": false,
+              "Subject": {
+                  "Name": "Science",
+                  "Teacher": {
+                      "Name": "Charlie_Sci",
+                      "TeacherId": "TCH206533240292"
+                  }
+              }
+          }
+      ],
+      "Tuesday": [
+          {
+              "StartTime": 600,
+              "IsLab": false,
+              "Subject": {
+                  "Name": "History",
+                  "Teacher": {
+                      "Name": "Eva_History",
+                      "TeacherId": "TCH206533240294"
+                  }
+              }
+          },
+          {
+              "StartTime": 660,
+              "IsLab": false,
+              "Subject": {
+                  "Name": "Physics",
+                  "Teacher": {
+                      "Name": "Frank_Physics",
+                      "TeacherId": "TCH206533240295"
+                  }
+              }
+          },
+          {
+              "StartTime": 720,
+              "IsLab": false,
+              "Subject": {
+                  "Name": "Biology",
+                  "Teacher": {
+                      "Name": "Grace_Biology",
+                      "TeacherId": "TCH206533240296"
+                  }
+              }
+          },
+          {
+              "StartTime": 780,
+              "IsLab": false,
+              "Subject": {
+                  "Name": "Science",
+                  "Teacher": {
+                      "Name": "Charlie_Sci",
+                      "TeacherId": "TCH206533240292"
+                  }
+              }
+          }
+      ],
+      "Wednesday": [
+          {
+              "StartTime": 600,
+              "IsLab": false,
+              "Subject": {
+                  "Name": "Physics",
+                  "Teacher": {
+                      "Name": "Frank_Physics",
+                      "TeacherId": "TCH206533240295"
+                  }
+              }
+          },
+          {
+              "StartTime": 660,
+              "IsLab": false,
+              "Subject": {
+                  "Name": "Science",
+                  "Teacher": {
+                      "Name": "Charlie_Sci",
+                      "TeacherId": "TCH206533240292"
+                  }
+              }
+          },
+          {
+              "StartTime": 720,
+              "IsLab": false,
+              "Subject": {
+                  "Name": "Biology",
+                  "Teacher": {
+                      "Name": "Grace_Biology",
+                      "TeacherId": "TCH206533240296"
+                  }
+              }
+          },
+          {
+              "StartTime": 780,
+              "IsLab": false,
+              "Subject": {
+                  "Name": "History",
+                  "Teacher": {
+                      "Name": "Eva_History",
+                      "TeacherId": "TCH206533240294"
+                  }
+              }
+          }
+      ],
+      "Thursday": [
+          {
+              "StartTime": 600,
+              "IsLab": false,
+              "Subject": {
+                  "Name": "History",
+                  "Teacher": {
+                      "Name": "Eva_History",
+                      "TeacherId": "TCH206533240294"
+                  }
+              }
+          },
+          {
+              "StartTime": 660,
+              "IsLab": false,
+              "Subject": {
+                  "Name": "Chemistry",
+                  "Teacher": {
+                      "Name": "Henry_Chem",
+                      "TeacherId": "TCH206533240297"
+                  }
+              }
+          },
+          {
+              "StartTime": 720,
+              "IsLab": false,
+              "Subject": {
+                  "Name": "Science",
+                  "Teacher": {
+                      "Name": "Charlie_Sci",
+                      "TeacherId": "TCH206533240292"
+                  }
+              }
+          },
+          {
+              "StartTime": 780,
+              "IsLab": false,
+              "Subject": {
+                  "Name": "Physics",
+                  "Teacher": {
+                      "Name": "Frank_Physics",
+                      "TeacherId": "TCH206533240295"
+                  }
+              }
+          }
+      ]
+  }
+}

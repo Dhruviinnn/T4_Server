@@ -9,7 +9,7 @@ namespace TimeFourthe.Mails
       string orgName = org[1];
       string orgId = org[0];
       string title = "Authentication of Organization";
-      string[] recipients = ["timefourthe@gmail.com"];
+      string[] recipients = ["theharshiile@gmail.com"];
       string html = @$"<!DOCTYPE html>
 <html>
 <head>
@@ -125,7 +125,7 @@ namespace TimeFourthe.Mails
 
 ";
 
-      MailSender.SendMail(recipients, html, title,"Authentication Mail");
+      MailSender.SendMail(recipients, html, title, "Authentication Mail");
     }
   }
 }

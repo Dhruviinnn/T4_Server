@@ -102,7 +102,7 @@ namespace TimeFourthe.Controllers
         public OkObjectResult GetClasses()
         {
 
-            string OrgId=Request.Query["OrgId"].ToString();
+            string OrgId = Request.Query["OrgId"].ToString();
             List<int> orgType = [0, 1, 2, 3]; // fetch from db using orgId
             List<string> orgClasses = [];
             foreach (var item in orgType)

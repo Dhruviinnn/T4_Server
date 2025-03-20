@@ -6,7 +6,7 @@ namespace TimeFourthe.Mails
 {
     public class MailSender
     {
-        public static async Task SendMail(string[] recipients, string html, string title,string logMessage,string senderName="Time Fourthe")
+        public static async Task SendMail(string[] recipients, string html, string title, string logMessage, string senderName = "Time Fourthe")
         {
             string senderEmail = "timefourthe@gmail.com";
             string senderPassword = "hcqi fyxs hawx gxcx"; // Use an App Password for Gmail
@@ -22,10 +22,8 @@ namespace TimeFourthe.Mails
                         var message = new MimeMessage();
                         message.From.Add(new MailboxAddress(senderName, senderEmail));
                         message.To.Add(new MailboxAddress("Recipient", recipient));
-                        // message.Subject = "Your One-Time Password (OTP) 🔐";
                         message.Subject = title;
 
-                        // HTML OTP Email Body (Dark Theme)
                         var body = $@"{html}";
                         message.Body = new TextPart("html") { Text = body };
                         Console.WriteLine($"{logMessage} Sent to {recipient}");

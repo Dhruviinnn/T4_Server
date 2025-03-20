@@ -43,5 +43,7 @@ namespace TimeFourthe.Services
             await _usersCollection.Find(user => user.OrgId == absentData.OrgId && user.Class == absentData.Class && user.Role == "student").ToListAsync();
         public async Task<User> GetOrganizationByOrgId(string orgId) =>
             await _usersCollection.Find(user => user.OrgId == orgId).FirstOrDefaultAsync();
+        public async Task<User> GetTeacherScheduleListAsync(string teacherId) =>
+            await _usersCollection.Find(user => user.UserId == teacherId).FirstOrDefaultAsync();
     }
 }

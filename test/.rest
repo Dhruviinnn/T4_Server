@@ -1,18 +1,65 @@
 ###
-GET http://localhost:3000/api/get/timetable?OrgId=ORG983156005450
+GET http://localhost:3000/api/fetch
 
 ###
-POST http://localhost:3000/api/user/login
+POST http://localhost:3000/api/generate/timetable
 Content-Type: application/json
 
 {
-    "email":"eva.history@gmail.com",
-    "password":"history2025"
+    "OrgId" : "ORG983156005450",
+    "Class" : "Class X",
+    "Division" : "A",
+    "Year" : 2024,
+    "StartTime" : 540,
+    "HoursPerDay" : 3,
+    "PeriodDuration" : 60,
+    "BreakDuration" : 0,
+    "LabDuration" : 60,
+    "Subjects":[
+    {
+        "Name": "Math",
+        "Teacher": {
+            "Name": "John Doe",
+            "TeacherId": "TCH1001"
+        }
+    },
+    {
+        "Name": "Physics",
+        "Teacher": {
+            "Name": "Jane Smith",
+            "TeacherId": "TCH1002"
+        }
+    },
+    {
+        "Name": "Chemistry",
+        "Teacher": {
+            "Name": "Mike Johnson",
+            "TeacherId": "TCH1003"
+        }
+    },
+    {
+        "Name": "Biology",
+        "Teacher": {
+            "Name": "Sarah Lee",
+            "TeacherId": "TCH1044"
+        }
+    },
+    {
+        "Name": "History",
+        "Teacher": {
+            "Name": "Emily Davis",
+            "TeacherId": "TCH1005"
+        }
+    },
+    {
+        "Name": "Science",
+        "Teacher": {
+            "Name": "Mickey Sen",
+            "TeacherId": "TCH1001"
+        }
+    }
+]
 }
-
-###
-GET http://localhost:3000/api/user/get
-Set: Cookie: auth=eyJ1c2VySWQiOiJUQ0gyMDY1MzMyNDAyOTQiLCJuYW1lIjoiRXZhX0hpc3RvcnkiLCJlbWFpbCI6ImV2YS5oaXN0b3J5QGdtYWlsLmNvbSIsInJvbGUiOiJ0ZWFjaGVyIn0%3D
 
 
 

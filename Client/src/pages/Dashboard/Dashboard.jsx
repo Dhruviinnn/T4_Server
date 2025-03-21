@@ -2,7 +2,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { School, Users, Building2, Share2 } from 'lucide-react';
 import { Helmet } from "react-helmet-async";
 import { toast } from 'sonner';
-import { encode } from 'js-base64';
+import { encode, decode } from 'js-base64';
 import { useNavigate } from 'react-router-dom';
 
 import Navbar from '../../components/Navbar';
@@ -34,73 +34,84 @@ const mockTimetables = [
   }
 ];
 
-const mockTeacherSchedule= {
-  Monday: [
-    { time: "9:00 AM", subject: "Mathematics", class: "X-A", duration: "45 mins" },
-    { time: "10:00 AM", subject: "Mathematics", class: "XI-B", duration: "45 mins" },
-    { time: "11:00 AM", subject: "Mathematics", class: "IX-C", duration: "45 mins" }
+const mockTeacherSchedule = {
+  "Monday": [
+    { "time": 540, "subject": "Mathematics", "class": "Class-10", "duration": 45 },
+    { "time": 600, "subject": "Mathematics", "class": "Class-11B", "duration": 45 },
+    { "time": 660, "subject": "Mathematics", "class": "Class-9C", "duration": 45 },
+    { "time": 600, "subject": "Physics", "class": "Class-Physics", "duration": 45 }
   ],
-  Tuesday: [
-    { time: "9:00 AM", subject: "Mathematics", class: "XII-A", duration: "45 mins" },
-    { time: "10:00 AM", subject: "Mathematics", class: "X-B", duration: "45 mins" },
-    { time: "2:00 PM", subject: "Mathematics", class: "XI-A", duration: "45 mins" }
+  "Tuesday": [
+    { "time": 540, "subject": "Mathematics", "class": "Class-10", "duration": 45 },
+    { "time": 600, "subject": "Mathematics", "class": "Class-10B", "duration": 45 },
+    { "time": 840, "subject": "Mathematics", "class": "Class-11A", "duration": 45 },
+    { "time": 660, "subject": "Physics", "class": "Class-Physics", "duration": 45 }
   ],
-  Wednesday: [
-    { time: "10:00 AM", subject: "Mathematics", class: "IX-A", duration: "45 mins" },
-    { time: "11:00 AM", subject: "Mathematics", class: "X-A", duration: "45 mins" },
-    { time: "1:00 PM", subject: "Mathematics", class: "XII-B", duration: "45 mins" }
+  "Wednesday": [
+    { "time": 600, "subject": "Mathematics", "class": "Class-10", "duration": 45 },
+    { "time": 660, "subject": "Mathematics", "class": "Class-10A", "duration": 45 },
+    { "time": 780, "subject": "Mathematics", "class": "Class-12B", "duration": 45 },
+    { "time": 600, "subject": "Physics", "class": "Class-Physics", "duration": 45 }
   ],
-  Thursday: [
-    { time: "9:00 AM", subject: "Mathematics", class: "XI-B", duration: "45 mins" },
-    { time: "11:00 AM", subject: "Mathematics", class: "X-C", duration: "45 mins" },
-    { time: "2:00 PM", subject: "Mathematics", class: "IX-B", duration: "45 mins" }
+  "Thursday": [
+    { "time": 540, "subject": "Mathematics", "class": "Class-10", "duration": 45 },
+    { "time": 660, "subject": "Mathematics", "class": "Class-10C", "duration": 45 },
+    { "time": 840, "subject": "Mathematics", "class": "Class-9B", "duration": 45 },
+    { "time": 780, "subject": "Physics", "class": "Class-Physics", "duration": 45 }
   ],
-  Friday: [
-    { time: "9:00 AM", subject: "Mathematics", class: "X-A", duration: "45 mins" },
-    { time: "10:00 AM", subject: "Mathematics", class: "XII-A", duration: "45 mins" },
-    { time: "1:00 PM", subject: "Mathematics", class: "XI-C", duration: "45 mins" }
+  "Friday": [
+    { "time": 540, "subject": "Mathematics", "class": "Class-10", "duration": 45 },
+    { "time": 600, "subject": "Mathematics", "class": "Class-12A", "duration": 45 },
+    { "time": 780, "subject": "Mathematics", "class": "Class-11C", "duration": 45 },
+    { "time": 600, "subject": "Physics", "class": "Class-Physics", "duration": 45 }
   ],
-  Saturday: [
-    { time: "9:00 AM", subject: "Mathematics", class: "IX-A", duration: "45 mins" },
-    { time: "11:00 AM", subject: "Mathematics", class: "X-B", duration: "45 mins" },
-    { time: "12:00 PM", subject: "Mathematics", class: "XII-C", duration: "45 mins" }
+  "Saturday": [
+    { "time": 540, "subject": "Mathematics", "class": "Class-10", "duration": 45 },
+    { "time": 660, "subject": "Mathematics", "class": "Class-10B", "duration": 45 },
+    { "time": 720, "subject": "Mathematics", "class": "Class-12C", "duration": 45 },
+    { "time": 780, "subject": "Physics", "class": "Class-Physics", "duration": 45 }
   ]
-};
+}
 
-const mockWeekSchedule= {
-  Monday: [
-    { time: "9:00 AM", subject: "Mathematics", teacher: "John Smith", duration: "45 mins" },
-    { time: "10:00 AM", subject: "Physics", teacher: "Emma Johnson", duration: "45 mins" },
-    { time: "11:00 AM", subject: "Chemistry", teacher: "David Lee", duration: "45 mins" }
+const mockWeekSchedule = {
+  "Monday": [
+    { "startTime": 600, "subject": "Physics", "teacher": "Frank_Physics" },
+    { "startTime": 660, "subject": "Chemistry", "teacher": "Henry_Chem" },
+    { "startTime": 720, "subject": "History", "teacher": "Eva_History" },
+    { "startTime": 780, "subject": "Science", "teacher": "Charlie_Sci" }
   ],
-  Tuesday: [
-    { time: "9:00 AM", subject: "Biology", teacher: "Sophia Brown", duration: "45 mins" },
-    { time: "10:00 AM", subject: "English", teacher: "Michael Davis", duration: "45 mins" },
-    { time: "11:00 AM", subject: "History", teacher: "Olivia Martinez", duration: "45 mins" }
+  "Tuesday": [
+    { "startTime": 600, "subject": "History", "teacher": "Eva_History" },
+    { "startTime": 660, "subject": "Physics", "teacher": "Frank_Physics" },
+    { "startTime": 720, "subject": "Biology", "teacher": "Grace_Biology" },
+    { "startTime": 780, "subject": "Science", "teacher": "Charlie_Sci" }
   ],
-  Wednesday: [
-    { time: "9:00 AM", subject: "Physics", teacher: "Emma Johnson", duration: "45 mins" },
-    { time: "10:00 AM", subject: "Chemistry", teacher: "David Lee", duration: "45 mins" },
-    { time: "11:00 AM", subject: "Mathematics", teacher: "John Smith", duration: "45 mins" }
+  "Wednesday": [
+    { "startTime": 600, "subject": "Physics", "teacher": "Frank_Physics" },
+    { "startTime": 660, "subject": "Science", "teacher": "Charlie_Sci" },
+    { "startTime": 720, "subject": "Biology", "teacher": "Grace_Biology" },
+    { "startTime": 780, "subject": "History", "teacher": "Eva_History" }
   ],
-  Thursday: [
-    { time: "9:00 AM", subject: "English", teacher: "Michael Davis", duration: "45 mins" },
-    { time: "10:00 AM", subject: "Biology", teacher: "Sophia Brown", duration: "45 mins" },
-    { time: "11:00 AM", subject: "History", teacher: "Olivia Martinez", duration: "45 mins" }
-  ],
-  Friday: [
-    { time: "9:00 AM", subject: "Mathematics", teacher: "John Smith", duration: "45 mins" },
-    { time: "10:00 AM", subject: "Physics", teacher: "Emma Johnson", duration: "45 mins" },
-    { time: "11:00 AM", subject: "English", teacher: "Michael Davis", duration: "45 mins" }
-  ],
-  Saturday: [
-    { time: "9:00 AM", subject: "History", teacher: "Olivia Martinez", duration: "45 mins" },
-    { time: "10:00 AM", subject: "Chemistry", teacher: "David Lee", duration: "45 mins" },
-    { time: "11:00 AM", subject: "Biology", teacher: "Sophia Brown", duration: "45 mins" }
+  "Thursday": [
+    { "startTime": 600, "subject": "History", "teacher": "Eva_History" },
+    { "startTime": 660, "subject": "Chemistry", "teacher": "Henry_Chem" },
+    { "startTime": 720, "subject": "Science", "teacher": "Charlie_Sci" },
+    { "startTime": 780, "subject": "Physics", "teacher": "Frank_Physics" }
   ]
 };
 
 const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+const convertToSimpleTime = (x) => {
+  let hours = Math.floor(x / 60);
+  let mins = x % 60;
+  let period = hours >= 12 ? "PM" : "AM";
+
+  hours = hours % 12 || 12; // Convert 0 to 12-hour format
+  console.log(x % 60);
+
+  return `${hours}:${mins.toString().padStart(2, '0')} ${period}`;
+}
 
 const ShareButton = ({ title, forX, user }) => (
   <button
@@ -131,11 +142,10 @@ const WeekNavigator = ({
           <button
             key={day}
             onClick={() => setSelectedDay(day)}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 transform hover:-translate-y-1 ${
-              selectedDay === day
-                ? 'bg-white text-black shadow-lg'
-                : 'glass-effect text-white hover:bg-white/15'
-            }`}
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 transform hover:-translate-y-1 ${selectedDay === day
+              ? 'bg-white text-black shadow-lg'
+              : 'glass-effect text-white hover:bg-white/15'
+              }`}
             style={{
               animation: `fadeIn 0.3s ease-out forwards ${index * 0.1}s`,
             }}
@@ -151,35 +161,54 @@ const WeekNavigator = ({
 const Dashboard = () => {
   const navigate = useNavigate();
   const [user, setUser] = useUser();
-// const [user, setUser] = useState({ 
-//     name:"ha",
-//     email:"sdsd",
-//     role:'teacher',
-//     userId:"TCH873342"
-// })
   const [selectedDay, setSelectedDay] = useState(() => {
     const today = new Date();
     return days[today.getDay() === 0 ? 6 : today.getDay() - 1];
   });
   const [selectedTimetable, setSelectedTimetable] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [absentClasses, setAbsentClasses] = useState(new Set());
+  const [absentClasses, setAbsentClasses] = useState([]);
   const [confirmDialog, setConfirmDialog] = useState({
     isOpen: false,
     scheduleKey: null,
     isUnmarking: false,
+    subject: null,
+    className: null,
+    date: null
   });
 
   useEffect(() => {
     userFetcher(user, setUser);
+    const isAbsentClassesExist = localStorage.getItem('absentClasses')
+    if (isAbsentClassesExist) {
+      const storedAbsentClasses = JSON.parse(decode(isAbsentClassesExist))
+      if (storedAbsentClasses) setAbsentClasses(storedAbsentClasses)
+    }
   }, []);
 
   const handleCloseModal = () => setIsModalOpen(false);
   const handleConfirmAbsent = (e) => {
     // Implement absent confirmation logic here
-    console.log(confirmDialog);
-    
+    // console.log({
+    //     orgId:user.orgId,
+    //     subjectName:confirmDialog.subject,
+    //     class:confirmDialog.className,
+    //     name:user.name,
+    //     date:confirmDialog.date
+    // });
+    setConfirmDialog({
+      isOpen: false,
+      scheduleKey: null,
+      isUnmarking: false,
+      subject: null,
+      className: null,
+      date: confirmDialog.date
+    })
+    setAbsentClasses((prev) => [...prev, confirmDialog.scheduleKey])
   };
+  useEffect(() => {
+    localStorage.setItem('absentClasses', encode(JSON.stringify(absentClasses)))
+  }, [absentClasses])
 
   const UserInfo = () => (
     <>
@@ -206,10 +235,13 @@ const Dashboard = () => {
               <p className="text-white/70 text-sm font-medium">ID: {user.userId}</p>
             </div>
           </div>
-          <div className="flex gap-x-2">
-            <ShareButton title="Share for Students" forX="student" user={user} />
-            <ShareButton title="Share for Teachers" forX="teacher" user={user} />
-          </div>
+          {
+            user.role == 'organization' &&
+            <div className="flex gap-x-2">
+              <ShareButton title="Share for Students" forX="student" user={user} />
+              <ShareButton title="Share for Teachers" forX="teacher" user={user} />
+            </div>
+          }
         </div>
       </div>
     </>
@@ -227,9 +259,11 @@ const Dashboard = () => {
               <div className="animate-on-mount">
                 <ScheduleTeacherView
                   selectedDay={selectedDay}
+                  convertToSimpleTime={convertToSimpleTime}
                   mockTeacherSchedule={mockTeacherSchedule}
                   days={days}
                   absentClasses={absentClasses}
+                  setAbsentClasses={setAbsentClasses}
                   setConfirmDialog={setConfirmDialog}
                 />
               </div>
@@ -240,6 +274,7 @@ const Dashboard = () => {
               <WeekNavigator selectedDay={selectedDay} setSelectedDay={setSelectedDay} />
               <div className="animate-on-mount">
                 <ScheduleStudentView
+                  convertToSimpleTime={convertToSimpleTime}
                   mockWeekSchedule={mockWeekSchedule}
                   selectedDay={selectedDay}
                 />

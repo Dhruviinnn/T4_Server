@@ -7,6 +7,7 @@ using System.Text.Json;
 using System.Text;
 using AuthString;
 using MongoDB.Bson;
+using Microsoft.AspNetCore.Http;
 
 namespace TimeFourthe.Controllers
 {
@@ -20,13 +21,12 @@ namespace TimeFourthe.Controllers
         [HttpPost("user/signup")]
         public async Task<IActionResult> CreatePendingUser([FromBody] User user)
         {
-                User userExist = await _userService.GetUserAsync(user.Email);
-                if (userExist != null) return Ok(new { error = true, message = "User already exists" });
+            User userExist = await _userService.GetUserAsync(user.Email);
+            if (userExist != null) return Ok(new { error = true, message = "User already exists" });
             if (user.Role != "organization")
             {
                 User orgExist = await _userService.GetOrganizationByOrgId(user.OrgId);
                 if (orgExist == null) return Ok(new { error = true, message = "This Organization is not exists" });
-                Console.WriteLine("Sign up for Teacher/Student");
                 try
                 {
                     await _userService.CreateUserAsync(user);
@@ -36,13 +36,16 @@ namespace TimeFourthe.Controllers
                             userId = user.UserId,
                             name = user.Name,
                             email = user.Email,
-                            role = user.Role
+                            role = user.Role,
+                            orgId = user.OrgId
                         }
-                    ));
+                    ), new CookieOptions
+                    {
+                        Expires = DateTime.UtcNow.AddDays(7)
+                    });
                 }
                 catch (System.Exception)
                 {
-
                     throw;
                 }
                 return Ok(new
@@ -53,7 +56,8 @@ namespace TimeFourthe.Controllers
                         name = user.Name,
                         userId = user.UserId,
                         role = user.Role,
-                        email = user.Email
+                        email = user.Email,
+                        orgId = user.OrgId
                     }
                 });
             }
@@ -61,7 +65,6 @@ namespace TimeFourthe.Controllers
             {
                 var pendingUserExist = await _pendingUserService.GetPendingUserAsync(user.Email);
                 if (pendingUserExist != null) return Ok(new { error = true, message = "Your request has not been approved yet " });
-                Console.WriteLine("Sign up for Organization");
                 List<string> org = await _pendingUserService.CreatePendingUserAsync(user);
                 Auth.Mail(org);
                 return Ok(new
@@ -72,7 +75,7 @@ namespace TimeFourthe.Controllers
                         name = user.Name,
                         userId = user.UserId,
                         role = user.Role,
-                        email = user.Email
+                        email = user.Email,
                     }
                 });
             }
@@ -88,7 +91,7 @@ namespace TimeFourthe.Controllers
             var deletedUser = await _pendingUserService.DeletePendingUserAsync(orgId);
             if (approve == "true")
             {
-               await _userService.CreateUserAsync(deletedUser);
+                await _userService.CreateUserAsync(deletedUser);
                 ApprovalSuccess.Mail(deletedUser.Name, deletedUser.Email);
                 return Ok(new { message = "Your application is approved by autority" });
             }

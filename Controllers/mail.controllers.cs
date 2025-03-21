@@ -47,7 +47,7 @@ namespace TimeFourthe.Controllers
         [HttpPost("send-auth")]
         public async Task<IActionResult> Authx()
         {
-            Auth.Mail(["Habibi", "123456789"]);
+            Auth.Mail(["ORG82469235952", "Web University"]);
             return Ok(new { id = 'f' });
         }
     }

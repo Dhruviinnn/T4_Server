@@ -16,5 +16,12 @@ namespace TimeFourthe.Entities
         public string? OrgId { get; set; } = null;
         public string? Class { get; set; } = null;
         public List<int>? OrgType { get; set; } = null;
+        public List<Schedule>? Schedule { get; set; }
+    }
+    public class Schedule
+    {
+        public int StartTime { get; set; }
+        public int Day { get; set; }
+        public string ClassName { get; set; }
     }
 }

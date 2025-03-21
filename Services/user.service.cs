@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http.HttpResults;
 using AuthString;
 using Microsoft.AspNetCore.Http;
+using TimeFourthe.Controllers;
 
 namespace TimeFourthe.Services
 {
@@ -38,9 +39,11 @@ namespace TimeFourthe.Services
         }
         public async Task<List<User>> GetTechersByOrgIdAsync(string orgId) =>
             await _usersCollection.Find(user => user.OrgId == orgId && user.Role == "teacher").ToListAsync();
-        public async Task<List<User>> GetStudentsByOrgIdAsync(string orgId) =>
-            await _usersCollection.Find(user => user.OrgId == orgId && user.Role == "student").ToListAsync();
+        public async Task<List<User>> GetStudentsByOrgIdAndClassAsync(AbsentDataRequest absentData) =>
+            await _usersCollection.Find(user => user.OrgId == absentData.OrgId && user.Class == absentData.Class && user.Role == "student").ToListAsync();
         public async Task<User> GetOrganizationByOrgId(string orgId) =>
             await _usersCollection.Find(user => user.OrgId == orgId).FirstOrDefaultAsync();
+        public async Task<User> GetTeacherScheduleListAsync(string teacherId) =>
+            await _usersCollection.Find(user => user.UserId == teacherId).FirstOrDefaultAsync();
     }
 }

@@ -5,7 +5,9 @@ const ScheduleTeacherView = ({
   selectedDay,
   mockTeacherSchedule,
   days,
+  convertToSimpleTime,
   absentClasses,
+  setAbsentClasses,
   setConfirmDialog,
 }) => {
   // Get current date information
@@ -15,11 +17,12 @@ const ScheduleTeacherView = ({
     return { currentDay };
   }, [days]);
 
+
   // Format selected date for display
   const selectedDate = useMemo(() => {
     const date = new Date();
     const dayIndex = days.indexOf(selectedDay);
-    date.setDate(date.getDate() - (date.getDay() - dayIndex));
+    date.setDate(date.getDate() - (date.getDay() - dayIndex - 1));
     return date.toLocaleDateString('en-US', {
       weekday: 'long',
       year: 'numeric',
@@ -35,7 +38,7 @@ const ScheduleTeacherView = ({
     return selectedDayIndex < currentDayIndex;
   }, [selectedDay, currentDate.currentDay, days]);
 
-  const handleAbsentClick = (scheduleKey, isAlreadyAbsent) => {
+  const handleAbsentClick = (scheduleKey, isAlreadyAbsent, subject, className) => {
     if (isDayInPast) {
       return; // Don't allow marking absent for past days
     }
@@ -43,11 +46,11 @@ const ScheduleTeacherView = ({
       isOpen: true,
       scheduleKey,
       isUnmarking: isAlreadyAbsent,
+      subject,
+      className,
+      date: selectedDate
     });
-    console.log(scheduleKey, isAlreadyAbsent);
-    
   };
-
   return (
     <div className="bg-zinc-800 rounded-xl border border-white/10">
       <div className="p-4 border-b border-white/10">
@@ -68,14 +71,13 @@ const ScheduleTeacherView = ({
       <div className="p-4 space-y-4">
         {mockTeacherSchedule[selectedDay]?.map((schedule, index) => {
           const scheduleKey = `${selectedDay}-${index}`;
-          const isAbsent = absentClasses.has(scheduleKey);
+          const isAbsent = absentClasses.includes(scheduleKey);
 
           return (
             <div
               key={index}
-              className={`flex items-center gap-4 bg-zinc-900 p-4 rounded-lg border border-white/10 transition-colors ${
-                isAbsent ? 'bg-red-900/20 border-red-500/30' : 'hover:bg-zinc-900/70'
-              }`}
+              className={`flex items-center gap-4 bg-zinc-900 p-4 rounded-lg border border-white/10 transition-colors ${isAbsent ? 'bg-red-900/20 border-red-500/30' : 'hover:bg-zinc-900/70'
+                }`}
             >
               <div className="flex-shrink-0">
                 <Clock className="h-5 w-5 text-white/70" />
@@ -91,24 +93,23 @@ const ScheduleTeacherView = ({
                         <span>{schedule.class}</span>
                       </div>
                     </div>
-                    <p className="text-white/50 text-sm">{schedule.duration}</p>
+                    <p className="text-white/50 text-sm">{schedule.duration} minutes</p>
                   </div>
                   <div className="flex items-center gap-4">
                     <button
-                      onClick={() => handleAbsentClick(scheduleKey, isAbsent)}
-                      disabled={isDayInPast}
-                      className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${
-                        isAbsent
-                          ? 'bg-red-500/20 text-red-300 hover:bg-red-500/30'
-                          : isDayInPast
+                      onClick={() => handleAbsentClick(scheduleKey, isAbsent, schedule.subject, schedule.class)}
+                      disabled={isDayInPast || isAbsent}
+                      className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${isAbsent
+                        ? 'bg-red-500/20 text-red-300 hover:bg-red-500/30 cursor-not-allowed'
+                        : isDayInPast
                           ? 'bg-zinc-700/20 text-white/50 cursor-not-allowed'
                           : 'bg-zinc-700/50 text-white hover:bg-zinc-700'
-                      }`}
+                        }`}
                     >
                       <UserX className="h-4 w-4" />
                       {isAbsent ? 'Marked Absent' : 'Mark Absent'}
                     </button>
-                    <p className="text-white font-medium">{schedule.time}</p>
+                    <p className="text-white font-medium">{convertToSimpleTime(schedule.time)}</p>
                   </div>
                 </div>
               </div>

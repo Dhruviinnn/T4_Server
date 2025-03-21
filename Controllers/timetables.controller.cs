@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.JsonPatch.Internal;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -12,105 +13,99 @@ namespace TimeFourthe.Controllers
     public class TimetablesController : ControllerBase
     {
         private readonly TimetableService _timetableService;
+        private readonly UserService _userService;
 
-        public TimetablesController(TimetableService timetableService)
+        public TimetablesController(TimetableService timetableService, UserService userService)
         {
             _timetableService = timetableService;
+            _userService = userService;
         }
 
-        [HttpPost("create-timetable")]
-        public async Task<OkObjectResult> CreateTimetable([FromBody] TimetableData timetableData)
+        [HttpGet("get/timetable")]
+        public async Task<OkObjectResult> GetTimeTables()
         {
-            if (timetableData==null || !timetableData.Subjects.Any()) return Ok(new { status=400,error="Error while Timetable data fetching" });
-
-            try
-            {
-                timetableData.Timetable=GenerateTimetable(timetableData);
-                await _timetableService.InsertTimetableDataAsync(timetableData);
-                // return Ok(new { timetable=timetableData.Timetable});
-                 return Ok(new { success="TimeTable Created Successfully" });
-                // return Ok(new { id = timetableData.tableId, message = "Timetable created successfully." });
-            }
-            catch (Exception ex){return Ok(new { status=500,error = "An error occurred while creating the timetable" });}
+            var timetablesWholeData = await _timetableService.GetTimetableDataByOrgIdAsync(Request.Query["OrgId"].ToString());
+            var timetables = timetablesWholeData.Select(tts => tts.Timetable);
+            return Ok(new { timetables });
         }
 
+        [HttpPost("generate/timetable")]
+        public async Task<OkObjectResult> GetTimeTable([FromBody] TimetableData TimeTable)
+        {
+            List<Subject> subjects = TimeTable.Subjects;
+            string[] days = { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
+            List<List<Period>> tt = new List<List<Period>>();
 
+            int[] periodsPerDay = { 5, 5, 5, 5, 5, 5 }; // Generate, this is hard one
+            int HoursPerDayInMinutes = (TimeTable.HoursPerDay * 60) - TimeTable.BreakDuration;
 
-          private Timetable GenerateTimetable(TimetableData timetableData) {
-            if (timetableData == null)
-                throw new ArgumentNullException(nameof(timetableData), "Timetable data cannot be null");
+            Random rand = new Random();
+            Dictionary<string, HashSet<string>> teacherSchedule = new Dictionary<string, HashSet<string>>();
 
-            if (timetableData.Subjects == null || !timetableData.Subjects.Any()) 
-                throw new ArgumentException("Subjects list cannot be null or empty", nameof(timetableData.Subjects));
+            Dictionary<string, List<Schedule>> scheduleListForTeachers = await GetScheduleListForAllTeachers();
 
-            var timetable = new Timetable {
-                Monday = new List<Period>(),
-                Tuesday = new List<Period>(),
-                Wednesday = new List<Period>(),
-                Thursday = new List<Period>(),
-                Friday = new List<Period>(),
-                Saturday = new List<Period>()
-            };
+            for (int i = 0; i < days.Length; i++)
+            {
+                string day = days[i];
+                int periods = periodsPerDay[i];
+                int currentStartTime = TimeTable.StartTime;
 
-            var days = new List<List<Period>> {
-                timetable.Monday,
-                timetable.Tuesday,
-                timetable.Wednesday,
-                timetable.Thursday,
-                timetable.Friday,
-                timetable.Saturday
-            };
+                if (!(HoursPerDayInMinutes <= periods * TimeTable.PeriodDuration))
+                {
+                    return Ok(new { error = "Decrease hoursPerDay or Increase periodDuraions", GeneratedTimeTable = new List<int>() });
+                }
+                else
+                {
+                    for (int j = 0; (currentStartTime - TimeTable.StartTime) <= HoursPerDayInMinutes; j++)
+                    {
+                        Subject subject;
+                        Teacher teacher;
 
-            var subjects = timetableData.Subjects;
-            var random = new Random();
-            var teacherSchedules = new Dictionary<string, HashSet<int>>();
+                        do
+                        {
+                            subject = subjects[rand.Next(subjects.Count)];
+                            teacher = subject.Teacher;
+                        } while (teacherSchedule.ContainsKey(day) && teacherSchedule[day].Contains(teacher.TeacherId));
 
-            foreach (var subject in subjects) {
-                if (subject.Teacher == null || string.IsNullOrEmpty(subject.Teacher.Id))
-                    throw new ArgumentException("Each subject must have a valid teacher assigned.", nameof(subject.Teacher));
-
-                if (!teacherSchedules.ContainsKey(subject.Teacher.Id))
-                    teacherSchedules[subject.Teacher.Id] = new HashSet<int>();
-
-                int lecturesAssigned = 0;
-                int maxAttempts = 100;
-
-                while (lecturesAssigned < 4 && maxAttempts > 0) {
-                    maxAttempts--;
-                    int dayIndex = random.Next(0, days.Count);
-
-                    if (!days[dayIndex].Any(p => p.Subject.Teacher?.Id == subject.Teacher.Id)) {
-                        int startTime = GetAvailableTimeSlot(days[dayIndex], timetableData, subject.Teacher, teacherSchedules);
-
-                        if (startTime != -1) {
-                            var newPeriod = new Period {
-                                StartTime = startTime,
-                                Subject = subject,
-                                IsLab = false
-                            };
-
-                            days[dayIndex].Add(newPeriod);
-                            teacherSchedules[subject.Teacher.Id].Add(startTime);
-                            lecturesAssigned++;
+                        if (isTeacherAvailable(scheduleListForTeachers["TCH379477830408"], i, currentStartTime, teacher.TeacherId, TimeTable.PeriodDuration)) // instead of hard code teacher userId, give value as list
+                        {
+                            if (!teacherSchedule.ContainsKey(day))
+                            {
+                                teacherSchedule[day] = new HashSet<string>();
+                            }
+                            teacherSchedule[day].Add(teacher.TeacherId);
+                        
+                        try
+                        {
+                            tt[i].Add(new Period { StartTime = currentStartTime, Subject = subject });
+                        }
+                        catch (System.Exception)
+                        {
+                            tt.Add(new List<Period>());
+                            // throw;
+                        }
+                        currentStartTime += TimeTable.PeriodDuration;
                         }
                     }
                 }
             }
-
-            return timetable;
+            return Ok(new { GeneratedTimeTable = tt });
         }
 
-        private int GetAvailableTimeSlot(List<Period> periods, TimetableData timetableData, Teacher teacher, Dictionary<string, HashSet<int>> teacherSchedules) {
-            int startTime = 8 * 60; // Start at 8:00 AM in minutes
-            int endTime = startTime + (timetableData.HoursPerDay * 60);
-
-            for (int time = startTime; time < endTime; time += timetableData.PeriodDuration + timetableData.BreakDuration) {
-                if (!periods.Any(p => p.StartTime == time) && 
-                    (!teacherSchedules.ContainsKey(teacher.Id) || !teacherSchedules[teacher.Id].Contains(time))) {
-                    return time;
-                }
+        private async Task<Dictionary<string, List<Schedule>>> GetScheduleListForAllTeachers()
+        {
+            List<string> teacherIds = ["TCH379477830408"];
+            Dictionary<string, List<Schedule>> x = new Dictionary<string, List<Schedule>>();
+            foreach (var item in teacherIds)
+            {
+                x.Add(item, (await _userService.GetTeacherScheduleListAsync(item)).Schedule);
             }
-            return -1; // No available slot
+            return x;
+        }
+        private bool isTeacherAvailable(List<Schedule> scheduleListForTeacher, int day, int time, string teacherId, int PeriodDuration)
+        {
+            var tmp = scheduleListForTeacher.Find(item => item.Day == day && time >= item.StartTime && time <= item.StartTime + PeriodDuration);
+            return tmp == null;
         }
     }
 }

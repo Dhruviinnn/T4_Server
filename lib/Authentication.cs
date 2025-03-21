@@ -5,7 +5,6 @@ namespace AuthString
 {
     public class Authentication
     {
-        private string keys = "Habibi1234";
         public string Encode(object data)
         {
             string text = JsonSerializer.Serialize(data);

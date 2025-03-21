@@ -62,13 +62,6 @@ Content-Type: application/json
 }
 
 
-
-###
-<<<<<<< HEAD
-GET http://localhost:3000/api/user/get
-Set: Cookie: auth=eyJ1c2VySWQiOiJUQ0gyMDY1MzMyNDAyOTQiLCJuYW1lIjoiRXZhX0hpc3RvcnkiLCJlbWFpbCI6ImV2YS5oaXN0b3J5QGdtYWlsLmNvbSIsInJvbGUiOiJ0ZWFjaGVyIn0=
-
-
 ###
 POST http://localhost:3000/api/send-auth
 
@@ -85,6 +78,3 @@ POST http://localhost:3000/api/decline
 
 
 
-=======
-POST http://localhost:3000/api/send-auth
->>>>>>> 661bb7360dbe730154975f4dfc7ebca83183e45c

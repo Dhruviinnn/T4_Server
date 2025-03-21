@@ -9,11 +9,9 @@ namespace TimeFourthe.Mails
       string orgName = org[1];
       string orgId = org[0];
       string title = "Authentication of Organization";
-<<<<<<< HEAD
+
       string[] recipients = ["vasavadhruvin123@gmail.com"];
-=======
-      string[] recipients = ["theharshiile@gmail.com"];
->>>>>>> 661bb7360dbe730154975f4dfc7ebca83183e45c
+
       string html = @$"<!DOCTYPE html>
 <html>
 <head>

@@ -17,12 +17,12 @@ namespace TimeFourthe.Controllers
 
        
 
-         [HttpPost("absent")]
-        public async Task<IActionResult> absent()
-        {
-            Absence.Mail();
-            return Ok(new { id = 'f' });
-        }
+        //  [HttpPost("absent")]
+        // public async Task<IActionResult> absent()
+        // {
+        //     Absence.Mail();
+        //     return Ok(new { id = 'f' });
+        // }
          [HttpPost("decline")]
         public async Task<IActionResult> decline()
         {

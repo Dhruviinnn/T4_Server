@@ -12,23 +12,13 @@ namespace TimeFourthe.Entities
         public required string Class { get; set; }
         public required string Division { get; set; }
         public required int Year { get; set; }
-        public int? StartTime { get; set; }
+        public int StartTime { get; set; }
         public int HoursPerDay { get; set; }
         public int PeriodDuration { get; set; }
         public int BreakDuration { get; set; }
         public int LabDuration { get; set; }
-        public Timetable? Timetable { get; set; }
-        public List<Subject>? Subjects { get; set; }
-    }
-
-    public class Timetable
-    {
-        public List<Period>? Monday { get; set; }
-        public List<Period>? Tuesday { get; set; }
-        public List<Period>? Wednesday { get; set; }
-        public List<Period>? Thursday { get; set; }
-        public List<Period>? Friday { get; set; }
-        public List<Period>? Saturday { get; set; }
+        public List<List<Period>>? Timetable { get; set; }
+        public List<Subject> Subjects { get; set; }
     }
 
     public class Period
@@ -51,9 +41,5 @@ namespace TimeFourthe.Entities
         public string? Name { get; set; }
         public string? TeacherId { get; set; }
     }
-    public class Schedule
-    {
-        public int StartTime { get; set; }
-        public int Day { get; set; }
-    }
+
 }

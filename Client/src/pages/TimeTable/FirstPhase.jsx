@@ -1,7 +1,8 @@
 import { useRef, useState } from 'react'
 import { Clock, PlusCircle, ChevronDown } from 'lucide-react'
 import { motion } from 'framer-motion'
-import { toast } from 'sonner';
+import { toast } from 'sonner'
+import TimePicker from '../../components/TimePicker'
 
 const FirstPhase = ({ step, setStep, classname, setClassname, division, setDivision, startTime, setStartTime, hoursPerDay, setHoursPerDay, periodDuration, setPeriodDuration, specialHours, setSpecialHours, breakDuration, setBreakDuration, grades, setGrades }) => {
     const [isClassSelectOpen, setIsClassSelectOpen] = useState(false)
@@ -10,6 +11,7 @@ const FirstPhase = ({ step, setStep, classname, setClassname, division, setDivis
     const specialDurationArray = [1, 2, 3];
     const breakDurationsArray = [30, 45, 60];
     const selectRef = useRef()
+    
     const handleNextStep = () => {
         // if (!classname || !division || !startTime) {
         //     toast.error('Please fill in all required fields', {
@@ -20,6 +22,7 @@ const FirstPhase = ({ step, setStep, classname, setClassname, division, setDivis
         // }
         setStep(2);
     };
+
     return (
         <motion.div
             className="w-full"
@@ -77,23 +80,11 @@ const FirstPhase = ({ step, setStep, classname, setClassname, division, setDivis
                     </div>
                 </div>
                 <div className="flex flex-col sm:flex-row gap-4 sm:gap-x-8">
-                    {/* Time Picker */}
-                    {/* Hours Per Day */}
                     <div className="group flex-1">
                         <label htmlFor="startTime" className="block text-md font-medium text-white/70 mb-2 group-focus-within:text-white transition-colors duration-200">
                             Start Time
                         </label>
-                        <div className="relative">
-                            <input
-                                type="time"
-                                id="startTime"
-                                value={startTime}
-                                onChange={(e) => setStartTime(e.target.value)}
-                                className="w-full px-4 py-2 bg-zinc-800 border border-white/10 rounded-lg text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent transition-all duration-200 appearance-none"
-                                required
-                            />
-                            <Clock className="absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-white/50" />
-                        </div>
+                        <TimePicker value={startTime} onChange={setStartTime} />
                     </div>
     
                     <div className="flex-1">
@@ -197,7 +188,7 @@ const FirstPhase = ({ step, setStep, classname, setClassname, division, setDivis
                 </button>
             </form>
         </motion.div>
-      );
+    );
 }
 
-export default FirstPhase
+export default FirstPhase;

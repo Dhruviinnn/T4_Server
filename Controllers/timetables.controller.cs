@@ -98,7 +98,8 @@ namespace TimeFourthe.Controllers
             return Ok(new { GeneratedTimeTable = tt });
         }
 
-        private async Task<Dictionary<string, List<Schedule>>> GetScheduleListForAllTeachers()
+[HttpGet("getch")]
+        public async Task<Dictionary<string, List<Schedule>>> GetScheduleListForAllTeachers()
         {
             List<string> teacherIds = ["TCH379477830408"];
             Dictionary<string, List<Schedule>> x = new Dictionary<string, List<Schedule>>();

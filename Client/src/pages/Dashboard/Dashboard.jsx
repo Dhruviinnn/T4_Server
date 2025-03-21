@@ -188,23 +188,21 @@ const Dashboard = () => {
 
   const handleCloseModal = () => setIsModalOpen(false);
   const handleConfirmAbsent = (e) => {
-    // Implement absent confirmation logic here
-    // console.log({
-    //     orgId:user.orgId,
-    //     subjectName:confirmDialog.subject,
-    //     class:confirmDialog.className,
-    //     name:user.name,
-    //     date:confirmDialog.date
-    // });
     setConfirmDialog({
       isOpen: false,
       scheduleKey: null,
       isUnmarking: false,
       subject: null,
       className: null,
-      date: confirmDialog.date
+      date: confirmDialog.date,
+      deleteTableId:null
     })
-    setAbsentClasses((prev) => [...prev, confirmDialog.scheduleKey])
+    if(user.role=='organization'){
+      console.log("TimeTable Delete : ",confirmDialog.deleteTableId);
+    }
+    else{
+      setAbsentClasses((prev) => [...prev, confirmDialog.scheduleKey])
+    }
   };
   useEffect(() => {
     localStorage.setItem('absentClasses', encode(JSON.stringify(absentClasses)))
@@ -249,7 +247,7 @@ const Dashboard = () => {
 
   return (
     <>
-      <Navbar />
+      <Navbar role={user.role}/>
       <div className="min-h-screen bg-gradient-to-b from-black to-zinc-900 p-4 sm:p-6 md:p-8">
         <div className="max-w-7xl mx-auto space-y-6">
           <UserInfo />
@@ -284,7 +282,9 @@ const Dashboard = () => {
           {user.role === "organization" && (
             <div className="animate-on-mount">
               <OrganizationView
+              confirmDialog={confirmDialog}
                 mockTimetables={mockTimetables}
+                setConfirmDialog={setConfirmDialog}
                 setIsModalOpen={setIsModalOpen}
                 setSelectedTimetable={setSelectedTimetable}
               />
@@ -304,6 +304,7 @@ const Dashboard = () => {
             onClose={() => setConfirmDialog({ isOpen: false, scheduleKey: null, isUnmarking: false })}
             onConfirm={handleConfirmAbsent}
             message={
+              user.role=='organization'?'Are you sure you want to delete this timetable?':
               confirmDialog.isUnmarking
                 ? "Are you sure you want to unmark this class as absent?"
                 : "Are you sure you want to mark this class as absent?"

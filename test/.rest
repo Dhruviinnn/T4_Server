@@ -15,4 +15,19 @@ GET http://localhost:3000/api/user/get
 Set: Cookie: auth=eyJ1c2VySWQiOiJUQ0gyMDY1MzMyNDAyOTQiLCJuYW1lIjoiRXZhX0hpc3RvcnkiLCJlbWFpbCI6ImV2YS5oaXN0b3J5QGdtYWlsLmNvbSIsInJvbGUiOiJ0ZWFjaGVyIn0=
 
 
+###
+POST http://localhost:3000/api/send-auth
+
+###
+POST http://localhost:3000/api/absent
+
+###
+POST http://localhost:3000/api/approave
+###
+POST http://localhost:3000/api/forget
+
+###
+POST http://localhost:3000/api/decline
+
+
 

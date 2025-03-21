@@ -1,5 +1,18 @@
 ###
-GET http://localhost:3000/api/fetch
+GET http://localhost:3000/api/getch
+
+###
+POST http://localhost:3000/api/user/signup
+Content-Type: application/json
+
+{
+  "Name": "Habibi",
+  "Email": "12",
+  "Password": "12",
+  "Role": "teacher",
+  "OrgId": "ORG983156005450",
+  "Class": "Class II"
+}
 
 ###
 POST http://localhost:3000/api/generate/timetable
@@ -60,8 +73,29 @@ Content-Type: application/json
     }
 ]
 }
+###
+POST http://localhost:3000/api/user/signup
+Content-Type: application/json
 
+{
+    "email":"eva.history@gmail.com",
+    "password":"history2025"
+}
 
 
 ###
 POST http://localhost:3000/api/send-auth
+
+###
+POST http://localhost:3000/api/absent
+
+###
+POST http://localhost:3000/api/approave
+###
+POST http://localhost:3000/api/forget
+
+###
+GET http://localhost:3000/api/delete/timetable?id=67d7c492a7131655d6b02bc3
+
+
+

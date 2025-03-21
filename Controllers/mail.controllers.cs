@@ -1,3 +1,4 @@
+using AuthString;
 using Microsoft.AspNetCore.Mvc;
 using TimeFourthe.Entities;
 using TimeFourthe.Mails;
@@ -15,7 +16,36 @@ namespace TimeFourthe.Controllers
             _timetableService = timetableService;
         }
 
-        [HttpPost("send-auth")]
+       
+
+        //  [HttpPost("absent")]
+        // public async Task<IActionResult> absent()
+        // {
+        //     Absence.Mail();
+        //     return Ok(new { id = 'f' });
+        // }
+         [HttpPost("decline")]
+        public async Task<IActionResult> decline()
+        {
+            ApprovalDecline.Mail();
+            return Ok(new { id = 'f' });
+        }
+         [HttpPost("user/forgot/mail")]
+        public async Task<IActionResult> forgetpass(ChangePassword chg)
+        {
+            Forgetpass.Mail(chg.Email,new Authentication().Encode(chg.Email));
+            return Ok(new {result="Mail is sent, Check your Inbox"});
+        }
+
+
+         [HttpPost("approave")]
+        public async Task<IActionResult> approave()
+        {
+            ApprovalSuccess.Mail("NextGen Academy","vasavadhruvin123@gmail.com");
+            return Ok(new { id = 'f' });
+        }
+
+        [HttpPost("send/mail")]
         public async Task<IActionResult> Authx()
         {
             Auth.Mail(["ORG82469235952", "Web University"]);

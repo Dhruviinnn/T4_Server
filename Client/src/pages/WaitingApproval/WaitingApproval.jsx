@@ -2,6 +2,7 @@ import React from 'react';
 import { Clock, Mail, ArrowRight } from 'lucide-react';
 import { Helmet } from "react-helmet-async";
 import { Link } from 'react-router-dom';
+import '../Login/glow.css'
 
 const WaitingApproval = () => {
   return (
@@ -12,7 +13,7 @@ const WaitingApproval = () => {
       </Helmet>
       <div className="min-h-screen bg-black flex items-center justify-center p-4 relative overflow-hidden">
         <div className="absolute inset-0 bg-black opacity-50 blur-2xl" />
-        <div className="max-w-[75vw] w-full space-y-8 bg-white/5 p-8 rounded-2xl backdrop-blur-md border border-white/10 shadow-md relative z-10 transition-all duration-300 hover:shadow-white/20">
+        <div className="max-w-[75vw] w-full space-y-8 bg-white/5 p-8 rounded-2xl backdrop-blur-md border border-white/10 shadow-md relative z-10 transition-all duration-300 glow-border hover:shadow-white/20">
           <div className="text-center">
             <div className="flex justify-center mb-6 animate-pulse">
               <div className="p-4 rounded-full bg-white/10 border border-white/10 shadow-md">

@@ -20,6 +20,12 @@ namespace TimeFourthe.Controllers
         public string SubjectName { get; set; }
         public string OrgId { get; set; }
     }
+     public class ChangePassword
+    {
+        public string Email { get; set; }
+        public string? NewPassword { get; set; }
+         public string? Id { get; set; }
+    }
     [Route("api")]
     [ApiController]
     public class UsersController : ControllerBase
@@ -116,10 +122,16 @@ namespace TimeFourthe.Controllers
                 orgClasses = orgClasses.Concat(classes[item]).ToList();
             }
             return Ok(new { orgClasses });
-            // List<User> studentlist = await _userService.GetStudentsByOrgIdAndClassAsync(absentData);
-            // var filteredStudentsEmaillist = studentlist.Select(student => student.Email);
-            // Absence.Mail(filteredStudentsEmaillist.ToArray(), absentData.Name, absentData.SubjectName, "Web Web Web");
-            // return Ok(new { filteredStudentsEmaillist });
+           
+        }
+
+
+        [HttpPost("user/update/changepassword")]
+        public async Task<IActionResult> UpdatePassword([FromBody] ChangePassword chg)
+        {
+            chg.Email=new Authentication().Decode(chg.Id).ToString();
+            bool result = await _userService.UpdateUserAsync(chg.Email,chg.NewPassword);
+            return Ok(new { result });
         }
     }
 }

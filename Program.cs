@@ -7,8 +7,6 @@ using TimeFourthe.Services;
 
 var key = Encoding.UTF8.GetBytes("1234");
 
-
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddCors(options =>
@@ -18,7 +16,6 @@ builder.Services.AddCors(options =>
         policy.WithOrigins("http://localhost:5173").AllowCredentials().AllowAnyMethod().AllowAnyHeader();
     });
 });
-
 
 // MongoDB Settings
 builder.Services.Configure<MongoDbSettings>(builder.Configuration.GetSection("MongoDbSettings"));

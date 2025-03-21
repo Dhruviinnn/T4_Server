@@ -9,6 +9,14 @@ Content-Type: application/json
     "email":"eva.history@gmail.com",
     "password":"history2025"
 }
+###
+POST http://localhost:3000/api/user/signup
+Content-Type: application/json
+
+{
+    "email":"eva.history@gmail.com",
+    "password":"history2025"
+}
 
 ###
 GET http://localhost:3000/api/user/get

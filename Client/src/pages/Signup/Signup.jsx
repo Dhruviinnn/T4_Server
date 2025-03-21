@@ -5,7 +5,6 @@ import Images from '../Login/Images'
 import { Link } from 'react-router-dom'
 import { Helmet } from "react-helmet-async";
 import ToastProvider from '../../components/Toaster'
-import {toast} from 'sonner'
 import { useParams, useNavigate } from 'react-router-dom';
 import { decode } from 'js-base64'
 import { useUser } from '../../contexts/user.context';

@@ -15,6 +15,35 @@ namespace TimeFourthe.Controllers
             _timetableService = timetableService;
         }
 
+       
+
+        //  [HttpPost("absent")]
+        // public async Task<IActionResult> absent()
+        // {
+        //     Absence.Mail();
+        //     return Ok(new { id = 'f' });
+        // }
+         [HttpPost("decline")]
+        public async Task<IActionResult> decline()
+        {
+            ApprovalDecline.Mail();
+            return Ok(new { id = 'f' });
+        }
+         [HttpPost("forget")]
+        public async Task<IActionResult> forgetpass()
+        {
+            Forgetpass.Mail();
+            return Ok(new { id = 'f' });
+        }
+
+
+         [HttpPost("approave")]
+        public async Task<IActionResult> approave()
+        {
+            ApprovalSuccess.Mail("NextGen Academy","vasavadhruvin123@gmail.com");
+            return Ok(new { id = 'f' });
+        }
+
         [HttpPost("send-auth")]
         public async Task<IActionResult> Authx()
         {

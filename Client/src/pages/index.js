@@ -4,6 +4,7 @@ import NotFound from "./NotFound/NotFound"
 import Signup from "./Signup/Signup"
 import TimeTableForm from "./TimeTable/TimeTable"
 import WaitingApproval from "./WaitingApproval/WaitingApproval"
+import ResetPass from "./ResetPass/Resetpass"
 
 export {
     Login,
@@ -11,5 +12,6 @@ export {
     Signup,
     TimeTableForm,
     WaitingApproval,
+    ResetPass,
     NotFound
 }

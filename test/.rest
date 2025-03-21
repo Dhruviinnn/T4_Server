@@ -62,6 +62,19 @@ Content-Type: application/json
 }
 
 
-
 ###
 POST http://localhost:3000/api/send-auth
+
+###
+POST http://localhost:3000/api/absent
+
+###
+POST http://localhost:3000/api/approave
+###
+POST http://localhost:3000/api/forget
+
+###
+POST http://localhost:3000/api/decline
+
+
+

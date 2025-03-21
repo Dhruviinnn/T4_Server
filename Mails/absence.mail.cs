@@ -15,35 +15,34 @@ namespace TimeFourthe.Mails
   <meta name='viewport' content='width=device-width, initial-scale=1.0'>
   <title>Teacher Absence Notification</title>
 </head>
-<body style=' color:#D1D5DB; font-family:Arial, sans-serif; margin:0; padding:0;'>
+<body style='color:#222; font-family:Arial, sans-serif; margin:0; padding:0; background:#f5f5f5;'>
 
   <table role='presentation' width='100%' cellspacing='0' cellpadding='0' border='0' align='center'>
     <tr>
       <td align='center' style='padding:15px;'>
         <table role='presentation' width='100%' cellspacing='0' cellpadding='0' border='0' style='
           max-width: 600px;
-          background: rgba(19, 32, 50, 0.9);
-          backdrop-filter: blur(10px);
+          background: #ffffff;
           border-radius: 15px;
           overflow:hidden;
-          box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.2);
+          box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.1);
           width: 90%;'>
 
           <!-- Header -->
           <tr>
             <td style='padding:15px; text-align:center;'>
-              <span style='font-size:20px; font-weight:600; color:#fff;'>📢 Web University</span>
+              <span style='font-size:20px; font-weight:600; color:#222;'>📢 Web University</span>
             </td>
           </tr>
 
           <!-- Banner -->
           <tr>
             <td style='
-              background: linear-gradient(to right, #8B5CF6, #6366F1);
+              background: #ddd;
               padding:20px;
               text-align:center;
-              color:#fff;'>
-              <h1 style='font-size:24px; margin:0; font-weight:bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.4);'>
+              color:#222;'>
+              <h1 style='font-size:24px; margin:0; font-weight:bold;'>
                 🚨 Absence Notice
               </h1>
             </td>
@@ -52,32 +51,42 @@ namespace TimeFourthe.Mails
           <!-- Content -->
           <tr>
             <td style='padding:20px; text-align:center;'>
-              <h2 style='color:#fff; font-size:20px; margin-bottom:10px;'>
+              <h2 style='color:#222; font-size:20px; margin-bottom:10px;'>
                 Important Teacher Absence Notice
               </h2>
 
               <p style='
-                background: rgba(255,255,255,0.1);
+                background: #eee;
                 padding:12px;
                 border-radius:8px;
                 font-size:16px;
                 font-weight:500;
-                color:#dfdbeb;
+                color:#222;
                 display:inline-block;'>
+<<<<<<< HEAD
+                This is to inform you that <span style='color:#444; font-weight:600;'>Ketul MJ</span>, your 
+                <span style='color:#444; font-weight:600;'>DSA</span> teacher, will be unavailable on 
+                <span style='color:#444; font-weight:600;'>17 Feb - Monday</span>.
+=======
                 This is to inform you that <span style='color:#A78BFA; font-weight:600;'>{teacher}</span>, your 
                 <span style='color:#A78BFA; font-weight:600;'>{subject}</span> teacher, will be unavailable on 
                 <span style='color:#A78BFA; font-weight:600;'>{date}</span>.
+>>>>>>> 661bb7360dbe730154975f4dfc7ebca83183e45c
               </p>
-
-        
 
               <p style='font-size:14px; margin-top:15px;'>
                 We appreciate your understanding. Regular classes will resume as scheduled from next lecture onwards.
               </p>
 
+<<<<<<< HEAD
+              <div style='padding-top:20px; border-top:1px solid #bbb; margin-top:20px; text-align:center;'>
+                <p style='color:#444; font-weight:500; margin-bottom:5px;'>Best Regards</p>
+                <p style='color:#222;'>Web University</p>
+=======
               <div style='padding-top:20px; border-top:1px solid #374151; margin-top:20px; text-align:center;'>
                 <p style='color:#A78BFA; font-weight:500; margin-bottom:5px;'>Best Regards</p>
                 <p style='color:#fff;'>{orgName}</p>
+>>>>>>> 661bb7360dbe730154975f4dfc7ebca83183e45c
               </div>
 
               <!-- Logo -->
@@ -95,6 +104,7 @@ namespace TimeFourthe.Mails
 
 </body>
 </html>
+
 ";
 
       MailSender.SendMail(recipients, html, title,orgName,"Absence Mail");

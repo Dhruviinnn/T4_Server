@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import { ArrowRight, Lock, Unlock } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import Images from './Images';
 import { Link } from 'react-router-dom';
 import { Helmet } from "react-helmet-async";
@@ -9,8 +9,11 @@ import { toast } from 'sonner';
 import ToastProvider from '../../components/Toaster';
 import { useUser } from '../../contexts/user.context';
 import './glow.css';
+import ResetPass from './ResetPass';
 
 const Login = () => {
+    const [showForgotPassword, setShowForgotPassword] = useState(false);
+
     const [email, setEmail] = useState("");
     const [, setUser] = useUser();
     const [passwordType, setPasswordType] = useState("password");
@@ -32,6 +35,8 @@ const Login = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         const data = { email, password };
+        console.log('new : ', email, password);
+
         fetch('http://localhost:3000/api/user/login', {
             method: 'POST',
             headers: {
@@ -40,18 +45,18 @@ const Login = () => {
             credentials: "include",
             body: JSON.stringify(data)
         })
-        .then(res => res.json())
-        .then(({ error, message, redirectUrl, userData }) => {
-            if (error) {
-                toast.error(message);
-            } else {
-                setUser(userData);
-                toast.success(message);
-                setTimeout(() => {
-                    navigate(redirectUrl);
-                }, 500);
-            }
-        });
+            .then(res => res.json())
+            .then(({ error, message, redirectUrl, userData }) => {
+                if (error) {
+                    toast.error(message);
+                } else {
+                    setUser(userData);
+                    toast.success(message);
+                    setTimeout(() => {
+                        navigate(redirectUrl);
+                    }, 500);
+                }
+            });
     };
 
     return (
@@ -63,6 +68,11 @@ const Login = () => {
             <ToastProvider />
             <div className="min-h-screen bg-black flex relative overflow-hidden">
                 <div className="absolute inset-0 bg-black opacity-50 blur-2xl" />
+                <AnimatePresence>
+                    {
+                        showForgotPassword && <ResetPass setShowForgotPassword={setShowForgotPassword} />
+                    }
+                </AnimatePresence>
                 <div className="w-full lg:w-1/2 flex flex-col justify-center px-8 lg:px-12 xl:px-24 relative z-10">
                     <motion.div
                         initial="hidden"
@@ -118,9 +128,14 @@ const Login = () => {
                             </button>
 
                             <div className="text-center mt-4">
-                                <button className="text-gray-400 hover:text-white transition-colors text-sm cursor-pointer">
+                                <div className="text-gray-400 hover:text-white transition-colors text-sm cursor-pointer"
+                                    onClick={() => {
+                                        setShowForgotPassword(true)
+                                    }}
+                                >
                                     Forgot your password?
-                                </button>
+                                </div>
+
                             </div>
 
                             <div className="text-center mt-6">
@@ -137,7 +152,7 @@ const Login = () => {
                         </form>
                     </motion.div>
                 </div>
-                <Images/>
+                <Images />
             </div>
         </>
     );

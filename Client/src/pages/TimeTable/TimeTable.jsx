@@ -9,6 +9,7 @@ import { Helmet } from "react-helmet-async";
 import { userFetcher } from '../../lib/userFetcher';
 import { useUser } from "../../contexts/user.context";
 import { decode, encode } from "js-base64";
+import { useNavigate } from "react-router-dom";
 
 const TimeTableForm = () => {
 	const [user, setUser] = useUser()
@@ -27,9 +28,12 @@ const TimeTableForm = () => {
 	const [selectedTeacher, setSelectedTeacher] = useState("");
 	const [isTeacherPanelOpen, setIsTeacherPanelOpen] = useState(false);
 	const [selectingSecondTeacher, setSelectingSecondTeacher] = useState(false);
-
+const navigate=useNavigate()
 
 	useEffect(() => {
+		if(user.role!='organization'){
+			navigate('/dashboard')
+		}
 		userFetcher(user, setUser)
 	}, [])
 

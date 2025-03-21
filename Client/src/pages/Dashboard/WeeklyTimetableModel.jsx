@@ -36,11 +36,11 @@ const WeeklyTimetableModel = ({ timetable, onClose, isOpen, days, mockWeekSchedu
                         <table className="w-full border-collapse bg-zinc-900 rounded-lg overflow-hidden">
                             <thead>
                                 <tr>
-                                    <th className="bg-zinc-800 p-4 text-white text-left font-medium border-b border-r border-white/10 min-w-[150px]">
+                                    <th className="bg-zinc-800 p-4 text-white font-medium border-b border-r border-white/10 min-w-[150px] text-center">
                                         Time Slot
                                     </th>
                                     {days.map(day => (
-                                        <th key={day} className="bg-zinc-800 p-4 text-white text-left font-medium border-b border-r border-white/10 min-w-[150px]">
+                                        <th key={day} className="bg-zinc-800 p-4 text-white font-medium border-b border-r border-white/10 min-w-[150px] text-center">
                                             {day}
                                         </th>
                                     ))}
@@ -54,8 +54,8 @@ const WeeklyTimetableModel = ({ timetable, onClose, isOpen, days, mockWeekSchedu
                                         </td>
                                         {days.map(day => (
                                             <td key={day} className="p-4 border-r border-b border-white/10 group-hover:bg-zinc-800/30 transition-colors duration-200">
-                                                {mockWeekSchedule[day]?.[index] && (
-                                                    <div className="space-y-2 transition-all duration-200 hover:translate-y-[-2px]">
+                                                {mockWeekSchedule[day]?.[index]? (
+                                                    <div className="space-y-2 transition-all duration-200 hover:translate-y-[-2px] text-center">
                                                         <div className="text-white font-medium">
                                                             {mockWeekSchedule[day][index].subject}
                                                         </div>
@@ -66,7 +66,9 @@ const WeeklyTimetableModel = ({ timetable, onClose, isOpen, days, mockWeekSchedu
                                                             </span>
                                                         </div>
                                                     </div>
-                                                )}
+                                                ):
+                                                (<div className='text-white text-center'>--</div>)
+                                            }
                                             </td>
                                         ))}
                                     </tr>

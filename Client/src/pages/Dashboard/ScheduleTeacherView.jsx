@@ -42,13 +42,16 @@ const ScheduleTeacherView = ({
     if (isDayInPast) {
       return; // Don't allow marking absent for past days
     }
-    setConfirmDialog({
+    setConfirmDialog(prev=>{
+      return {
       isOpen: true,
       scheduleKey,
       isUnmarking: isAlreadyAbsent,
       subject,
       className,
-      date: selectedDate
+      date: selectedDate,
+      deleteTableId:prev.deleteTableId
+      }
     });
   };
   return (

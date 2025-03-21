@@ -88,6 +88,12 @@ namespace TimeFourthe.Controllers
             if (auth != null) return Ok(new { user = new Authentication().Decode(auth) });
             return Ok(new { error = true, message = "Authorization failed" });
         }
+        [HttpGet("user/logout")]
+        public void LogOut()
+        {
+            var auth = Request.Cookies["auth"];
+            if (auth != null) Response.Cookies.Delete("auth");
+        }
 
         [HttpPost("user/teacher/absent")]
         public async Task<IActionResult> GetStudents([FromBody] AbsentDataRequest absentData)
@@ -102,7 +108,7 @@ namespace TimeFourthe.Controllers
         public OkObjectResult GetClasses()
         {
 
-            string OrgId=Request.Query["OrgId"].ToString();
+            string OrgId = Request.Query["OrgId"].ToString();
             List<int> orgType = [0, 1, 2, 3]; // fetch from db using orgId
             List<string> orgClasses = [];
             foreach (var item in orgType)

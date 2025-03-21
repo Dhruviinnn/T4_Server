@@ -74,12 +74,7 @@ POST http://localhost:3000/api/approave
 POST http://localhost:3000/api/forget
 
 ###
-POST http://localhost:3000/api/user/forgot/mail
-Content-Type: application/json
-
-{
-    "Email":"TCH935648018993"
-}
+GET http://localhost:3000/api/delete/timetable?id=67d7c492a7131655d6b02bc3
 
 
 

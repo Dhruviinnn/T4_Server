@@ -28,6 +28,12 @@ namespace TimeFourthe.Controllers
             var timetables = timetablesWholeData.Select(tts => tts.Timetable);
             return Ok(new { timetables });
         }
+        [HttpGet("delete/timetable")]
+        public async Task<OkObjectResult> DeleteTimeTables()
+        {
+            await _timetableService.DeleteTimetableAsync(Request.Query["id"].ToString());
+            return Ok(new { error = false, result = "TimeTable Deleted" });
+        }
 
         [HttpPost("generate/timetable")]
         public async Task<OkObjectResult> GetTimeTable([FromBody] TimetableData TimeTable)
@@ -74,17 +80,17 @@ namespace TimeFourthe.Controllers
                                 teacherSchedule[day] = new HashSet<string>();
                             }
                             teacherSchedule[day].Add(teacher.TeacherId);
-                        
-                        try
-                        {
-                            tt[i].Add(new Period { StartTime = currentStartTime, Subject = subject });
-                        }
-                        catch (System.Exception)
-                        {
-                            tt.Add(new List<Period>());
-                            // throw;
-                        }
-                        currentStartTime += TimeTable.PeriodDuration;
+
+                            try
+                            {
+                                tt[i].Add(new Period { StartTime = currentStartTime, Subject = subject });
+                            }
+                            catch (System.Exception)
+                            {
+                                tt.Add(new List<Period>());
+                                // throw;
+                            }
+                            currentStartTime += TimeTable.PeriodDuration;
                         }
                     }
                 }
@@ -107,5 +113,6 @@ namespace TimeFourthe.Controllers
             var tmp = scheduleListForTeacher.Find(item => item.Day == day && time >= item.StartTime && time <= item.StartTime + PeriodDuration);
             return tmp == null;
         }
+
     }
 }

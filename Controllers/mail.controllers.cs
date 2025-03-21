@@ -1,3 +1,4 @@
+using AuthString;
 using Microsoft.AspNetCore.Mvc;
 using TimeFourthe.Entities;
 using TimeFourthe.Mails;
@@ -29,11 +30,11 @@ namespace TimeFourthe.Controllers
             ApprovalDecline.Mail();
             return Ok(new { id = 'f' });
         }
-         [HttpPost("forget")]
-        public async Task<IActionResult> forgetpass()
+         [HttpPost("user/forgot/mail")]
+        public async Task<IActionResult> forgetpass(ChangePassword chg)
         {
-            Forgetpass.Mail();
-            return Ok(new { id = 'f' });
+            Forgetpass.Mail(chg.Email,new Authentication().Encode(chg.Email));
+            return Ok(new {result="Mail is sent, Check your Inbox"});
         }
 
 
@@ -44,7 +45,7 @@ namespace TimeFourthe.Controllers
             return Ok(new { id = 'f' });
         }
 
-        [HttpPost("send-auth")]
+        [HttpPost("send/mail")]
         public async Task<IActionResult> Authx()
         {
             Auth.Mail(["ORG82469235952", "Web University"]);

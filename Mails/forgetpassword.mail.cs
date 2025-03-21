@@ -1,15 +1,15 @@
 namespace TimeFourthe.Mails
 {
-    public class Forgetpass
+  public class Forgetpass
+  {
+
+    public async static void Mail(string email,string encodedLink)
     {
-        
-        public async static void Mail()
-        {
-            
-            string title = "Reset your Password";
-            string senderName = "Web University";
-            string[] recipients = ["vasavadhruvin123@gmail.com"];
-            string html = @$"<!DOCTYPE html>
+
+      string title = "Reset your Password";
+      string senderName = "Time Fourthe";
+      string[] recipients = [email];
+      string html = @$"<!DOCTYPE html>
 <html>
 <head>
   <meta charset='UTF-8'>
@@ -73,7 +73,7 @@ namespace TimeFourthe.Mails
 
               <!-- Reset Button -->
               <div style='text-align:center; margin-top:20px;'>
-                <a href='https://yourresetlink.com' 
+                <a href='http://localhost:5173/reset-password?id={encodedLink}' 
                    style='
                      display:inline-block;
                      background: #444;
@@ -109,7 +109,7 @@ namespace TimeFourthe.Mails
 
 ";
 
-            await MailSender.SendMail(recipients, html, title, senderName,"Forget Password Mail");
-        }
+      await MailSender.SendMail(recipients, html, title, senderName, "Forget Password Mail");
     }
+  }
 }

@@ -74,7 +74,12 @@ POST http://localhost:3000/api/approave
 POST http://localhost:3000/api/forget
 
 ###
-POST http://localhost:3000/api/decline
+POST http://localhost:3000/api/user/forgot/mail
+Content-Type: application/json
+
+{
+    "Email":"TCH935648018993"
+}
 
 
 

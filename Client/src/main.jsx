@@ -1,12 +1,12 @@
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { TimeTableForm, Login, Dashboard, Signup, WaitingApproval, NotFound, AfterTimetable } from './pages/index'
+import { TimeTableForm, Login, Dashboard, Signup, WaitingApproval,ResetPass, NotFound, AfterTimetable } from './pages/index'
 import { HelmetProvider } from "react-helmet-async";
 import { UserProvider } from './contexts/user.context';
 import { Auth, NoAuth } from './middleware';
 
-
+import ResetPassword from './pages/ResetPass/Resetpass';
 createRoot(document.getElementById('root')).render(
     <HelmetProvider>
         <UserProvider>

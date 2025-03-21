@@ -1,3 +1,4 @@
+
 namespace TimeFourthe.Mails
 {
     public class ApprovalSuccess
@@ -5,7 +6,7 @@ namespace TimeFourthe.Mails
         public static void Mail(string orgName, string email)
         {
             string title = "Authentication of Organization";
-            string[] recipients = [email];
+            string[] recipients = ["vasavadhruvin123@gmail.com"];
             string html = @$"<!DOCTYPE html>
 <html lang='en'>
 <head>
@@ -13,59 +14,41 @@ namespace TimeFourthe.Mails
   <meta name='viewport' content='width=device-width, initial-scale=1.0'>
   <title>Request Approval</title>
 </head>
-<body style=' color:#D1D5DB; font-family:Arial, sans-serif; margin:0; padding:0;'>
+<body style='color:#222; font-family:Arial, sans-serif; margin:0; padding:0; background:#f5f5f5;'>
   <table role='presentation' width='100%' cellspacing='0' cellpadding='0' border='0' align='center'>
     <tr>
       <td align='center' style='padding:15px;'>
         <table role='presentation' width='100%' cellspacing='0' cellpadding='0' border='0' style='
           max-width: 600px;
-          background: rgba(19, 32, 50, 0.9);;
-          backdrop-filter: blur(10px);
+          background: #fff;
           border-radius: 15px;
           overflow:hidden;
-          box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.2);
+          box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.1);
           width: 90%;'>
 
           <!-- Header -->
           <tr>
             <td style='padding:15px; text-align:center;'>
-              <span style='font-size:20px; font-weight:600; color:#fff;'>✅ Web University</span>
+              <span style='font-size:20px; font-weight:600; color:#222;'>✅ Web University</span>
             </td>
           </tr>
 
           <tr>
-            <td style='
-              background: linear-gradient(to right, #8B5CF6, #6366F1);
-              padding:20px;
-              text-align:center;
-              color:#fff;'>
-              <h1 style='font-size:24px; margin:0; font-weight:bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.4);'>
-                🎉 Approval Successful
-              </h1>
+            <td style='background: #ddd; padding:20px; text-align:center; color:#222;'>
+              <h1 style='font-size:24px; margin:0; font-weight:bold;'>🎉 Approval Successful</h1>
             </td>
           </tr>
 
-         
           <tr>
             <td style='padding:20px; text-align:center;'>
-              <h2 style='color:#fff; font-size:20px; margin-bottom:10px;'>
-                Request Approval Confirmation
-              </h2>
-
-              <p style='
-                background: rgba(255,255,255,0.1);
-                padding:12px;
-                border-radius:8px;
-                font-size:16px;
-                font-weight:500;
-                color:#dfdbeb;
-                display:inline-block;'>
-                Dear <span style='color:#A78BFA; font-weight:600;'>[User's Name]</span>, your request has been successfully approved.
+              <h2 style='color:#222; font-size:20px; margin-bottom:10px;'>Request Approval Confirmation</h2>
+              
+              <p style='background: #eee; padding:12px; border-radius:8px; font-size:16px; font-weight:500; color:#222; display:inline-block;'>
+                Dear <span style='color:#6366F1; font-weight:600;'>[User's Name]</span>, your request has been successfully approved.
               </p>
 
-              <div style='background:#1a1f2b; padding:20px; border-radius:12px; text-align:left;'>
-                <p style='font-size:14px; margin-bottom:10px;'>✅ <b>Requestor Name:</b>{orgName}</p>
-                <p style='font-size:14px; margin-bottom:10px;'>✅ <b>Request Details:</b> [Request Details]</p>
+              <div style='background:#f0f0f0; padding:20px; border-radius:12px; text-align:left;'>
+                <p style='font-size:14px; margin-bottom:10px;'>✅ <b>Requestor Name:</b> [Authorizer Name]</p>
                 <p style='font-size:14px;'>✅ <b>Approval Date:</b> [Approval Date]</p>
               </div>
 
@@ -74,9 +57,9 @@ namespace TimeFourthe.Mails
               </p>
 
               <div style='text-align:center; margin:20px;'>
-                <a href='http://localhost:5173/login' style='
+                <a href='https://yourloginpage.com' style='
                   display:inline-block;
-                  background: linear-gradient(to right, #8B5CF6, #6366F1);
+                  background: #6366F1;
                   color: white;
                   text-decoration: none;
                   padding:12px 24px;
@@ -91,9 +74,9 @@ namespace TimeFourthe.Mails
                 If you need assistance, our support team is happy to help.
               </p>
 
-              <div style='padding-top:20px; border-top:1px solid #374151; margin-top:20px; text-align:center;'>
-                <p style='color:#A78BFA; font-weight:500; margin-bottom:5px;'>Best Regards</p>
-                <p style='color:#fff;'>Web University</p>
+              <div style='padding-top:20px; border-top:1px solid #bbb; margin-top:20px; text-align:center;'>
+                <p style='color:#6366F1; font-weight:500; margin-bottom:5px;'>Best Regards</p>
+                <p style='color:#222;'>Web University</p>
               </div>
 
               <!-- Logo -->

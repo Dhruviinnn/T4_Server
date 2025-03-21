@@ -37,14 +37,14 @@ const TimeTableForm = () => {
 		if (user.userId) {
 			// classes fetching
 			fetch(`http://localhost:3000/api/get/org/classes?OrgId=${user.OrgId}`)
-			.then(res => res.json())
-			.then(data => {
-				if (data) {
-					console.log(data.orgClasses);
-					setGrades(data.orgClasses);
-					setClassname(data.orgClasses[0])
-				}
-			})
+				.then(res => res.json())
+				.then(data => {
+					if (data) {
+						console.log(data.orgClasses);
+						setGrades(data.orgClasses);
+						setClassname(data.orgClasses[0])
+					}
+				})
 			// Teachers fetching
 			const teachers = localStorage.getItem('teachers');
 			if (!teachers) {
@@ -105,7 +105,7 @@ const TimeTableForm = () => {
 					className: 'bg-red-500'
 				}}
 			/>
-			<Navbar />
+			<Navbar role={user.role} />
 			<div className="min-h-screen bg-black flex items-center justify-center py-4 px-4 sm:px-20 relative">
 				<div className="w-full bg-zinc-900 rounded-xl shadow-2xl shadow-white/5 p-4 sm:p-6 md:p-8 border border-white/10">
 					<div className="relative">

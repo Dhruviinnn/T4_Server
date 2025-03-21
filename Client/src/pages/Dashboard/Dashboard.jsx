@@ -249,7 +249,7 @@ const Dashboard = () => {
 
   return (
     <>
-      <Navbar />
+      <Navbar role={user.role} />
       <div className="min-h-screen bg-gradient-to-b from-black to-zinc-900 p-4 sm:p-6 md:p-8">
         <div className="max-w-7xl mx-auto space-y-6">
           <UserInfo />

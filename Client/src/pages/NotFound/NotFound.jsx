@@ -15,7 +15,7 @@ function NotFound() {
         <p className="text-gray-500 text-lg mb-10 max-w-lg mx-auto">
           The page you're looking for seems to have vanished into the digital void.
         </p>
-        <a 
+        <a
           href="/login"
           className="inline-flex items-center px-8 py-3 rounded-xl bg-gray-600 text-white font-medium 
                    hover:bg-gray-500 transition-all duration-200 ease-in-out 

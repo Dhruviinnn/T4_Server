@@ -32,6 +32,7 @@ createRoot(document.getElementById('root')).render(
                             <Dashboard />
                         </Auth>} />
                     <Route path="/waiting-approval" element={<WaitingApproval />} />
+                    <Route path="/:nothing" element={<NotFound />} />
                 </Routes>
             </BrowserRouter>
         </UserProvider>

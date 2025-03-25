@@ -18,7 +18,7 @@ namespace TimeFourthe.Entities
         public int BreakDuration { get; set; }
         public int LabDuration { get; set; }
         public List<List<Period>>? Timetable { get; set; }
-        public List<Subject> Subjects { get; set; }
+        public required List<Subject> Subjects { get; set; }
     }
 
     public class Period
@@ -31,8 +31,9 @@ namespace TimeFourthe.Entities
 
     public class Subject
     {
-        public string? Name { get; set; }
-        public Teacher? Teacher { get; set; }
+        public required string Name { get; set; }
+        public bool IsLab { get; set; }
+        public required Teacher Teacher { get; set; }
 
     }
 

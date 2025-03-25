@@ -43,12 +43,29 @@ namespace TimeFourthe.Services
             await _usersCollection.Find(user => user.OrgId == absentData.OrgId && user.Class == absentData.Class && user.Role == "student").ToListAsync();
         public async Task<User> GetOrganizationByOrgId(string orgId) =>
             await _usersCollection.Find(user => user.OrgId == orgId).FirstOrDefaultAsync();
-        public async Task<User> GetTeacherScheduleListAsync(string teacherId) =>
-            await _usersCollection.Find(user => user.UserId == teacherId).FirstOrDefaultAsync();
+        public async Task<User> GetTeacherScheduleListAsync(string teacherId)
+        {
+            try
+            {
+                return await _usersCollection.Find(user => user.UserId == teacherId).FirstOrDefaultAsync();
+            }
+            catch
+            {
+                throw;
+            }
+        }
         public async Task<bool> UpdateUserAsync(string email, string newPassword)
         {
             var filter = Builders<User>.Filter.Eq(user => user.Email, email);
             var update = Builders<User>.Update.Set(s => s.Password, newPassword);
+            var x = await _usersCollection.UpdateOneAsync(filter, update);
+            return x.ModifiedCount > 0;
+        }
+
+        public async Task<bool> AddScheduleToTeacher(string teacherId, Schedule schedule)
+        {
+            var filter = Builders<User>.Filter.Eq(user => user.UserId, teacherId);
+            var update = Builders<User>.Update.Push(u => u.Schedule, schedule);
             var x = await _usersCollection.UpdateOneAsync(filter, update);
             return x.ModifiedCount > 0;
         }

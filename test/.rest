@@ -19,18 +19,19 @@ POST http://localhost:3000/api/generate/timetable
 Content-Type: application/json
 
 {
-    "OrgId" : "ORG983156005450",
+    "OrgId" : "ORG163705377487057",
     "Class" : "Class X",
     "Division" : "A",
     "Year" : 2024,
-    "StartTime" : 540,
-    "HoursPerDay" : 3,
-    "PeriodDuration" : 60,
+    "StartTime" : 500,
+    "HoursPerDay" : 5,
+    "PeriodDuration" : 90,
     "BreakDuration" : 0,
     "LabDuration" : 60,
     "Subjects":[
     {
         "Name": "Math",
+        "isLab":true,
         "Teacher": {
             "Name": "John Doe",
             "TeacherId": "TCH1001"
@@ -38,6 +39,7 @@ Content-Type: application/json
     },
     {
         "Name": "Physics",
+        "isLab":false,
         "Teacher": {
             "Name": "Jane Smith",
             "TeacherId": "TCH1002"
@@ -45,6 +47,7 @@ Content-Type: application/json
     },
     {
         "Name": "Chemistry",
+        "isLab":false,
         "Teacher": {
             "Name": "Mike Johnson",
             "TeacherId": "TCH1003"
@@ -52,23 +55,18 @@ Content-Type: application/json
     },
     {
         "Name": "Biology",
+        "isLab":true,
         "Teacher": {
             "Name": "Sarah Lee",
-            "TeacherId": "TCH1044"
+            "TeacherId": "TCH1004"
         }
     },
     {
         "Name": "History",
+        "isLab":false,
         "Teacher": {
             "Name": "Emily Davis",
             "TeacherId": "TCH1005"
-        }
-    },
-    {
-        "Name": "Science",
-        "Teacher": {
-            "Name": "Mickey Sen",
-            "TeacherId": "TCH1001"
         }
     }
 ]

@@ -11,9 +11,12 @@ namespace TimeFourthe.Controllers
     public class MailController : ControllerBase
     {
         private readonly TimetableService _timetableService;
-        public MailController(TimetableService timetableService)
+        private readonly UserService _userService;
+
+        public MailController(TimetableService timetableService, UserService userService)
         {
             _timetableService = timetableService;
+            _userService = userService;
         }
 
        
@@ -30,11 +33,16 @@ namespace TimeFourthe.Controllers
             ApprovalDecline.Mail();
             return Ok(new { id = 'f' });
         }
-         [HttpPost("user/forgot/mail")]
+        [HttpPost("user/forgot/mail")]
         public async Task<IActionResult> forgetpass(ChangePassword chg)
         {
+            var user= await _userService.GetUserAsync(chg.Email);
+            if (user == null)
+            {
+                return Ok(new {status=401,result="Mail is not associated with any account"});
+            }
             Forgetpass.Mail(chg.Email,new Authentication().Encode(chg.Email));
-            return Ok(new {result="Mail is sent, Check your Inbox"});
+            return Ok(new {status=200,result="Mail is sent, Check your Inbox"});
         }
 
 

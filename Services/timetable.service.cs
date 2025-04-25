@@ -27,6 +27,9 @@ namespace TimeFourthe.Services
 
         public async Task InsertTimetableDataAsync(TimetableData timetableData) =>
             await _timetableCollection.InsertOneAsync(timetableData);
+
+        public async Task<TimetableData> GetTimetableAsync(string id) =>
+            await _timetableCollection.Find(d => d.Id == id).FirstOrDefaultAsync();
         public async Task DeleteTimetableAsync(string timeTableId)
         {
             var filter = Builders<TimetableData>.Filter.Eq(tt => tt.Id, timeTableId);

@@ -12,6 +12,10 @@ namespace TimeFourthe.Entities
         public required string Class { get; set; }
         public required string Division { get; set; }
         public required int? Year { get; set; }
+        public required int? BreakStartTime { get; set; }
+        public required int? BreakDuration { get; set; }
+        public int PeriodDuration{get; set;}
+        public int LabDuration{get; set;}
 
         public List<List<Period>> Timetable { get; set; }
     }

@@ -2,7 +2,7 @@
 GET http://localhost:1234/api/get/teachers?OrgId=ORG983156005450
 
 ###
-POST http://localhost:1234/api/user/signup
+POST http://localhost:3000/api/user/signup
 Content-Type: application/json
 
 {
@@ -90,7 +90,7 @@ POST http://localhost:3000/api/absent
 ###
 POST http://localhost:3000/api/approave
 ###
-POST http://localhost:3000/api/forget
+POST http://localhost:3000/api/show/tt
 
 ###
 GET http://localhost:3000/api/delete/timetable?id=67d7c492a7131655d6b02bc3

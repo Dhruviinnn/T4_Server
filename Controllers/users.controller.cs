@@ -96,10 +96,11 @@ namespace TimeFourthe.Controllers
             return Ok(new { error = true, message = "Authorization failed" });
         }
         [HttpGet("user/logout")]
-        public void LogOut()
+        public OkObjectResult LogOut()
         {
             var auth = Request.Cookies["auth"];
             if (auth != null) Response.Cookies.Delete("auth");
+            return Ok(new {status=true});
         }
 
         [HttpPost("user/teacher/absent")]

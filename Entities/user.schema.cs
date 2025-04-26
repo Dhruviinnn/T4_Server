@@ -23,5 +23,9 @@ namespace TimeFourthe.Entities
         public int StartTime { get; set; }
         public int Day { get; set; }
         public string ClassName { get; set; }
+        public string Subject{get; set;}
+         public bool IsLab { get; set; }
+        public int Duration {get; set;}
+        public string? TeacherId { get; set; }
     }
 }

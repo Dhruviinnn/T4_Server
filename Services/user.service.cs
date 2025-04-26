@@ -38,22 +38,13 @@ namespace TimeFourthe.Services
             }
         }
         public async Task<List<User>> GetTechersByOrgIdAsync(string orgId) =>
-            await _usersCollection.Find(user => user.OrgId == orgId && user.Role == "teacher").ToListAsync();
+            await _usersCollection.Find(user => user.OrgId == orgId && user.Role == "Teacher").ToListAsync();
         public async Task<List<User>> GetStudentsByOrgIdAndClassAsync(AbsentDataRequest absentData) =>
             await _usersCollection.Find(user => user.OrgId == absentData.OrgId && user.Class == absentData.Class && user.Role == "student").ToListAsync();
         public async Task<User> GetOrganizationByOrgId(string orgId) =>
             await _usersCollection.Find(user => user.OrgId == orgId).FirstOrDefaultAsync();
-        public async Task<User> GetTeacherScheduleListAsync(string teacherId)
-        {
-            try
-            {
-                return await _usersCollection.Find(user => user.UserId == teacherId).FirstOrDefaultAsync();
-            }
-            catch
-            {
-                throw;
-            }
-        }
+        public async Task<User> GetTeacherScheduleListAsync(string teacherId)=>
+            await _usersCollection.Find(user => user.UserId == teacherId).FirstOrDefaultAsync();
         public async Task<bool> UpdateUserAsync(string email, string newPassword)
         {
             var filter = Builders<User>.Filter.Eq(user => user.Email, email);

@@ -15,6 +15,9 @@ Content-Type: application/json
 }
 
 ###
+POST http://localhost:3000/api/upload/timetable
+
+###
 POST http://localhost:3000/api/generate/timetable
 Content-Type: application/json
 
@@ -27,6 +30,7 @@ Content-Type: application/json
     "HoursPerDay" : 5,
     "PeriodDuration" : 90,
     "BreakDuration" : 0,
+    "BreakStartTime":750,
     "LabDuration" : 60,
     "Subjects":[
     {
@@ -59,14 +63,6 @@ Content-Type: application/json
         "Teacher": {
             "Name": "Sarah Lee",
             "TeacherId": "TCH1004"
-        }
-    },
-    {
-        "Name": "History",
-        "isLab":false,
-        "Teacher": {
-            "Name": "Emily Davis",
-            "TeacherId": "TCH1005"
         }
     }
 ]

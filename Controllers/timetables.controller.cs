@@ -15,7 +15,7 @@ namespace TimeFourthe.Controllers
         private readonly TimetableService _timetableService;
         private readonly UserService _userService;
         private TimetableData generatedTT;
-        private List<ScheduleTeacher> scheduledTeachers;
+        private List<Schedule> scheduledTeachers;
         string[] days;
 
         public TimetablesController(TimetableService timetableService, UserService userService)
@@ -34,11 +34,19 @@ namespace TimeFourthe.Controllers
             return Ok(new { result });
         }
 
-        [HttpGet("get/timetable")]
+        [HttpGet("get/timetable-metadata")]
         public async Task<OkObjectResult> GetTimeTables()
         {
             var timetablesWholeData = await _timetableService.GetTimetableDataByOrgIdAsync(Request.Query["OrgId"].ToString());
-            var timetables = timetablesWholeData.Select(tts => tts.Timetable);
+            var timetables = timetablesWholeData.Select(tt=>Ok(new {
+                id=tt.Id,
+                className=tt.Class,
+                division=tt.Division,
+                year=tt.Year,
+                breakDuration=tt.BreakDuration,
+                breakStartTime=tt.BreakStartTime,
+                    
+            }));
             return Ok(new { timetables });
         }
         [HttpGet("delete/timetable")]
@@ -59,7 +67,7 @@ namespace TimeFourthe.Controllers
             Dictionary<string, HashSet<string>> teacherSchedule = new Dictionary<string, HashSet<string>>();
             HashSet<string> isAllTeacherScheduled;
             HashSet<string> unavailableTeachers;
-            scheduledTeachers = new List<ScheduleTeacher>();
+            scheduledTeachers = new List<Schedule>();
 
             Dictionary<string, List<Schedule>> scheduleListForTeachers = await GetScheduleListForAllTeachers(TimeTable.Subjects.Select(sub => sub.Teacher).DistinctBy(teacher => teacher.TeacherId).ToList());
             for (int i = 0; i < days.Length; i++)
@@ -95,7 +103,7 @@ namespace TimeFourthe.Controllers
                         }
 
 
-                        if (isTeacherAvailable(scheduleListForTeachers[teacher.TeacherId], i, currentStartTime, teacher.TeacherId, TimeTable.PeriodDuration, isAllTeacherScheduled, unavailableTeachers))
+                        if (isTeacherAvailable(scheduleListForTeachers[teacher.TeacherId], i, currentStartTime, teacher.TeacherId, TimeTable.PeriodDuration, isAllTeacherScheduled, unavailableTeachers, TimeTable.BreakStartTime, TimeTable.BreakDuration))
                         {
                             if (!teacherSchedule.ContainsKey(day))
                             {
@@ -103,14 +111,20 @@ namespace TimeFourthe.Controllers
                             }
                             try
                             {
-
-
                                 tt[i].Add(new Period { StartTime = currentStartTime, Subject = subject });
                                 unavailableTeachers.Remove(subject.Teacher.TeacherId);
                                 currentStartTime += subject.IsLab ? TimeTable.LabDuration : TimeTable.PeriodDuration;
                                 teacherSchedule[day].Add(teacher.TeacherId);
 
-                                scheduledTeachers.Add(new ScheduleTeacher { StartTime = currentStartTime, ClassName = TimeTable.Class, Day = i, TeacherId = subject.Teacher.TeacherId });
+                                scheduledTeachers.Add(new Schedule { 
+                                    StartTime = currentStartTime, 
+                                    ClassName = TimeTable.Class, 
+                                    Day = i, 
+                                    TeacherId = subject.Teacher.TeacherId, 
+                                    Subject = subject.Name,
+                                    IsLab=subject.IsLab,
+                                    Duration=subject.IsLab?TimeTable.LabDuration:TimeTable.PeriodDuration 
+                                });
 
                             }
                             catch (System.Exception)
@@ -131,7 +145,11 @@ namespace TimeFourthe.Controllers
                 OrgId = TimeTable.OrgId,
                 Class = TimeTable.Class,
                 Division = TimeTable.Division,
-                Year = TimeTable.Year
+                Year = TimeTable.Year,
+                BreakStartTime = TimeTable.BreakStartTime,
+                BreakDuration = TimeTable.BreakDuration,
+                PeriodDuration = TimeTable.PeriodDuration,
+                LabDuration = TimeTable.LabDuration
             };
 
             foreach (var item in scheduledTeachers)
@@ -150,12 +168,15 @@ namespace TimeFourthe.Controllers
             Dictionary<string, List<Schedule>> x = new Dictionary<string, List<Schedule>>();
             foreach (var item in teachers)
             {
-                x.Add(item.TeacherId, (await _userService.GetTeacherScheduleListAsync(item.TeacherId)).Schedule);
+                var tmp=(await _userService.GetTeacherScheduleListAsync(item.TeacherId)).Schedule;
+                x.Add(item.TeacherId, tmp ?? new List<Schedule>());
             }
             return x;
         }
-        private bool isTeacherAvailable(List<Schedule> scheduleListForTeacher, int day, int time, string teacherId, int PeriodDuration, HashSet<String> isAllTeacherScheduled, HashSet<String> unavailableTeachers)
+        private bool isTeacherAvailable(List<Schedule> scheduleListForTeacher, int day, int time, string teacherId, int PeriodDuration, HashSet<String> isAllTeacherScheduled, HashSet<String> unavailableTeachers,int? breakStartTime,int? breakDuration)
         {
+
+            if(time>=breakStartTime && time<breakStartTime+breakDuration) return false;
             var tmp = scheduleListForTeacher.Find(item => item.Day == day && time >= item.StartTime && time < item.StartTime + PeriodDuration);
             if (tmp != null) { isAllTeacherScheduled.Add(teacherId); unavailableTeachers.Add(teacherId); }
             return tmp == null;
@@ -169,9 +190,16 @@ namespace TimeFourthe.Controllers
 
             foreach (var item in scheduledTeachers)
             {
-                await _userService.AddScheduleToTeacher(item.TeacherId, new Schedule { StartTime = item.StartTime, Day = item.Day, ClassName = item.ClassName });
+                await _userService.AddScheduleToTeacher(item.TeacherId, new Schedule {
+                    StartTime = item.StartTime, 
+                    Day = item.Day, 
+                    ClassName = item.ClassName,
+                    Subject=item.Subject,
+                    IsLab=item.IsLab,
+                    Duration=item.Duration
+                    });
             }
-            return Ok(new {result="TimeTable Created"});
+            return Ok(new { result = "TimeTable Created" });
         }
 
 
@@ -184,27 +212,11 @@ namespace TimeFourthe.Controllers
         }
     }
 
-    public class ScheduleTeacher
-    {
-        public int StartTime { get; set; }
-        public string ClassName { get; set; }
-        public int Day { get; set; }
-        public string TeacherId { get; set; }
-    }
 
-    public class TimeTableDetails
+    public class TimeTableDetails:TimetableData
     {
         public int StartTime { get; set; }
         public int HoursPerDay { get; set; }
-        public int PeriodDuration { get; set; }
-        public int BreakDuration { get; set; }
-        public int LabDuration { get; set; }
-        public string? OrgId { get; set; }
-        public string? Class { get; set; }
-        public string? Division { get; set; }
-
-        public int? Year { get; set; }
-
         public required List<Subject> Subjects { get; set; }
     }
 }

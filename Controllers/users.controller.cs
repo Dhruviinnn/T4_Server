@@ -91,7 +91,6 @@ namespace TimeFourthe.Controllers
         public OkObjectResult GetUser()
         {
             var auth = Request.Cookies["auth"];
-            Console.WriteLine($"Auth : {auth}");
             if (auth != null) return Ok(new { user = new Authentication().Decode(auth) });
             return Ok(new { error = true, message = "Authorization failed" });
         }

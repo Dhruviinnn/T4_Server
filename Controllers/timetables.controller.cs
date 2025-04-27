@@ -57,115 +57,10 @@ namespace TimeFourthe.Controllers
             return Ok(new { error = false, result = "TimeTable Deleted" });
         }
 
-        [HttpPost("generate/timetable")]
-        public async Task<OkObjectResult> GetTimeTable([FromBody] TimeTableDetails TimeTable)
-        {
-            List<Subject> subjects = TimeTable.Subjects;
-            List<List<Period>> tt = new List<List<Period>>();
-
-            int? HoursPerDayInMinutes = (TimeTable.HoursPerDay * 60) - TimeTable.BreakDuration;
-            Random rand = new Random();
-            Dictionary<string, HashSet<string>> teacherSchedule = new Dictionary<string, HashSet<string>>();
-            HashSet<string> isAllTeacherScheduled;
-            HashSet<string> unavailableTeachers;
-            scheduledTeachers = new List<Schedule>();
-
-            Dictionary<string, List<Schedule>> scheduleListForTeachers = await GetScheduleListForAllTeachers(TimeTable.Subjects.Select(sub => sub.Teacher).DistinctBy(teacher => teacher.TeacherId).ToList());
-            for (int i = 0; i < days.Length; i++)
-            {
-                string day = days[i];
-                int currentStartTime = TimeTable.StartTime;
-                unavailableTeachers = new HashSet<string>();
-                isAllTeacherScheduled = new HashSet<string>();
-                if (!(HoursPerDayInMinutes <= subjects.Count * TimeTable.PeriodDuration))
-                {
-                    return Ok(new { status = 400, message = "Decrease hoursPerDay or Increase periodDuraions", GeneratedTimeTable = new List<int>() });
-                }
-                else
-                {
-                    while (currentStartTime - TimeTable.StartTime < HoursPerDayInMinutes)
-                    {
-                        Subject subject;
-                        Teacher teacher;
-
-                        do
-                        {
-                            subject = subjects[rand.Next(subjects.Count)];
-                            teacher = subject.Teacher;
-                        } while (teacherSchedule.ContainsKey(day) && teacherSchedule[day].Contains(teacher.TeacherId));
-
-                        if (teacherSchedule.ContainsKey(day))
-                        {
-                            if (subjects.Count - teacherSchedule[day].Count - unavailableTeachers.Count <= 0)
-                            {
-                                break;
-                            }
-                        }
-
-
-                        if (isTeacherAvailable(scheduleListForTeachers[teacher.TeacherId], i, currentStartTime, teacher.TeacherId, TimeTable.PeriodDuration, isAllTeacherScheduled, unavailableTeachers, TimeTable.BreakStartTime, TimeTable.BreakDuration))
-                        {
-                            if (!teacherSchedule.ContainsKey(day))
-                            {
-                                teacherSchedule[day] = new HashSet<string>();
-                            }
-                            try
-                            {
-                                tt[i].Add(new Period { StartTime = currentStartTime, Subject = subject });
-                                unavailableTeachers.Remove(subject.Teacher.TeacherId);
-                                currentStartTime += subject.IsLab ? TimeTable.LabDuration : TimeTable.PeriodDuration;
-                                teacherSchedule[day].Add(teacher.TeacherId);
-
-                                scheduledTeachers.Add(new Schedule
-                                {
-                                    StartTime = currentStartTime,
-                                    ClassName = TimeTable.Class,
-                                    Day = i,
-                                    TeacherId = subject.Teacher.TeacherId,
-                                    Subject = subject.Name,
-                                    IsLab = subject.IsLab,
-                                    Duration = subject.IsLab ? TimeTable.LabDuration : TimeTable.PeriodDuration
-                                });
-
-                            }
-                            catch (System.Exception)
-                            {
-                                tt.Add(new List<Period>());
-                            }
-                        }
-                        if (scheduleListForTeachers.Count == isAllTeacherScheduled.Count)
-                        {
-                            return Ok(new { status = 400, message = "All teachers are scheduled" });
-                        }
-                    }
-                }
-            }
-            generatedTT = new TimetableData
-            {
-                Timetable = tt,
-                OrgId = TimeTable.OrgId,
-                Class = TimeTable.Class,
-                Division = TimeTable.Division,
-                Year = TimeTable.Year,
-                BreakStartTime = TimeTable.BreakStartTime,
-                BreakDuration = TimeTable.BreakDuration,
-                PeriodDuration = TimeTable.PeriodDuration,
-                LabDuration = TimeTable.LabDuration
-            };
-
-            foreach (var item in scheduledTeachers)
-            {
-                Console.WriteLine($"{item.ClassName} -- {item.Day} -- {item.StartTime} -- {item.TeacherId}");
-            }
-
-            return Ok(new { status = 200, generatedTT });
-        }
-
         private async Task<Dictionary<string, List<Schedule>>> GetScheduleListForAllTeachers(List<Teacher> teachers)
         {
             foreach (var item in teachers)
             {
-                Console.WriteLine($"Schedule of {item.Name} - {item.TeacherId}");
             }
             Dictionary<string, List<Schedule>> x = new Dictionary<string, List<Schedule>>();
             foreach (var item in teachers)
@@ -175,14 +70,7 @@ namespace TimeFourthe.Controllers
             }
             return x;
         }
-        private bool isTeacherAvailable(List<Schedule> scheduleListForTeacher, int day, int time, string teacherId, int PeriodDuration, HashSet<String> isAllTeacherScheduled, HashSet<String> unavailableTeachers, int? breakStartTime, int? breakDuration)
-        {
 
-            if (time >= breakStartTime && time < breakStartTime + breakDuration) return false;
-            var tmp = scheduleListForTeacher.Find(item => item.Day == day && time >= item.StartTime && time < item.StartTime + PeriodDuration);
-            if (tmp != null) { isAllTeacherScheduled.Add(teacherId); unavailableTeachers.Add(teacherId); }
-            return tmp == null;
-        }
 
         [HttpPost("upload/timetable")]
         public async Task<OkObjectResult> UploadTimeTable()
@@ -206,20 +94,111 @@ namespace TimeFourthe.Controllers
         }
 
 
-
-        [HttpPost("show/tt")]
-        public async Task<OkObjectResult> DeleteTimeTable()
+        [HttpPost("generate/timetable")]
+        public async Task<OkObjectResult> TmpTimeTable([FromBody] TimeTableDetails TimeTable)
         {
-            var tt = await _timetableService.GetTimetableAsync("67dcf92e2318d3633ffcbb85");
-            return Ok(new { tt });
+            List<Subject> subjects = TimeTable.Subjects;
+            List<List<Period>> tt = Enumerable.Range(0, days.Length).Select(_ => new List<Period>()).ToList();
+
+            int? HoursPerDayInMinutes = (TimeTable.HoursPerDay * 60) - TimeTable.BreakDuration;
+            Random rand = new Random();
+            scheduledTeachers = new List<Schedule>();
+
+
+            if (!(HoursPerDayInMinutes <= subjects.Count * TimeTable.PeriodDuration))
+            {
+                return Ok(new { status = 400, message = "Decrease hoursPerDay or Increase periodDurations or Increase subjects", GeneratedTimeTable = new List<int>() });
+            }
+
+            // Preprocess teacher schedule
+            var scheduleListForTeachers = await GetScheduleListForAllTeachers(
+                subjects.Select(s => s.Teacher).DistinctBy(t => t.TeacherId).ToList()
+            );
+
+            // Build a fast lookup: (teacherId, day, time) => unavailable
+            var busySlots = new HashSet<(string TeacherId, int Day, int Time)>();
+
+            foreach (var kv in scheduleListForTeachers)
+            {
+                foreach (var sched in kv.Value)
+                {
+                    for (int t = sched.StartTime; t < sched.StartTime + sched.Duration; t += TimeTable.PeriodDuration)
+                    {
+                        busySlots.Add((kv.Key, sched.Day, t));
+                    }
+                }
+            }
+
+            for (int dayIdx = 0; dayIdx < days.Length; dayIdx++)
+            {
+                string day = days[dayIdx];
+                int currentTime = TimeTable.StartTime;
+                var assignedTeachersToday = new HashSet<string>();
+
+                while (currentTime - TimeTable.StartTime < HoursPerDayInMinutes)
+                {
+                    if (currentTime >= TimeTable.BreakStartTime && currentTime < TimeTable.BreakStartTime + TimeTable.BreakDuration)
+                    {
+                        // Schedule in break permitted
+                        currentTime += TimeTable.BreakDuration!.Value;
+                        continue;
+                    }
+
+                    // Get list of available subjects whose teachers are free now
+                    var availableSubjects = subjects.Where(sub =>
+                        !assignedTeachersToday.Contains(sub.Teacher.TeacherId) &&
+                        !busySlots.Contains((sub.Teacher.TeacherId, dayIdx, currentTime))
+                    ).ToList();
+
+                    if (!availableSubjects.Any())
+                    {
+                        break; // No teacher free for this period
+                    }
+
+                    // Randomly pick from available
+                    var selectedSubject = availableSubjects[rand.Next(availableSubjects.Count)];
+
+                    tt[dayIdx].Add(new Period { StartTime = currentTime, Subject = selectedSubject });
+
+                    scheduledTeachers.Add(new Schedule
+                    {
+                        StartTime = currentTime,
+                        ClassName = TimeTable.Class,
+                        Day = dayIdx,
+                        TeacherId = selectedSubject.Teacher.TeacherId,
+                        Subject = selectedSubject.Name,
+                        IsLab = selectedSubject.IsLab,
+                        Duration = selectedSubject.IsLab ? TimeTable.LabDuration : TimeTable.PeriodDuration
+                    });
+
+                    assignedTeachersToday.Add(selectedSubject.Teacher.TeacherId);
+                    currentTime += selectedSubject.IsLab ? TimeTable.LabDuration : TimeTable.PeriodDuration;
+                }
+            }
+
+            generatedTT = new TimetableData
+            {
+                Timetable = tt,
+                OrgId = TimeTable.OrgId,
+                Class = TimeTable.Class,
+                Division = TimeTable.Division,
+                Year = TimeTable.Year,
+                BreakStartTime = TimeTable.BreakStartTime,
+                BreakDuration = TimeTable.BreakDuration,
+                PeriodDuration = TimeTable.PeriodDuration,
+                LabDuration = TimeTable.LabDuration
+            };
+            return Ok(new { status = 200, generatedTT });
         }
+
     }
 
+}
 
-    public class TimeTableDetails : TimetableData
-    {
-        public int StartTime { get; set; }
-        public int HoursPerDay { get; set; }
-        public required List<Subject> Subjects { get; set; }
-    }
+
+public class TimeTableDetails : TimetableData
+{
+    public int StartTime { get; set; }
+    public int HoursPerDay { get; set; }
+    public required List<Subject> Subjects { get; set; }
 }

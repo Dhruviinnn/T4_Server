@@ -27,9 +27,9 @@ Content-Type: application/json
     "Year" : 2024,
     "StartTime" : 500,
     "HoursPerDay" : 5,
-    "PeriodDuration" : 90,
+    "PeriodDuration" : 60,
     "BreakDuration" : 0,
-    "BreakStartTime":750,
+    "BreakStartTime":670,
     "LabDuration" : 60,
     "Subjects":[
     {
@@ -58,6 +58,22 @@ Content-Type: application/json
     },
     {
         "Name": "Biology",
+        "isLab":true,
+        "Teacher": {
+            "Name": "Sarah Lee",
+            "TeacherId": "TCH1004"
+        }
+    },
+    {
+        "Name": "Gujrati",
+        "isLab":false,
+        "Teacher": {
+            "Name": "Mike Johnson",
+            "TeacherId": "TCH1003"
+        }
+    },
+    {
+        "Name": "Sport",
         "isLab":true,
         "Teacher": {
             "Name": "Sarah Lee",

@@ -16,32 +16,32 @@ namespace TimeFourthe.Controllers
             _timetableService = timetableService;
         }
 
-       
 
-        //  [HttpPost("absent")]
-        // public async Task<IActionResult> absent()
-        // {
-        //     Absence.Mail();
-        //     return Ok(new { id = 'f' });
-        // }
-         [HttpPost("decline")]
+
+        [HttpPost("hello-get")]
+        public async Task<IActionResult> helloGet()
+        {
+            return Ok(new { response = "Hello from Container : Docker" });
+        }
+
+        [HttpPost("decline")]
         public async Task<IActionResult> decline()
         {
             ApprovalDecline.Mail();
             return Ok(new { id = 'f' });
         }
-         [HttpPost("user/forgot/mail")]
+        [HttpPost("user/forgot/mail")]
         public async Task<IActionResult> forgetpass(ChangePassword chg)
         {
-            Forgetpass.Mail(chg.Email,new Authentication().Encode(chg.Email));
-            return Ok(new {result="Mail is sent, Check your Inbox"});
+            Forgetpass.Mail(chg.Email, new Authentication().Encode(chg.Email));
+            return Ok(new { result = "Mail is sent, Check your Inbox" });
         }
 
 
-         [HttpPost("approave")]
+        [HttpPost("approave")]
         public async Task<IActionResult> approave()
         {
-            ApprovalSuccess.Mail("NextGen Academy","vasavadhruvin123@gmail.com");
+            ApprovalSuccess.Mail("NextGen Academy", "vasavadhruvin123@gmail.com");
             return Ok(new { id = 'f' });
         }
 

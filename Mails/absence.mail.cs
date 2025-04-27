@@ -63,30 +63,18 @@ namespace TimeFourthe.Mails
                 font-weight:500;
                 color:#222;
                 display:inline-block;'>
-<<<<<<< HEAD
-                This is to inform you that <span style='color:#444; font-weight:600;'>Ketul MJ</span>, your 
-                <span style='color:#444; font-weight:600;'>DSA</span> teacher, will be unavailable on 
-                <span style='color:#444; font-weight:600;'>17 Feb - Monday</span>.
-=======
                 This is to inform you that <span style='color:#A78BFA; font-weight:600;'>{teacher}</span>, your 
                 <span style='color:#A78BFA; font-weight:600;'>{subject}</span> teacher, will be unavailable on 
                 <span style='color:#A78BFA; font-weight:600;'>{date}</span>.
->>>>>>> 661bb7360dbe730154975f4dfc7ebca83183e45c
               </p>
 
               <p style='font-size:14px; margin-top:15px;'>
                 We appreciate your understanding. Regular classes will resume as scheduled from next lecture onwards.
               </p>
 
-<<<<<<< HEAD
-              <div style='padding-top:20px; border-top:1px solid #bbb; margin-top:20px; text-align:center;'>
-                <p style='color:#444; font-weight:500; margin-bottom:5px;'>Best Regards</p>
-                <p style='color:#222;'>Web University</p>
-=======
               <div style='padding-top:20px; border-top:1px solid #374151; margin-top:20px; text-align:center;'>
                 <p style='color:#A78BFA; font-weight:500; margin-bottom:5px;'>Best Regards</p>
                 <p style='color:#fff;'>{orgName}</p>
->>>>>>> 661bb7360dbe730154975f4dfc7ebca83183e45c
               </div>
 
               <!-- Logo -->

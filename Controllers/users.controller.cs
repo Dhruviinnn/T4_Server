@@ -20,11 +20,11 @@ namespace TimeFourthe.Controllers
         public string SubjectName { get; set; }
         public string OrgId { get; set; }
     }
-     public class ChangePassword
+    public class ChangePassword
     {
         public string Email { get; set; }
         public string? NewPassword { get; set; }
-         public string? Id { get; set; }
+        public string? Id { get; set; }
     }
     [Route("api")]
     [ApiController]
@@ -83,7 +83,7 @@ namespace TimeFourthe.Controllers
         public async Task<IActionResult> GetTeachers()
         {
             List<User> teacherlist = await _userService.GetTechersByOrgIdAsync(Request.Query["OrgId"].ToString());
-            var filteredTeacherlist = teacherlist.Select(teacher => new { userId = teacher.Id, name = teacher.Name });
+            var filteredTeacherlist = teacherlist.Select(teacher => new { userId = teacher.UserId, name = teacher.Name });
             return Ok(filteredTeacherlist);
         }
 
@@ -91,14 +91,16 @@ namespace TimeFourthe.Controllers
         public OkObjectResult GetUser()
         {
             var auth = Request.Cookies["auth"];
+            Console.WriteLine($"Auth : {auth}");
             if (auth != null) return Ok(new { user = new Authentication().Decode(auth) });
             return Ok(new { error = true, message = "Authorization failed" });
         }
         [HttpGet("user/logout")]
-        public void LogOut()
+        public OkObjectResult LogOut()
         {
             var auth = Request.Cookies["auth"];
             if (auth != null) Response.Cookies.Delete("auth");
+            return Ok(new { status = true });
         }
 
         [HttpPost("user/teacher/absent")]
@@ -122,15 +124,15 @@ namespace TimeFourthe.Controllers
                 orgClasses = orgClasses.Concat(classes[item]).ToList();
             }
             return Ok(new { orgClasses });
-           
+
         }
 
 
         [HttpPost("user/update/changepassword")]
         public async Task<IActionResult> UpdatePassword([FromBody] ChangePassword chg)
         {
-            chg.Email=new Authentication().Decode(chg.Id).ToString();
-            bool result = await _userService.UpdateUserAsync(chg.Email,chg.NewPassword);
+            chg.Email = new Authentication().Decode(chg.Id).ToString();
+            bool result = await _userService.UpdateUserAsync(chg.Email, chg.NewPassword);
             return Ok(new { result });
         }
     }

@@ -11,9 +11,12 @@ namespace TimeFourthe.Controllers
     public class MailController : ControllerBase
     {
         private readonly TimetableService _timetableService;
-        public MailController(TimetableService timetableService)
+        private readonly UserService _userService;
+
+        public MailController(TimetableService timetableService, UserService userService)
         {
             _timetableService = timetableService;
+            _userService = userService;
         }
 
 

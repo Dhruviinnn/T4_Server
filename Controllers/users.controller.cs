@@ -9,6 +9,7 @@ using AuthString;
 using System.Text.Json;
 using Microsoft.AspNetCore.Http;
 using TimeFourthe.Mails;
+using System.Threading.Tasks;
 
 namespace TimeFourthe.Controllers
 {
@@ -112,11 +113,11 @@ namespace TimeFourthe.Controllers
         }
 
         [HttpGet("get/org/classes")]
-        public OkObjectResult GetClasses()
+        public async Task<OkObjectResult> GetClasses()
         {
 
             string OrgId = Request.Query["OrgId"].ToString();
-            List<int> orgType = [0, 1, 2, 3]; // fetch from db using orgId
+            var orgType = (await _userService.GetClassesByOrgId(OrgId)).OrgType;
             List<string> orgClasses = [];
             foreach (var item in orgType)
             {

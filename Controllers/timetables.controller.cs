@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.JsonPatch.Internal;
 using Microsoft.AspNetCore.Mvc;
+using Org.BouncyCastle.Asn1.Cms;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -14,8 +15,7 @@ namespace TimeFourthe.Controllers
     {
         private readonly TimetableService _timetableService;
         private readonly UserService _userService;
-        private TimetableData generatedTT;
-        private List<Schedule> scheduledTeachers;
+
         string[] days;
 
         public TimetablesController(TimetableService timetableService, UserService userService)
@@ -73,12 +73,12 @@ namespace TimeFourthe.Controllers
 
 
         [HttpPost("upload/timetable")]
-        public async Task<OkObjectResult> UploadTimeTable()
+        public async Task<OkObjectResult> UploadTimeTable(TTUpload TT)
         {
 
-            await _timetableService.InsertTimetableDataAsync(generatedTT);
+            await _timetableService.InsertTimetableDataAsync(TT.TimeTable);
 
-            foreach (var item in scheduledTeachers)
+            foreach (var item in TT.ScheduledTeachers)
             {
                 await _userService.AddScheduleToTeacher(item.TeacherId, new Schedule
                 {
@@ -102,7 +102,7 @@ namespace TimeFourthe.Controllers
 
             int? HoursPerDayInMinutes = (TimeTable.HoursPerDay * 60) - TimeTable.BreakDuration;
             Random rand = new Random();
-            scheduledTeachers = new List<Schedule>();
+            List<Schedule> scheduledTeachers = new List<Schedule>();
 
 
             if (!(HoursPerDayInMinutes <= subjects.Count * TimeTable.PeriodDuration))
@@ -176,7 +176,7 @@ namespace TimeFourthe.Controllers
                 }
             }
 
-            generatedTT = new TimetableData
+            TimetableData generatedTT = new TimetableData
             {
                 Timetable = tt,
                 OrgId = TimeTable.OrgId,
@@ -188,7 +188,7 @@ namespace TimeFourthe.Controllers
                 PeriodDuration = TimeTable.PeriodDuration,
                 LabDuration = TimeTable.LabDuration
             };
-            return Ok(new { status = 200, generatedTT });
+            return Ok(new { status = 200, generatedTT, scheduledTeachers });
         }
 
     }
@@ -202,3 +202,9 @@ public class TimeTableDetails : TimetableData
     public int HoursPerDay { get; set; }
     public required List<Subject> Subjects { get; set; }
 }
+public class TTUpload
+{
+    public TimetableData TimeTable { get; set; }
+    public List<Schedule> ScheduledTeachers { get; set; }
+}
+

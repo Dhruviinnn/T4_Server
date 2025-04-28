@@ -32,15 +32,17 @@ namespace TimeFourthe.Controllers
     public class UsersController : ControllerBase
     {
         private readonly UserService _userService;
+        private readonly TimetableService _ttService;
         private readonly List<List<string>> classes = [
             ["Nursery", "Pre-Kindergarten", "Kindergarten"],
             ["Class I", "Class II", "Class III", "Class IV", "Class V"],
             ["Class VI", "Class VII", "Class VIII", "Class IX", "Class X", "Class XI", "Class XII"],
             ["1st Year", "2nd Year", "3th Year", "4th Year", "5th Year", "6th Year", "7th Year"]
            ];
-        public UsersController(UserService userService)
+        public UsersController(UserService userService, TimetableService ttService)
         {
             _userService = userService;
+            _ttService = ttService;
         }
 
         // For login
@@ -52,8 +54,8 @@ namespace TimeFourthe.Controllers
             {
                 if (userExist.Password == user.Password)
                 {
-                    object userdata = new { userId = userExist.UserId, name = userExist.Name, email = userExist.Email, role = userExist.Role, orgId = userExist.OrgId };
-                    Response.Cookies.Append("auth", new Authentication().Encode(userdata), new CookieOptions
+                    object userdata = new { userId = userExist.UserId, name = userExist.Name, email = userExist.Email, role = userExist.Role, orgId = userExist.OrgId, className = userExist.Class };
+                    Response.Cookies.Append("auth", new Authentication().EncodeJwt(userdata), new CookieOptions
                     {
                         Expires = DateTime.UtcNow.AddDays(7)
                     });
@@ -69,6 +71,7 @@ namespace TimeFourthe.Controllers
                             role = userExist.Role,
                             email = userExist.Email,
                             orgId = userExist.OrgId,
+                            className = userExist.Class
                         }
                     });
                 }
@@ -92,7 +95,7 @@ namespace TimeFourthe.Controllers
         public OkObjectResult GetUser()
         {
             var auth = Request.Cookies["auth"];
-            if (auth != null) return Ok(new { user = new Authentication().Decode(auth) });
+            if (auth != null) return Ok(new { user = new Authentication().DecodeJwt(auth) });
             return Ok(new { error = true, message = "Authorization failed" });
         }
         [HttpGet("user/logout")]
@@ -108,9 +111,10 @@ namespace TimeFourthe.Controllers
         {
             List<User> studentlist = await _userService.GetStudentsByOrgIdAndClassAsync(absentData);
             var filteredStudentsEmaillist = studentlist.Select(student => student.Email);
-            Absence.Mail(filteredStudentsEmaillist.ToArray(), absentData.Name, absentData.SubjectName, "Web Web Web");
-            return Ok(new { filteredStudentsEmaillist });
+            // Absence.Mail(filteredStudentsEmaillist.ToArray(), absentData.Name, absentData.SubjectName, "Web Web Web");
+            return Ok(new { status = 200, message = "Mail sent to all students" });
         }
+
 
         [HttpGet("get/org/classes")]
         public async Task<OkObjectResult> GetClasses()
@@ -131,9 +135,19 @@ namespace TimeFourthe.Controllers
         [HttpPost("user/update/changepassword")]
         public async Task<IActionResult> UpdatePassword([FromBody] ChangePassword chg)
         {
-            chg.Email = new Authentication().Decode(chg.Id).ToString();
+            chg.Email = new Authentication().DecodeJwt(chg.Id).ToString();
             bool result = await _userService.UpdateUserAsync(chg.Email, chg.NewPassword);
             return Ok(new { result });
+        }
+
+        [HttpGet("get/schedule")]
+        public async Task<OkObjectResult> GetTeacherSchedules()
+        {
+
+            string TeacherId = Request.Query["TeacherId"].ToString();
+            var Schedule = (await _userService.GetTeacherScheduleListAsync(TeacherId)).Schedule;
+            return Ok(new { Schedule });
+
         }
     }
 }

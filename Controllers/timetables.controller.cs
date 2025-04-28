@@ -27,13 +27,6 @@ namespace TimeFourthe.Controllers
 
 
 
-        [HttpGet("getch")]
-        public async Task<OkObjectResult> XX()
-        {
-            bool result = await _userService.AddScheduleToTeacher("TCH1001", new Schedule { StartTime = 1000, Day = 0, ClassName = "CSE BE-III" });
-            return Ok(new { result });
-        }
-
         [HttpGet("get/timetable-metadata")]
         public async Task<OkObjectResult> GetTimeTables()
         {
@@ -42,12 +35,9 @@ namespace TimeFourthe.Controllers
             {
                 id = tt.Id,
                 className = tt.Class,
-                division = tt.Division,
                 year = tt.Year,
-                breakDuration = tt.BreakDuration,
-                breakStartTime = tt.BreakStartTime,
 
-            }));
+            })).ToList();
             return Ok(new { timetables });
         }
         [HttpGet("delete/timetable")]
@@ -71,6 +61,14 @@ namespace TimeFourthe.Controllers
             return x;
         }
 
+        [HttpGet("get/timetable")]
+        public async Task<OkObjectResult> GetTimeTableForSTU()
+        {
+            string className = Request.Query["class"].ToString();
+            string orgId = Request.Query["orgId"].ToString();
+            var tt = await _timetableService.GetTimetableAsync(className, orgId);
+            return Ok(new { timetable = tt });
+        }
 
         [HttpPost("upload/timetable")]
         public async Task<OkObjectResult> UploadTimeTable(TTUpload TT)
@@ -90,7 +88,7 @@ namespace TimeFourthe.Controllers
                     Duration = item.Duration
                 });
             }
-            return Ok(new { result = "TimeTable Created" });
+            return Ok(new { status = 200, result = "TimeTable Created" });
         }
 
 
@@ -181,7 +179,6 @@ namespace TimeFourthe.Controllers
                 Timetable = tt,
                 OrgId = TimeTable.OrgId,
                 Class = TimeTable.Class,
-                Division = TimeTable.Division,
                 Year = TimeTable.Year,
                 BreakStartTime = TimeTable.BreakStartTime,
                 BreakDuration = TimeTable.BreakDuration,

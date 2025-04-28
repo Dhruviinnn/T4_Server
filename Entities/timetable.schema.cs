@@ -10,7 +10,6 @@ namespace TimeFourthe.Entities
         public string? Id { get; set; }
         public required string OrgId { get; set; }
         public required string Class { get; set; }
-        public required string Division { get; set; }
         public required int? Year { get; set; }
         public required int? BreakStartTime { get; set; }
         public required int? BreakDuration { get; set; }

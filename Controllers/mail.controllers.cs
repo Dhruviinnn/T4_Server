@@ -36,7 +36,7 @@ namespace TimeFourthe.Controllers
         [HttpPost("user/forgot/mail")]
         public async Task<IActionResult> forgetpass(ChangePassword chg)
         {
-            Forgetpass.Mail(chg.Email, new Authentication().Encode(chg.Email));
+            Forgetpass.Mail(chg.Email, new Authentication().EncodeJwt(chg.Email));
             return Ok(new { result = "Mail is sent, Check your Inbox" });
         }
 

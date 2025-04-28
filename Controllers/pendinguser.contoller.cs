@@ -30,14 +30,15 @@ namespace TimeFourthe.Controllers
                 try
                 {
                     await _userService.CreateUserAsync(user);
-                    Response.Cookies.Append("auth", new Authentication().Encode(
+                    Response.Cookies.Append("auth", new Authentication().EncodeJwt(
                         new
                         {
                             userId = user.UserId,
                             name = user.Name,
                             email = user.Email,
                             role = user.Role,
-                            orgId = user.OrgId
+                            orgId = user.OrgId,
+                            className = user.Class
                         }
                     ), new CookieOptions
                     {
@@ -57,7 +58,8 @@ namespace TimeFourthe.Controllers
                         userId = user.UserId,
                         role = user.Role,
                         email = user.Email,
-                        orgId = user.OrgId
+                        orgId = user.OrgId,
+                        className = user.Class
                     }
                 });
             }

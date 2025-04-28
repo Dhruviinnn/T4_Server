@@ -10,7 +10,7 @@ namespace TimeFourthe.Mails
       string orgId = org[0];
       string title = "Authentication of Organization";
 
-      string[] recipients = ["vasavadhruvin123@gmail.com"];
+      string[] recipients = ["timefourthe@gmail.com"];
 
       string html = @$"<!DOCTYPE html>
 <html>
@@ -35,7 +35,7 @@ namespace TimeFourthe.Mails
           <!-- Header -->
           <tr>
             <td style='padding:15px; text-align:center;'>
-              <span style='font-size:20px; font-weight:600; color:#222;'>🔐 Web University</span>
+              <span style='font-size:20px; font-weight:600; color:#222;'>🔐 Time Fourthe</span>
             </td>
           </tr>
 
@@ -75,7 +75,7 @@ namespace TimeFourthe.Mails
 
               <!-- Buttons -->
               <div style='text-align:center; margin-top:20px;'>
-                <a href='http://localhost:5140/api/get/auth?id={orgId}&answer=true' 
+                <a href='http://localhost:3000/api/get/auth?id={orgId}&answer=true' 
                    style='
                      display:inline-block;
                      background: #4CAF50;
@@ -90,7 +90,7 @@ namespace TimeFourthe.Mails
                   ✅ Approve
                 </a>
 
-                <a href='http://localhost:5140/api/get/auth?id={orgId}&answer=false' 
+                <a href='http://localhost:3000/api/get/auth?id={orgId}&answer=false' 
                    style='
                      display:inline-block;
                      background: #E53935;
@@ -110,7 +110,7 @@ namespace TimeFourthe.Mails
               <!-- Footer -->
               <div style='text-align:center; margin-top:20px; padding-top:15px; border-top:1px solid #bbb;'>
                 <p style='color:#222; font-weight:500; margin-bottom:8px;'>Best Regards,</p>
-                <p style='color:#222;'>Web University Team</p>
+                <p style='color:#222;'>Time Fourthe Team</p>
 
                  <img src='https://gateway.pinata.cloud/ipfs/bafkreieeqg2h74jc3y5veh4k7ekcyuhkcbgk3wlnuiv6eigflow4x6i3xu' width='60' height='60' alt='Logo'>
               </div>

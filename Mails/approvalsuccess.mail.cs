@@ -1,13 +1,13 @@
 
 namespace TimeFourthe.Mails
 {
-    public class ApprovalSuccess
+  public class ApprovalSuccess
+  {
+    public static void Mail(string orgName, string email)
     {
-        public static void Mail(string orgName, string email)
-        {
-            string title = "Authentication of Organization";
-            string[] recipients = ["vasavadhruvin123@gmail.com"];
-            string html = @$"<!DOCTYPE html>
+      string title = "Authentication of Organization";
+      string[] recipients = [email];
+      string html = @$"<!DOCTYPE html>
 <html lang='en'>
 <head>
   <meta charset='UTF-8'>
@@ -44,11 +44,11 @@ namespace TimeFourthe.Mails
               <h2 style='color:#222; font-size:20px; margin-bottom:10px;'>Request Approval Confirmation</h2>
               
               <p style='background: #eee; padding:12px; border-radius:8px; font-size:16px; font-weight:500; color:#222; display:inline-block;'>
-                Dear <span style='color:#6366F1; font-weight:600;'>[User's Name]</span>, your request has been successfully approved.
+                Dear <span style='color:#6366F1; font-weight:600;'>{orgName}</span>, your request has been successfully approved.
               </p>
 
               <div style='background:#f0f0f0; padding:20px; border-radius:12px; text-align:left;'>
-                <p style='font-size:14px; margin-bottom:10px;'>✅ <b>Requestor Name:</b> [Authorizer Name]</p>
+                <p style='font-size:14px; margin-bottom:10px;'>✅ <b>Requestor Name:</b>Time Fourthe Team</p>
                 <p style='font-size:14px;'>✅ <b>Approval Date:</b> [Approval Date]</p>
               </div>
 
@@ -57,7 +57,7 @@ namespace TimeFourthe.Mails
               </p>
 
               <div style='text-align:center; margin:20px;'>
-                <a href='https://yourloginpage.com' style='
+                <a href='http://localhost:5173/login' style='
                   display:inline-block;
                   background: #6366F1;
                   color: white;
@@ -76,7 +76,7 @@ namespace TimeFourthe.Mails
 
               <div style='padding-top:20px; border-top:1px solid #bbb; margin-top:20px; text-align:center;'>
                 <p style='color:#6366F1; font-weight:500; margin-bottom:5px;'>Best Regards</p>
-                <p style='color:#222;'>Web University</p>
+                <p style='color:#222;'>{orgName}</p>
               </div>
 
               <!-- Logo -->
@@ -94,7 +94,7 @@ namespace TimeFourthe.Mails
 </html>
 ";
 
-            MailSender.SendMail(recipients, html, title,"Approval Success Mail");
-        }
+      MailSender.SendMail(recipients, html, title, "Approval Success Mail");
     }
+  }
 }

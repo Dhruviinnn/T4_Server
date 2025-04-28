@@ -71,7 +71,8 @@ namespace TimeFourthe.Controllers
                 Auth.Mail(org);
                 return Ok(new
                 {
-                    id = user.Name,
+                    error = false,
+                    message = "Logged In",
                     userData = new
                     {
                         name = user.Name,
@@ -99,6 +100,7 @@ namespace TimeFourthe.Controllers
             }
             else
             {
+                ApprovalDecline.Mail(deletedUser.Email);
                 return Ok(new { message = "Your application not approved by autority" });
             }
         }

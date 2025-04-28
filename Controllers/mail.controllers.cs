@@ -19,18 +19,10 @@ namespace TimeFourthe.Controllers
             _userService = userService;
         }
 
-
-
-        [HttpPost("hello-get")]
-        public async Task<IActionResult> helloGet()
-        {
-            return Ok(new { response = "Hello from Container : Docker" });
-        }
-
         [HttpPost("decline")]
         public async Task<IActionResult> decline()
         {
-            ApprovalDecline.Mail();
+            ApprovalDecline.Mail("vasavadhruvin123@gmail.com");
             return Ok(new { id = 'f' });
         }
         [HttpPost("user/forgot/mail")]

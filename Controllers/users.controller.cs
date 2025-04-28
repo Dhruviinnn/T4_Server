@@ -111,7 +111,8 @@ namespace TimeFourthe.Controllers
         {
             List<User> studentlist = await _userService.GetStudentsByOrgIdAndClassAsync(absentData);
             var filteredStudentsEmaillist = studentlist.Select(student => student.Email);
-            // Absence.Mail(filteredStudentsEmaillist.ToArray(), absentData.Name, absentData.SubjectName, "Web Web Web");
+            string OrgName = (await _userService.GetOrgNameByOrgId(absentData.OrgId)).Name;
+            Absence.Mail(filteredStudentsEmaillist.ToArray(), absentData.Name, absentData.SubjectName, OrgName, absentData.Date);
             return Ok(new { status = 200, message = "Mail sent to all students" });
         }
 
@@ -123,9 +124,12 @@ namespace TimeFourthe.Controllers
             string OrgId = Request.Query["OrgId"].ToString();
             var orgType = (await _userService.GetClassesByOrgId(OrgId)).OrgType;
             List<string> orgClasses = [];
-            foreach (var item in orgType)
+            if (orgType != null)
             {
-                orgClasses = orgClasses.Concat(classes[item]).ToList();
+                foreach (var item in orgType)
+                {
+                    orgClasses = orgClasses.Concat(classes[item]).ToList();
+                }
             }
             return Ok(new { orgClasses });
 

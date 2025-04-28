@@ -1,13 +1,13 @@
 namespace TimeFourthe.Mails
 {
-    public class ApprovalDecline
+  public class ApprovalDecline
+  {
+    public async static void Mail(string email)
     {
-        public async static void Mail()
-        {
-            string title = "Application Declined";
-            string senderName = "Web University";
-            string[] recipients = ["vasavadhruvin123@gmail.com"];
-            string html = @$"<!DOCTYPE html>
+      string title = "Application Declined";
+      string senderName = "Time Fourthe";
+      string[] recipients = [email];
+      string html = @$"<!DOCTYPE html>
 <html>
 <head>
   <meta charset='UTF-8'>
@@ -72,7 +72,7 @@ namespace TimeFourthe.Mails
               <!-- Footer -->
               <div style='text-align:center; margin-top:20px; padding-top:15px; border-top:1px solid #bbb;'>
                 <p style='color:#222; font-weight:500; margin-bottom:8px;'>Best Regards,</p>
-                <p style='color:#222;'>Web University Team</p>
+                <p style='color:#222;'>Time Fourthe Team</p>
                  <img src='https://gateway.pinata.cloud/ipfs/bafkreieeqg2h74jc3y5veh4k7ekcyuhkcbgk3wlnuiv6eigflow4x6i3xu' width='60' height='60' alt='Logo'>    
               </div>
             </td>
@@ -86,7 +86,7 @@ namespace TimeFourthe.Mails
 </body>
 </html>";
 
-            await MailSender.SendMail(recipients, html, title, senderName);
-        }
+      await MailSender.SendMail(recipients, html, title, senderName);
     }
+  }
 }

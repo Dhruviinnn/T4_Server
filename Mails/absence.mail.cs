@@ -4,9 +4,8 @@ namespace TimeFourthe.Mails
 {
   public class Absence
   {
-    public static void Mail(string[] recipients,string teacher,string subject,string orgName)
+    public static void Mail(string[] recipients, string teacher, string subject, string orgName, string date)
     {
-      string date = DateTime.Now.ToString("d/M/yyyy");
       string title = "Urgent : No Class Today – Teacher Absent";
       string html = @$"<!DOCTYPE html>
 <html lang='en'>
@@ -95,7 +94,7 @@ namespace TimeFourthe.Mails
 
 ";
 
-      MailSender.SendMail(recipients, html, title,orgName,"Absence Mail");
+      MailSender.SendMail(recipients, html, title, orgName, "Absence Mail");
     }
   }
 }

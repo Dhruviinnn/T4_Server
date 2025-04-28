@@ -15,8 +15,8 @@ namespace TimeFourthe.Entities
         public string? Role { get; set; }
         public string? OrgId { get; set; } = null;
         public string? Class { get; set; } = null;
-        public List<int>? OrgType { get; set; } = null;
-        public List<Schedule>? Schedule { get; set; }
+        public List<int>? OrgType { get; set; } = new List<int>();
+        public List<Schedule> Schedule { get; set; } = new List<Schedule>();
     }
     public class Schedule
     {

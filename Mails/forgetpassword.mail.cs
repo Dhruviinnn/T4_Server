@@ -71,7 +71,7 @@ namespace TimeFourthe.Mails
 
               <!-- Reset Button -->
               <div style='text-align:center; margin-top:20px;'>
-                <a href='http://localhost:5173/reset-password?id={encodedLink}' 
+                <a href='https://timefourthe.vercel.app/reset-password?id={encodedLink}' 
                    style='
                      display:inline-block;
                      background: #FFFFFF;

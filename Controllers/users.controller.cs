@@ -57,7 +57,7 @@ namespace TimeFourthe.Controllers
                     object userdata = new { userId = userExist.UserId, name = userExist.Name, email = userExist.Email, role = userExist.Role, orgId = userExist.OrgId, className = userExist.Class };
                     Response.Cookies.Append("auth", new Authentication().EncodeJwt(userdata), new CookieOptions
                     {
-                        Expires = DateTime.UtcNow.AddDays(7)
+                        Expires = DateTime.UtcNow.AddDays(7),
                     });
                     return Ok(new
                     {

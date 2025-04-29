@@ -58,7 +58,7 @@ namespace TimeFourthe.Mails
               </p>
 
               <div style='text-align:center; margin:20px;'>
-                <a href='https://yourloginpage.com' style='
+                <a href='http://localhost:5173/login' style='
                   display:inline-block;
                   background: #4CAF50;
                   color: #FFFFFF;

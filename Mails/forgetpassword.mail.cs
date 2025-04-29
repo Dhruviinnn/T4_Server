@@ -3,46 +3,44 @@ namespace TimeFourthe.Mails
   public class Forgetpass
   {
 
-    public async static void Mail(string email,string encodedLink)
+    public async static void Mail(string email, string encodedLink)
     {
 
       string title = "Reset your Password";
       string senderName = "Time Fourthe";
       string[] recipients = [email];
-      string html = @$"<!DOCTYPE html>
-<html>
+      string html = @$"<html>
 <head>
   <meta charset='UTF-8'>
   <meta name='viewport' content='width=device-width, initial-scale=1.0'>
   <title>Password Reset Request</title>
 </head>
-<body style='color:#222; font-family:Arial, sans-serif; margin:0; padding:0; background:#f5f5f5;'>
+<body style='font-family:Arial, sans-serif; margin:0; padding:0; background:#f3f2f0;'>
 
   <table role='presentation' cellspacing='0' cellpadding='0' border='0' align='center' width='100%'>
     <tr>
       <td align='center' style='padding:15px;'>
         <table role='presentation' width='100%' cellspacing='0' cellpadding='0' border='0' style='
           max-width: 600px;
-          background: #fff;
+          background: #000000;
+          border: 1px solid #FFFFFF;
           border-radius: 15px;
-          overflow:hidden;
-          box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.1);
-          width: 90%;'>
+          overflow:hidden;'>
 
           <!-- Header -->
           <tr>
             <td style='padding:15px; text-align:center;'>
-              <span style='font-size:20px; font-weight:600; color:#222;'> 🔒 Secure Access</span>
+              <span style='font-size:20px; font-weight:600; color:#FFFFFF;'> 🔒 Secure Access</span>
             </td>
           </tr>
 
           <!-- Banner -->
           <tr>
             <td style='
-              background: #ddd;
+              background: #333333;
               padding:20px;
               text-align:center;
-              color:#222;'>
+              color:#FFFFFF;'>
               
               <h1 style='font-size:24px; margin:0; font-weight:bold;'>
               🔑 Reset Your Password
@@ -53,21 +51,21 @@ namespace TimeFourthe.Mails
           <!-- Content -->
           <tr>
             <td style='padding:20px; text-align:center;'>
-              <h2 style='color:#222; font-size:20px; margin-bottom:10px;'>
+              <h2 style='color:#FFFFFF; font-size:20px; margin-bottom:10px;'>
                 Forgot Your Password?
               </h2>
               
               <p style='
-                background: #eee;
+                background: #222222;
                 padding:12px;
                 border-radius:8px;
                 font-size:16px;
                 font-weight:350;
-                color:#222;'>
-                Dear <strong>Dhruvin</strong>, we received a request to reset your password
+                color:#FFFFFF;'>
+                Dear User, we have received a request to reset your password
               </p>
 
-              <p style='font-size:14px; margin-top:12px; color:#333;'>
+              <p style='font-size:14px; margin-top:12px; color:#CCCCCC;'>
                 Click the button below to reset your password. If you did not request this, please ignore this email
               </p>
 
@@ -76,25 +74,24 @@ namespace TimeFourthe.Mails
                 <a href='http://localhost:5173/reset-password?id={encodedLink}' 
                    style='
                      display:inline-block;
-                     background: #444;
+                     background: #FFFFFF;
                      padding:12px 30px;
-                     color:#fff;
+                     color:#000000;
                      text-decoration:none;
                      font-weight:bold;
                      border-radius:6px;
                      font-size:14px;
-                     box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
+                     box-shadow: 0px 4px 15px rgba(255, 255, 255, 0.3);
                      transition: all 0.3s ease;'>
                   🔑 Reset Password
                 </a>
               </div>
 
               <!-- Footer -->
-              <div style='text-align:center; margin-top:20px; padding-top:15px; border-top:1px solid #bbb;'>
-                <p style='color:#222; font-weight:500; margin-bottom:8px;'>Best Regards,</p>
-                <p style='color:#222;'>Secure Access Team</p>
-
-                 <img src='https://gateway.pinata.cloud/ipfs/bafkreieeqg2h74jc3y5veh4k7ekcyuhkcbgk3wlnuiv6eigflow4x6i3xu' width='60' height='60' alt='Logo'>
+              <div style='text-align:center; margin-top:20px; padding-top:8px; border-top:1px solid #666666;'>
+                <p style='color:#FFFFFF; font-weight:500; margin-bottom:8px;'>Best Regards,</p>
+                <p style='color:#FFFFFF;'>TimeFourthe Team</p>
+                 <img src='https://gateway.pinata.cloud/ipfs/bafkreidecqcdb6vxrzdqrii5rsff2vmxmc3y2mi5hxpkvh4ubkmu2pr4qe' width='50' height='50' alt='Logo'>
               </div>
             </td>
           </tr>
@@ -106,8 +103,8 @@ namespace TimeFourthe.Mails
 
 </body>
 </html>
-
 ";
+
 
       await MailSender.SendMail(recipients, html, title, senderName, "Forget Password Mail");
     }

@@ -112,7 +112,7 @@ namespace TimeFourthe.Mails
                 <p style='color:#222; font-weight:500; margin-bottom:8px;'>Best Regards,</p>
                 <p style='color:#222;'>Time Fourthe Team</p>
 
-                 <img src='https://gateway.pinata.cloud/ipfs/bafkreieeqg2h74jc3y5veh4k7ekcyuhkcbgk3wlnuiv6eigflow4x6i3xu' width='60' height='60' alt='Logo'>
+                 <img src='hhttps://gateway.pinata.cloud/ipfs/bafkreidecqcdb6vxrzdqrii5rsff2vmxmc3y2mi5hxpkvh4ubkmu2pr4qe' width='60' height='60' alt='Logo'>
               </div>
             </td>
           </tr>

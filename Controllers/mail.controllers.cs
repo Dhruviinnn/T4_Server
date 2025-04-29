@@ -28,8 +28,10 @@ namespace TimeFourthe.Controllers
         [HttpPost("user/forgot/mail")]
         public async Task<IActionResult> forgetpass(ChangePassword chg)
         {
+            var user = await _userService.GetUserAsync(chg.Email);
+            if (user == null) return Ok(new { status = 400, result = "Given email is not associated with any account" });
             Forgetpass.Mail(chg.Email, new Authentication().EncodeJwt(chg.Email));
-            return Ok(new { result = "Mail is sent, Check your Inbox" });
+            return Ok(new { status = 200, result = "Mail is sent, Check your Inbox" });
         }
 
 

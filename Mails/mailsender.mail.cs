@@ -9,7 +9,7 @@ namespace TimeFourthe.Mails
         public static async Task SendMail(string[] recipients, string html, string title, string logMessage, string senderName = "Time Fourthe")
         {
             string senderEmail = "timefourthe@gmail.com";
-            string senderPassword = "hcqi fyxs hawx gxcx"; // Use an App Password for Gmail
+            string senderPassword = "abde gvek uswd fhzx"; // Use an App Password for Gmail
             try
             {
                 using (var smtp = new SmtpClient())
